@@ -48,16 +48,17 @@ switch ($oObject->r_ac){
 		break;	
 	case 'book_save':
 		$oObject->save_book();
-		$oObject->show_all_books();
+		$oObject->aBook = $oObject->get_book();
 		include ("views/all_books.php");
 		break;
 	case 'book_show':
-		$oObject->get_book();
+		$oObject->aBook = $oObject->get_book();
+		$oObject->show_this();
 		include ("views/all_books.php");
 		break;
 	case 'book_delete':
 		$oObject->delete_book();
-		$oObject->show_all_books();
+		$oObject->aBook = $oObject->get_book();
 		include ("views/all_books.php");
 		break;
 	case 'user_new':
@@ -65,7 +66,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_save':
 		$oObject->save_user();
-		$oObject->show_all_user();
+		$oObject->aUser = $oObject->get_user();
 		include ("views/all_user.php");
 		break;
 	case 'user_delete':
@@ -74,7 +75,7 @@ switch ($oObject->r_ac){
 		include ("views/all_user.php");
 		break;
 	case 'user_show':
-		$oObject->get_user();
+		$oObject->aUser = $oObject->get_user();
 		//$oObject->show_all_user();
 		include ("views/all_user.php");
 		break;
@@ -113,7 +114,7 @@ switch ($oObject->r_ac){
 		include ("views/lend_form.php");
 		break;
 	default: 
-		$oObject->show_all_books();
+		$oObject->aBook = $oObject->get_book();
 		include ("views/all_books.php");
 		break;
 

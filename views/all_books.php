@@ -12,7 +12,7 @@ $table = "<table border='1'>";
 		</tr>";
 
 		
-		while ($aResult=mysqli_fetch_assoc($oObject->p_result))
+		foreach ($oObject->aBook as $book_ID => $aResult)
 		{
 			$table .=
 			'<tr>

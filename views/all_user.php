@@ -8,7 +8,7 @@ $table = "<table border='1'>";
 		<th>E-Mail-Adresse</th>
 		</tr>";
 		
-		while ($aResult=mysqli_fetch_assoc($oObject->p_result))
+		foreach ($oObject->aUser as $user_ID => $aResult)
 		{
 			$table .=
 			'<tr>

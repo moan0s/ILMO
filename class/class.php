@@ -249,7 +249,7 @@ class User extends Data {
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
 		);
-		$this->ID=$this->store_data(TABLE_USER, $aFields, 'user_ID', $this->r_user_ID);	
+		$this->ID=$this->store_data(TABLE_USER, $aFields, 'user_ID', $this->r_user_ID);
 	}
 	function delete_user(){
 		$aFields = array (
