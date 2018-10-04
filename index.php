@@ -2,8 +2,8 @@
 
 /*
 controller for a lending system
-version 0.2
-date 25.09.18
+version 0.3
+date 02.10.18
  */
 
 //tut nix 
@@ -43,21 +43,23 @@ switch ($oObject->r_ac){
 		break;
 	
 	case 'book_change':
-		$oObject->get_book();
+		$oObject->aRow_all = $oObject->get_book();
+		$oObject->aRow = $oObject->aRow_all[$oObject->r_book_ID];
 		include ('views/book_form.php');
 		break;	
 	case 'book_save':
 		$oObject->save_book();
+		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book();
 		include ("views/all_books.php");
 		break;
 	case 'book_show':
 		$oObject->aBook = $oObject->get_book();
-		$oObject->show_this();
 		include ("views/all_books.php");
 		break;
 	case 'book_delete':
 		$oObject->delete_book();
+		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book();
 		include ("views/all_books.php");
 		break;
@@ -66,17 +68,18 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_save':
 		$oObject->save_user();
+		$oObject->r_book_ID = NULL;
 		$oObject->aUser = $oObject->get_user();
 		include ("views/all_user.php");
 		break;
 	case 'user_delete':
 		$oObject->delete_user();
-		$oObject->show_all_user();
+		$oObject->r_user_ID = NULL;
+		$oObject->aUser = $oObject->get_user();
 		include ("views/all_user.php");
 		break;
 	case 'user_show':
 		$oObject->aUser = $oObject->get_user();
-		//$oObject->show_all_user();
 		include ("views/all_user.php");
 		break;
 	case 'user_search':	
@@ -104,9 +107,6 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_show':
 		$oObject->get_lend();
-		//$oObject->show_this();
-		//$oObject->get_book();
-		//$oObject->get_user();
 		include ("views/all_lend.php");
 		break;
 	case 'lend_change':
