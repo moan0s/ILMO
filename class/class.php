@@ -221,8 +221,6 @@ class Book extends Data {
 			$this->ID=$this->store_data(TABLE_BOOKS, $aFields, 'book_ID',$this->r_book_ID);
 		}
 				
-		
-	echo $this->ID;
 	}
 	function delete_book(){
 		$aFields = array (
@@ -236,9 +234,6 @@ class Book extends Data {
 		print_r ($this);
 		echo"</pre>";
 
-	}
-	function show_all_books(){
-		$this->p_result = $this->select_rows(TABLE_BOOKS, FALSE, FALSE);
 	}
 }
 class User extends Data {
@@ -272,9 +267,6 @@ class User extends Data {
 		
 		return $aUser;
 	}
-	/*function show_all_user(){
-		$this->p_result = $this->select_rows(TABLE_USER,  $aFields);
-	}*/
 	function show_this(){
 		//only for debugging
 		echo "<pre>";
