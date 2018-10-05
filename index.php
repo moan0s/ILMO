@@ -97,11 +97,13 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_save':
 		$oObject->save_lend();
+		$oObject->r_lend_ID = NULL;
 		$oObject->get_lend();
 		include ("views/all_lend.php");
 		break;
 	case 'lend_delete':
 		$oObject->delete_lend();
+		$oObject->r_lend_ID = NULL;
 		$oObject->get_lend();
 		include ("views/all_lend.php");
 		break;
