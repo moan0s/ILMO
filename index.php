@@ -104,7 +104,7 @@ switch ($oObject->r_ac){
 	case 'lend_delete':
 		$oObject->delete_lend();
 		$oObject->r_lend_ID = NULL;
-		$oObject->get_lend();
+		$oObject->aLend = $oObject->get_lend();
 		include ("views/all_lend.php");
 		break;
 	case 'lend_show':
