@@ -108,7 +108,9 @@ switch ($oObject->r_ac){
 		include ("views/all_lend.php");
 		break;
 	case 'lend_show':
-		$oObject->get_lend();
+
+		$oObject->aLend = $oObject->get_lend();
+
 		include ("views/all_lend.php");
 		break;
 	case 'lend_change':
