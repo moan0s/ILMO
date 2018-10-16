@@ -9,8 +9,7 @@ $table = "<table border='1'>";
 		<th>Nachname</th>
 		<th>User-ID</th>
 		</tr>";
-		
-		while ($aResult=mysqli_fetch_assoc($oObject->p_result))
+		foreach ($oObject->aLend as $lend_ID => $aResult)
 		{
 			$table .=
 			'<tr>
