@@ -21,7 +21,7 @@ $table = "<table border='1'>";
 			<td>'.$aResult['user_ID'].'</td>';
 			$table .=
 			'<td> <a href="index.php?ac=lend_change&lend_ID='.$aResult['lend_ID'].'" > Ändern </<> </td>
-			<td> <a href="index.php?ac=lend_delete&lend_ID='.$aResult['lend_ID'].'" > Löschen </<> </td>
+			<td> <a href="index.php?ac=lend_delete&lend_ID='.$aResult['lend_ID'].'&book_ID='.$aResult['book_ID'].'" > Löschen </<> </td>
 		
 			</tr>';
 		}

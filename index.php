@@ -103,7 +103,8 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_delete':
 		$oObject->delete_lend();
-		$oObject->return_book();
+		$oBook = new Book();
+		$oBook->return_book($oObject->r_book_ID);
 		$oObject->r_lend_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();
 		include ("views/all_lend.php");

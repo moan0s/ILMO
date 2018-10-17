@@ -228,6 +228,16 @@ class Book extends Data {
 		);
 		$this->removed=$this->delete_rows(TABLE_BOOKS, $aFields);
 	}
+	function return_book($book_ID){
+		$aFields = array(
+			'lend' => 0		
+		//	'book_ID' => $this->r_book_ID
+		);
+
+		$this->id = $this->store_data(TABLE_BOOKS, $aFields, 'book_ID',$book_ID);
+	return $ID;
+	
+	}
 	function show_this(){
 		//only for debugging
 		echo "<pre>";
@@ -304,7 +314,8 @@ class Lend extends Data {
 	function get_lend (){
 		//needs: String lend_ID returns: Associative array with complete lend Information
 		//create an array containig lend_ID
-		//$aFields= array();
+		$aFields= array();
+		
 		$this->all_user = User::get_user();
 		$this->all_book = Book::get_book();
 		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
