@@ -68,7 +68,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_save':
 		$oObject->save_user();
-		$oObject->r_book_ID = NULL;
+		$oObject->r_user_ID = NULL;
 		$oObject->aUser = $oObject->get_user();
 		include ("views/all_user.php");
 		break;
@@ -106,7 +106,8 @@ switch ($oObject->r_ac){
 	//	$oBook = new Book();
 	//	$oBook->return_book($oObject->r_book_ID);
 		$oObject->r_lend_ID = NULL;
-	$oObject->aLend = $oObject->get_lend();
+		$oObject->r_book_ID = NULL;
+		$oObject->aLend = $oObject->get_lend();
 		include ("views/all_lend.php");
 		break;
 	case 'lend_delete':

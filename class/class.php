@@ -248,13 +248,20 @@ class Book extends Data {
 }
 class User extends Data {
 	function save_user(){
-	$aFields = array(
-			'user_ID' => $this->r_user_ID,
+		$aFields = array(
 			'forename' => $this->r_forename,
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
+			'password' => md5(strrev($this->r_password)),
+			'admin' => $this->r_admin
 		);
-		$this->ID=$this->store_data(TABLE_USER, $aFields, 'user_ID', $this->r_user_ID);
+		if ((isset($this->r_user_ID))and ($this->r_user_ID != "")){
+			$this->ID=$this->store_data(TABLE_USER, $aFields, 'user_ID' , $this->r_user_ID);
+		}
+		else{
+			echo "hallo";
+			$this->ID=$this->store_data(TABLE_USER, $aFields, NULL , NULL);
+		}
 	}
 	function delete_user(){
 		$aFields = array (
