@@ -7,9 +7,21 @@
 	Nachname: <input type="text" name="surname" value="<?php if(isset($oObject->aRow['surname'])){echo $oObject->aRow['surname'];} ?>"> <br>
 	E-Mail Adresse: <input type="text" name="email" value="<?php if(isset($oObject->aRow['email'])){echo $oObject->aRow['email'];}?>"> <br>
 	Passwort: <input type="password" name="password"  ?><br>
-	Admin (Insert 1): <input type="text" name="admin" ?><br>  
-		<input type="submit" value="absenden">
-		<input type="reset" value="Zurücksetzen">	
+<?php 
+	if ($_SESSION['admin']==1){
+	echo '
+		Admin: 
+		<input type="radio" id="yes" name="admin" value="1"';
+	if ($oObject->aRow['admin']==1){echo'checked';}
+	echo '>
+	<label for="yes"> Ja</label>
+	<input type="radio" id="no" name="admin" value="0"'; 
+if ($oObject->aRow['admin']==0){echo'checked';}
+	echo '>
+	<label for id ="no"> Nein</label><br>'; 
+	}?>	
+	<input type="submit" value="absenden">
+	<input type="reset" value="Zurücksetzen";
 </form>
 
 

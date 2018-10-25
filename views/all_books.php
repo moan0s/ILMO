@@ -1,4 +1,17 @@
-<?php 
+
+
+
+
+<?php
+if($oObject->r_ac == "book_show_plain"){
+	echo'
+	<html>
+	<head>
+	<meta http-equiv= "Content-Type" content="text/html; charset=utf-8">
+	<title>Bücher</title>
+	</head>
+	<body>';
+}
 $table = "<table border='1'>";
 		$table .= 
 		"<tr>
@@ -6,10 +19,13 @@ $table = "<table border='1'>";
 		<th>Titel</th>
 		<th>Autor</th>
 		<th>Standort</th>
-		<th>Status</th>
+		<th>Status</th>";
+
+if ($oObject->r_ac!="book_show_plain"){
+	$table .="
 		<th>Bearbeiten</th>
-		<th>Löschen</th>
-		</tr>";
+		<th>Löschen</th>";}
+	$table .="</tr>";
 
 		
 		foreach ($oObject->aBook as $book_ID => $aResult)
@@ -29,20 +45,25 @@ else{
 }
 	
 		
+if ($oObject->r_ac!="book_show_plain"){
 			$table .=
 				'</td>
 			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > Ändern </a> </td>
 			<td> <a href="index.php?ac=book_delete&book_ID='.$aResult['book_ID'].'" > Löschen </a> </td>
 			</tr>';
 		}
-		
+		}	
 		$table .="</table>";
 		echo $table;
 
-?>
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+if($oObject->r_ac!="book_show_plain"){	
+	$form = '<form action="'; 
+	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
+	$form.= '" method="post">
 	<input type = hidden name="ac" value = "book_new">
 		<input type="submit" value="Neues Buch">
-	</form>
-
+	</form>';
+	echo $form;
+}
+?>
 

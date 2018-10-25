@@ -1,8 +1,10 @@
 <?php
 class Data {
 	function __construct(){
+		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->read_variables();
+		$this->set_session();
 	}
     
    function read_variables() {
@@ -42,6 +44,58 @@ class Data {
       $this->databaselink->query("SET SQL_MODE = '';");
    }
    
+   function set_session(){
+      //never forget: session_start(); is the first line in the index.php.!!
+	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
+	   if (isset($this->r_ac)){
+		   if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
+         	$_SESSION['username']="";
+		$_SESSION['admin']=0;
+		session_destroy();
+         	return;
+      	}
+	   }
+      if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
+		   $this->r_ac = "logi";
+		   echo "Login again";
+		   //logi is short for login
+         //dont forget to call the action in your controller
+         return;
+      }
+	    if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
+		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
+		     $this->sPassword=md5(strrev(trim($this->r_login_password)));
+		     if($this->sPassword!="") {
+		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
+              $mNumber=$aUser["user_ID"];
+              if ($mNumber<1) {
+		      	session_destroy();
+                 	$this->r_ac="logi";
+                 	return;
+              }
+		else {
+		         $_SESSION['user_ID']=$aUser['user_ID'];
+		         $_SESSION['admin']=$aUser['admin'];
+			}
+	       }
+        }
+   }
+   function em_get_user() { 
+      if(isset($this->sUser)){
+         if(strpos($this->sUser,"@")>0) {
+             $aFields=array("email"=>$this->sUser,"password"=>$this->sPassword);
+         }
+         else {    
+            $aFields=array("user_ID"=>$this->sUser,"password"=>$this->sPassword);
+         }   
+         $aResult=$this->select_row(TABLE_USER,$aFields);
+         if($aResult["user_ID"]>0) {
+              return $aResult;
+        }
+      }              
+      return -1;   
+   }
+
    function store_data($sTable,$aFields,$sKey_ID,$mID) {
       //updates or inserts data
       //returns ID or -1 if fails
@@ -185,6 +239,13 @@ class Data {
 		  $this->last_query[]=$sQuery;
 		  return $this->databaselink->query($sQuery);
    }  
+	function show_this(){
+		//only for debugging
+		echo "<pre>";
+		print_r ($this);
+		echo"</pre>";
+
+	}
 }   
 class Book extends Data {
 	function get_book (){
@@ -238,13 +299,8 @@ class Book extends Data {
 	return $ID;
 	
 	}
-	function show_this(){
-		//only for debugging
-		echo "<pre>";
-		print_r ($this);
-		echo"</pre>";
 
-	}
+
 }
 class User extends Data {
 	function save_user(){
@@ -283,13 +339,6 @@ class User extends Data {
 		}
 		
 		return $aUser;
-	}
-	function show_this(){
-		//only for debugging
-		echo "<pre>";
-		print_r ($this);
-		echo"</pre>";
-
 	}
 
 }
@@ -358,13 +407,6 @@ class Lend extends Data {
 		return $aLend;
 	} 
 
-	function show_this(){
-		//only for debugging
-		echo "<pre>";
-		print_r ($this);
-		echo"</pre>";
-
-	}
 
 }
 	
