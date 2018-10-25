@@ -2,70 +2,50 @@
 
 /*
 controller for a lending system
-version 0.4
-date 18.10.18
+version 0.5
+date 25.10.18
  */
-echo "vor session start<br>";
 session_start();
-
 
 //tut nix 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-echo "vor includes <br>";
+
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
-echo "includes abgeschlossen, starte Session<br>";
-$oObject = new Data();
-$oObject->show_this();
-//$oSession->set_session();
-//echo "This Session";
-//$oSession->show_this();
+//$oObject = new Data();
 //object: parameter to clear which object
 $sName = "book";
-echo "book gesetzt <br>";
-//echo "<br>zuerst book dann:".$_REQUEST['ac']."<br>";
-echo $_REQUEST['ac'];
 if (isset ($_REQUEST['ac'])){
 	$sName = substr($_REQUEST['ac'],0,4);
 }
-echo "<br>sName:".$sName."<br>";
 if($sName == 'user'){
 	$oObject = new User;
 
 }
 elseif ($sName == 'book') {
-	echo "vor new book<br>";
 	$oObject = new Book;
-	echo "New book<br>";
 }
 elseif ($sName == 'lend') {
 	$oObject = new Lend;
 }
-elseif (($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
+elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
 //	echo "<br>new Data is created<br>";
 	$oObject = new Data;
-	echo "New Data Object";
-	$oObject->show_this();
-}
-if(!isset ($oObject->r_ac)){
-$oObject->r_ac= null;
 }
 //view header
 include ('views/header.php');
 
-$oObject->show_this();
-echo "Jetzt in den switchi<br>";
-echo $_REQUEST['ac'];
 //methods
 switch ($oObject->r_ac){
 	case 'strt':
+		$oObject->set_session();
 		echo "Herzlich Willkommen";
+			
 		break;
 	case 'logi':
-		echo "Herzlich Wilkommen, bitte melde dich an";
 		include('views/login_form.php');
 		break;
 	case 'logo':

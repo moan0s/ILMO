@@ -47,52 +47,50 @@ class Data {
    function set_session(){
       //never forget: session_start(); is the first line in the index.php.!!
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
-	   echo "sind in set_session<br>";
 	   if (isset($this->r_ac)){
-		   echo "r_ac ist gesetzt mit = ".$this->r_ac;
 		   if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
          	$_SESSION['username']="";
-         	session_destroy();
+		$_SESSION['admin']=0;
+		session_destroy();
          	return;
       	}
-      }
-      if((!isset($_SESSION['user_ID'])) or ($this->login_user_info=="")){
-		   echo "<br> session with user_ID not set<br>";
+	   }
+      if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 		   $this->r_ac = "logi";
-		   //$this->r_ac="logi"; //logi is short for login
+		   echo "Login again";
+		   //logi is short for login
          //dont forget to call the action in your controller
          return;
       }
-	    if($this->login_user_info!="") {
-		     $this->sUser=str_replace("%","",$this->login_user_info); //never allow the wildcard in the username
-		     $this->sPassword=md5(strrev($this->login_password));
-		     if(trim($this->sPassword)!="") {
+	    if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
+		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
+		     $this->sPassword=md5(strrev(trim($this->r_login_password)));
+		     if($this->sPassword!="") {
 		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
-              $mNumber=$aUser["id"];
+              $mNumber=$aUser["user_ID"];
               if ($mNumber<1) {
-                 session_destroy();
-                 $this->r_ac="logi";
-                 return;
+		      	session_destroy();
+                 	$this->r_ac="logi";
+                 	return;
               }
-		        else {
-			         $_SESSION['user_ID']=$aUser['id'];
-			         $_SESSION['admin']=$aUser['admin'];
-		        }
+		else {
+		         $_SESSION['user_ID']=$aUser['user_ID'];
+		         $_SESSION['admin']=$aUser['admin'];
+			}
 	       }
         }
    }
    function em_get_user() { 
       if(isset($this->sUser)){
          if(strpos($this->sUser,"@")>0) {
-             $aFields=array("email"=>$this->sUser,"pw"=>$this->sPassword);
+             $aFields=array("email"=>$this->sUser,"password"=>$this->sPassword);
          }
          else {    
-            $aFields=array("user_ID"=>$this->sUser,"pw"=>$this->sPassword);
+            $aFields=array("user_ID"=>$this->sUser,"password"=>$this->sPassword);
          }   
-         $aResult=$this->select_rows(USER_DB,$aFields);
-         if($aResult[0]["id"]>0) {
-            $aResult[0]["user_id"]=$aResult[0]["id"];
-              return $aResult[0];
+         $aResult=$this->select_row(TABLE_USER,$aFields);
+         if($aResult["user_ID"]>0) {
+              return $aResult;
         }
       }              
       return -1;   
