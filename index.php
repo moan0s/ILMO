@@ -3,7 +3,7 @@
 /*
 controller for a lending system
 version 0.6
-date 25.10.18
+date 28.10.18
  */
 session_start();
 
@@ -32,30 +32,30 @@ elseif ($sName == 'lend') {
 	$oObject = new Lend;
 }
 elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
-//	echo "<br>new Data is created<br>";
 	$oObject = new Data;
 }
 //view header
 if ($oObject->r_ac!="book_show_plain"){
-	include ('views/header.php');
 }
+$oObject->output = "";
+$oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
 switch ($oObject->r_ac){
 	case 'strt':
 		$oObject->set_session();
-		echo "Herzlich Willkommen";
+		$oObject->output .=  $oObject->get_view("views/start.php");
 			
 		break;
 	case 'logi':
-		include('views/login_form.php');
+		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 	case 'logo':
-		include('views/login_form.php');
+		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 		
 	case 'book_new':
 		if ($_SESSION['admin']==1){	
-		include ('views/book_form.php');
+		$oObject->output .= $oObject->get_view('views/book_form.php');
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -77,7 +77,7 @@ switch ($oObject->r_ac){
 		$oObject->save_book();
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book();
-		include ("views/all_books.php");
+		$oObject->output .= $oObject->get_view("views/all_books.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -85,18 +85,18 @@ switch ($oObject->r_ac){
 		break;
 	case 'book_show':
 		$oObject->aBook = $oObject->get_book();
-		include ("views/all_books.php");
+		$oObject->output .= $oObject->get_view("views/all_books.php");
 		break;
 	case 'book_show_plain':
 		$oObject->aBook = $oObject->get_book();
-		include ("views/all_books.php");
+		$oObject->output .= $oObject->get_view("views/all_books.php");
 		break;
 	case 'book_delete':
 		if ($_SESSION['admin']==1){	
 		$oObject->delete_book();
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book();
-		include ("views/all_books.php");
+		$oObject->output .= $oObject->get_view("views/all_books.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -104,7 +104,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_new':
 		if ($_SESSION['admin']==1){	
-		include ("views/user_form.php");
+		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -112,10 +112,16 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_save':
 		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
-		$oObject->save_user();
-		$oObject->r_user_ID = NULL;
-		$oObject->aUser = $oObject->get_user();
-		include ("views/all_user.php");
+			$er = $oObject->check_input();
+			if ($er != ""){
+				$oObject->output .= $er;
+			}
+			else{
+			$oObject->save_user();
+			$oObject->r_user_ID = NULL;
+			$oObject->aUser = $oObject->get_user();
+			$oObject->output .= $oObject->get_view("views/all_user.php");
+			}
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -126,7 +132,7 @@ switch ($oObject->r_ac){
 		$oObject->delete_user();
 		$oObject->r_user_ID = NULL;
 		$oObject->aUser = $oObject->get_user();
-		include ("views/all_user.php");
+		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -135,12 +141,12 @@ switch ($oObject->r_ac){
 	case 'user_self':
 		$oObject->r_user_ID =$_SESSION['user_ID'];
 		$oObject->aUser = $oObject->get_user();
-		include ("views/all_user.php");
+		$oObject->output .= $oObject->get_view("views/all_user.php");
 		break;
 	case 'user_show':
 		if ($_SESSION['admin']==1){	
 		$oObject->aUser = $oObject->get_user();
-		include ("views/all_user.php");
+		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -148,7 +154,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_search':	
 		if ($_SESSION['admin']==1){	
-		include ("views/user_search.php");
+		$oObject->output .= $oObject->get_view("views/user_search.php");
 		}
 		else {
 			echo "Keine Berechtigung";
@@ -158,7 +164,7 @@ switch ($oObject->r_ac){
 		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
 		$oObject->aRow_all = $oObject->get_user();
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_user_ID];
-		include ("views/user_form.php");
+		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -167,7 +173,7 @@ switch ($oObject->r_ac){
 		
 	case 'lend_new':
 		if ($_SESSION['admin']==1){	
-		include ("views/lend_form.php");
+		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -175,10 +181,18 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_save':
 		if ($_SESSION['admin']==1){	
-		$oObject->save_lend();
-		$oObject->r_lend_ID = NULL;
-		$oObject->aLend = $oObject->get_lend();
-		include ("views/all_lend.php");
+			$error_message = $oObject->check_book_lend($oObject->r_book_ID);
+			$error_message .= $oObject->check_input();
+			if($error_message !=""){
+				$oObject->output .= $error_message;
+			}
+			else{
+				$oObject->save_lend();
+				$oObject->r_lend_ID = NULL;
+				$oObject->aLend = $oObject->get_lend();
+				$oObject->output .= $oObject->get_view("views/all_lend.php");
+			
+			}
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -192,7 +206,7 @@ switch ($oObject->r_ac){
 		$oObject->r_lend_ID = NULL;
 		$oObject->r_book_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();
-		include ("views/all_lend.php");
+		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -205,7 +219,7 @@ switch ($oObject->r_ac){
 	//	$oBook->return_book($oObject->r_book_ID);
 		$oObject->r_lend_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();
-		include ("views/all_lend.php");
+		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -214,7 +228,7 @@ switch ($oObject->r_ac){
 	case 'lend_show':
 		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){	
 		$oObject->aLend = $oObject->get_lend();
-		include ("views/all_lend.php");
+		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -223,12 +237,12 @@ switch ($oObject->r_ac){
 	case 'lend_self':
 		$oObject->r_user_ID = $_SESSION['user_ID'];
 		$oObject->aLend = $oObject->get_lend();
-		include ("views/all_lend.php");
+		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		break;
 	case 'lend_change':
 		if ($_SESSION['admin']==1){	
 		$oObject->get_lend();
-		include ("views/lend_form.php");
+		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
 			echo "Keine Berechtigung";
@@ -236,7 +250,7 @@ switch ($oObject->r_ac){
 		break;
 	default: 
 		$oObject->aBook = $oObject->get_book();
-		include ("views/all_books.php");
+		$oObject->output .= $oObject->get_view("views/all_books.php");
 		break;
 
 
@@ -244,5 +258,6 @@ switch ($oObject->r_ac){
 
 //$oObject->show_this();
 
-
+echo $oObject->get_view("views/head.php");
+echo $oObject->get_view("views/body.php");
 ?>

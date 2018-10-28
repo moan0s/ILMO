@@ -3,7 +3,7 @@
 
 
 <?php
-if($oObject->r_ac == "book_show_plain"){
+if($this->r_ac == "book_show_plain"){
 	echo'
 	<html>
 	<head>
@@ -12,7 +12,7 @@ if($oObject->r_ac == "book_show_plain"){
 	</head>
 	<body>';
 }
-$table = "<table border='1'>";
+$table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
 		<th>Buch_ID</th>
@@ -21,31 +21,33 @@ $table = "<table border='1'>";
 		<th>Standort</th>
 		<th>Status</th>";
 
-if ($oObject->r_ac!="book_show_plain"){
+if ($this->r_ac!="book_show_plain"){
 	$table .="
 		<th>Bearbeiten</th>
 		<th>Löschen</th>";}
 	$table .="</tr>";
 
 		
-		foreach ($oObject->aBook as $book_ID => $aResult)
+		foreach ($this->aBook as $book_ID => $aResult)
 		{
+	if($aResult['lend'] == 0){
+		$sClass= "available";
+		$sStatus= "Verfügbar";
+	}
+	else{
+		$sClass = "lend";
+		$sStatus = "Ausgeliehen";
+	}
 			$table .=
-			'<tr>
+			'<tr class= "'.$sClass.'">
 			<td>'.$aResult['book_ID'].'</td>
 			<td>'.$aResult['title'].'</td>
 			<td>'.$aResult['author'].'</td>
 			<td>'.$aResult['location'].'</td>
-			<td>';
-if($aResult['lend'] == 0){
-	$table .= "Verfügbar";
-}
-else{
-	$table .= "Ausgeliehen";
-}
+			<td>'.$sStatus;
 	
 		
-if ($oObject->r_ac!="book_show_plain"){
+if ($this->r_ac!="book_show_plain"){
 			$table .=
 				'</td>
 			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > Ändern </a> </td>
@@ -56,7 +58,7 @@ if ($oObject->r_ac!="book_show_plain"){
 		$table .="</table>";
 		echo $table;
 
-if($oObject->r_ac!="book_show_plain"){	
+if(($this->r_ac!="book_show_plain") and ($_SESSION['admin'] == 1)){	
 	$form = '<form action="'; 
 	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
 	$form.= '" method="post">

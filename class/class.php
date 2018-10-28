@@ -57,7 +57,6 @@ class Data {
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 		   $this->r_ac = "logi";
-		   echo "Login again";
 		   //logi is short for login
          //dont forget to call the action in your controller
          return;
@@ -238,7 +237,94 @@ class Data {
 		  $sQuery="SELECT * FROM ".$sTable.$sConditions.$sOrder;
 		  $this->last_query[]=$sQuery;
 		  return $this->databaselink->query($sQuery);
-   }  
+   }
+
+   //checks whether a book is already lend
+   //returns String containing "" or an error message
+   function check_book_lend($book_ID){
+	   $aFields = array('book_ID' => $book_ID);
+	   $aResult = $this->select_row(TABLE_BOOKS, $aFields);
+	   if($aResult['lend'] == 0){
+		   $error_message= "";
+	   }
+	   else{
+		$error_message = "Dieses Buch ist bereits als ausgeliehen eingetragen<br>";
+	   }
+	   return $error_message;
+   }
+
+   //checks if an E-MAil Adress is already used
+   function check_email_used(){
+		$aFields = array('email' => $this->r_email);
+		$aResult = $this->select_row(TABLE_USER, $aFields); 
+		if($aResult == -1){
+			return FALSE;
+		}
+		else{
+			return TRUE;
+			//return $aResult['user_ID'];
+		}
+   
+   }
+   //returns String containing "" or an error message
+   function check_input(){
+	   $error="";
+		if(isset($this->r_user_ID)){
+			if (($this->r_user_ID != "") and (!is_numeric($this->r_user_ID))){
+				$error .= "Bitte gib eine Zahl als Benutzer-ID ein<br>";	
+			}
+		}
+			
+		if(isset($this->r_book_ID)){
+			if (trim($this->r_book_ID) == ""){
+				$error .= "Bitte gib eine Bücher-ID ein<br>";	
+			}
+		}
+
+		if(isset($this->r_email)){
+			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
+				$error .= "Bitte gib eine gültige E-Mail Adresse ein<br>";	
+			}
+			
+			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
+				if($this->check_email_used()){
+					$error .= "Diese E-Mail Adresse ist schon registriert. Bitte melde dich mit dieser an oder erstelle ein neues Konto mit einer anderen E-Mail Adresse";
+				}
+			}
+
+		}
+		if(isset($this->r_password)){
+			if (strlen($this->r_password)<4) {
+				$error .= "Bitte wähle ein Passwort, das 4 oder mehr Zeichen hat<br>";	
+			}
+		}
+		if(isset($this->r_title)){
+			if ("" ==$this->r_title){
+				$error .= "Bitte gib einen Titel ein<br>";	
+			}
+		}
+
+		if(isset($this->r_author)){
+			if ("" == $this->r_author){
+				$error .= "Bitte gib einen Autor an<br>";	
+			}
+		}
+		if(isset($this->r_location)){
+			if ($this->location ==""){
+				$error .= "Bitte gib einen Standort an<br>";	
+			}
+		}
+
+		return $error;
+	}
+   function get_view($Datei) {
+	         ob_start();  //startet Buffer
+		 include($Datei);  
+		 $Ausgabe=ob_get_contents();  //Buffer wird geschrieben
+		 ob_end_clean();  //Buffer wird gelöscht
+		 return $Ausgabe;
+    }
+
 	function show_this(){
 		//only for debugging
 		echo "<pre>";
@@ -315,7 +401,6 @@ class User extends Data {
 			$this->ID=$this->store_data(TABLE_USER, $aFields, 'user_ID' , $this->r_user_ID);
 		}
 		else{
-			echo "hallo";
 			$this->ID=$this->store_data(TABLE_USER, $aFields, NULL , NULL);
 		}
 	}
