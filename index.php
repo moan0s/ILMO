@@ -255,7 +255,6 @@ switch ($oObject->r_ac){
 }
 
 //$oObject->show_this();
-if
 echo $oObject->get_view("views/head.php");
 echo $oObject->get_view("views/body.php");
 

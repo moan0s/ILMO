@@ -1,4 +1,7 @@
 <body>
+<?php
+if ($this->r_ac!="book_show_plain"){
+echo '	
 <div id="header">
 	<div id="side-description" class"side-description">				
 		<a id="logo" class="logo" href="./index.php" title="Foren-Übersicht">
@@ -10,9 +13,7 @@
 </div>
 
 </div>
-<div id="navi">
-<?php
-if ($this->r_ac!="books_show_plain"){
+<div id="navi">';
 echo $this->navigation;
 }
 ?>
