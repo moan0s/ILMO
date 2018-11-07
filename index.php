@@ -88,8 +88,8 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books.php");
 		break;
 	case 'book_show_plain':
-		$oObject->aBook = $oObject->get_book();
-		$oObject->output .= $oObject->get_view("views/all_books.php");
+		$oObject->aBook = $oObject->get_book_plain();
+		$oObject->output .= $oObject->get_view("views/all_books_plain.php");
 		break;
 	case 'book_delete':
 		if ($_SESSION['admin']==1){	

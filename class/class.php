@@ -332,6 +332,16 @@ class Data {
 		echo"</pre>";
 
 	}
+
+     	function sql_statement($sQuery) {
+         //selects multiple rows from the database 
+         //returns resultset 
+		$this->last_query[]=$sQuery;
+	
+               // return mysql_query($sQuery,$this->databaselink);
+                return $this->databaselink->query($sQuery);
+	} 
+
 }   
 class Book extends Data {
 	function get_book (){
@@ -348,7 +358,26 @@ class Book extends Data {
 		return $aBook;
 
 	}
-	
+	function get_book_plain(){
+	$sQuery="SELECT 
+	B1.title as title,
+	B1.author as author,
+	B1.location as location,
+	count(*) as anzahl,
+	(
+	   select  count(*) as verfuegbar from books B2 where lend=0 and title=B1.title 
+	      ) as verfuegbar 
+	     FROM `books` B1
+	     group by title";
+	$this->p_result = $this->sql_statement($sQuery);
+	while($aRow=mysqli_fetch_assoc($this->p_result)){
+		$aBook[$aRow['title']] = $aRow;
+	}
+		
+	return $aBook;
+
+
+	}	
 	function save_book(){
 		$aFields = array(
 			'title' => $this->r_title,
