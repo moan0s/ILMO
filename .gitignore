@@ -34,7 +34,8 @@ compiled source #
 #generated Backups
 #################
 *.swp
-
+*.swo
+*.swn
 
 
 # OS generated files #

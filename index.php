@@ -35,8 +35,6 @@ elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or
 	$oObject = new Data;
 }
 //view header
-if ($oObject->r_ac!="book_show_plain"){
-}
 $oObject->output = "";
 $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
@@ -257,7 +255,8 @@ switch ($oObject->r_ac){
 }
 
 //$oObject->show_this();
-
+if
 echo $oObject->get_view("views/head.php");
 echo $oObject->get_view("views/body.php");
+
 ?>

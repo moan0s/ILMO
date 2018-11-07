@@ -12,7 +12,9 @@
 </div>
 <div id="navi">
 <?php
+if ($this->r_ac!="books_show_plain"){
 echo $this->navigation;
+}
 ?>
 </div>
 
