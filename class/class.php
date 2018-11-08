@@ -372,9 +372,9 @@ class Book extends Data {
 	B1.location as location,
 	count(*) as anzahl,
 	(
-	   select  count(*) as verfuegbar from books B2 where lend=0 and title=B1.title 
+	   select  count(*) as verfuegbar from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
 	      ) as verfuegbar 
-	     FROM `books` B1
+	     FROM `".TABLE_BOOKS."` B1
 	     group by title";
 	$this->p_result = $this->sql_statement($sQuery);
 	while($aRow=mysqli_fetch_assoc($this->p_result)){
