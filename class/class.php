@@ -10,25 +10,32 @@ class Data {
    function read_variables() {
       //reads all GET and POST variables into the object, addslashing both
       if (count($_POST)) {
-         while (list($key, $val) = each($_POST)) {
-            $key=addslashes("r_".$key);
-            if (is_array($val)) { for ($z=0;$z<count($val);$z++) { $val[$z]=addslashes($val[$z]);}}
-            else {$val=addslashes($val);}
+	      foreach ($_POST as $key => $val){
+            	$key=addslashes("r_".$key);
+		if (is_array($val)) { 
+			for ($z=0;$z<count($val);$z++) { 
+				$val[$z]=addslashes($val[$z]);
+			}
+		}
+		else {
+			$val=addslashes($val);
+		}
             $this->$key=$val;
          }
       }
       if (count($_GET)) {
-         while (list($key, $val) = each($_GET)) {
-            $key=addslashes("r_".$key);
-             if (is_array($val)) {
-                for ($z=0;$z<count($val);$z++) {
-                   $val[$z]=addslashes($val[$z]);
-                }
-             }
-             else {
-                $val=addslashes($val);
-             }
-             $this->$key=$val;
+	      foreach ($_GET as $key => $val){
+            	$key=addslashes("r_".$key);
+             	if (is_array($val)) {
+                	for ($z=0;$z<count($val);$z++) {
+                	$val[$z]=addslashes($val[$z]);
+                	}
+             	}
+             	else {
+                	$val=addslashes($val);
+             	}
+             	
+		$this->$key=$val;
          }
       }
    }//end of function read variables
