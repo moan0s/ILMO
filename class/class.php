@@ -515,8 +515,10 @@ class Lend extends Data {
 		//create an array containig lend_ID
 		$aFields= array();
 		
-		$this->all_user = User::get_user();
-		$this->all_book = Book::get_book();
+		$oUser = new User;
+		$oBook = new Book;	
+		$this->all_user = $oUser->get_user();
+		$this->all_book = $oBook->get_book();
 		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
 		if((isset($this->r_lend_ID)) and ($this->r_lend_ID!= "") and ($this->r_lend_ID!=NULL)){$aFields["lend_ID"] = $this->r_lend_ID;}
 		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
