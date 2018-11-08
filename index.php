@@ -2,15 +2,19 @@
 
 /*
 controller for a lending system
-version 0.6
-date 28.10.18
+version 1.0
+date 08.11.18
+tested on php 7.2 and php 5.6.38
+Database: MariaDB
  */
+
+
 session_start();
 
-//tut nix 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//uncomment to show errors 
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 //start: includes
 include ("config/config.inc.php");
