@@ -60,7 +60,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view('views/book_form.php');
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	
@@ -71,7 +71,7 @@ switch ($oObject->r_ac){
 		include ('views/book_form.php');
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;	
 	case 'book_save':
@@ -82,7 +82,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'book_show':
@@ -101,7 +101,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'user_new':
@@ -109,7 +109,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'user_save':
@@ -126,7 +126,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'user_delete':
@@ -137,7 +137,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'user_self':
@@ -151,7 +151,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'user_search':	
@@ -159,7 +159,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_search.php");
 		}
 		else {
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'user_change':
@@ -169,7 +169,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 		
@@ -178,7 +178,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'lend_save':
@@ -197,7 +197,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'lend_return':
@@ -211,7 +211,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'lend_delete':
@@ -224,7 +224,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'lend_show':
@@ -233,7 +233,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	case 'lend_self':
@@ -247,7 +247,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
-			echo "Keine Berechtigung";
+			$oObject->output.= "Keine Berechtigung";
 		}
 		break;
 	default: 
