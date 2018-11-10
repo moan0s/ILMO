@@ -351,7 +351,7 @@ class Data {
 
 }   
 class Book extends Data {
-	function get_book (){
+	function get_book_itemized (){
 		$aBook= array();
 		$aFields= array();
 		if((isset($this->r_book_ID)) and ($this->r_book_ID!= "")){$aFields["book_ID"] = $this->r_book_ID;}
@@ -365,7 +365,7 @@ class Book extends Data {
 		return $aBook;
 
 	}
-	function get_book_plain(){
+	function get_book(){
 	$sQuery="SELECT 
 	B1.title as title,
 	B1.author as author,

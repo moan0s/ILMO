@@ -67,7 +67,7 @@ switch ($oObject->r_ac){
 	
 	case 'book_change':
 		if ($_SESSION['admin']==1){	
-		$oObject->aRow_all = $oObject->get_book();
+		$oObject->aRow_all = $oObject->get_book_itemized();
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_book_ID];
 		include ('views/book_form.php');
 		}
@@ -79,8 +79,8 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 		$oObject->save_book();
 		$oObject->r_book_ID = NULL;
-		$oObject->aBook = $oObject->get_book();
-		$oObject->output .= $oObject->get_view("views/all_books.php");
+		$oObject->aBook = $oObject->get_book_itemized();
+		$oObject->output .= $oObject->get_view("views/all_booksi_itemized.php");
 		}
 		else{
 			$oObject->output.= NO_PERMISSION;
@@ -91,15 +91,19 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books.php");
 		break;
 	case 'book_show_plain':
-		$oObject->aBook = $oObject->get_book_plain();
-		$oObject->output .= $oObject->get_view("views/all_books_plain.php");
+		$oObject->aBook = $oObject->get_book();
+		$oObject->output .= $oObject->get_view("views/all_books.php");
+		break;
+	case 'book_show_itemized':
+		$oObject->aBook = $oObject->get_book_itemized();
+		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		break;
 	case 'book_delete':
 		if ($_SESSION['admin']==1){	
 		$oObject->delete_book();
 		$oObject->r_book_ID = NULL;
-		$oObject->aBook = $oObject->get_book();
-		$oObject->output .= $oObject->get_view("views/all_books.php");
+		$oObject->aBook = $oObject->get_book_itemized();
+		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
 			$oObject->output.= NO_PERMISSION;
