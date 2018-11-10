@@ -2,8 +2,8 @@
 
 /*
 controller for a lending system
-version 1.0
-date 08.11.18
+version 1.1
+date 09.11.18
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
@@ -19,6 +19,7 @@ session_start();
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
+include ("language/german/texts.php");
 //$oObject = new Data();
 //object: parameter to clear which object
 $sName = "book";
@@ -60,7 +61,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	
@@ -71,7 +72,7 @@ switch ($oObject->r_ac){
 		include ('views/book_form.php');
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;	
 	case 'book_save':
@@ -82,7 +83,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'book_show':
@@ -101,7 +102,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'user_new':
@@ -109,7 +110,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'user_save':
@@ -126,7 +127,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'user_delete':
@@ -137,7 +138,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'user_self':
@@ -151,7 +152,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'user_search':	
@@ -159,7 +160,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_search.php");
 		}
 		else {
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'user_change':
@@ -169,7 +170,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 		
@@ -178,7 +179,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'lend_save':
@@ -197,7 +198,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'lend_return':
@@ -211,7 +212,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'lend_delete':
@@ -224,7 +225,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'lend_show':
@@ -233,7 +234,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	case 'lend_self':
@@ -247,7 +248,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
-			$oObject->output.= "Keine Berechtigung";
+			$oObject->output.= NO_PERMISSION;
 		}
 		break;
 	default: 
