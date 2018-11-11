@@ -2,8 +2,8 @@
 
 /*
 controller for a lending system
-version 1.1
-date 09.11.18
+version 1.2
+date 11.11.18
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
@@ -12,9 +12,9 @@ Database: MariaDB
 session_start();
 
 //uncomment to show errors 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 //start: includes
 include ("config/config.inc.php");
@@ -36,6 +36,9 @@ elseif ($sName == 'book') {
 elseif ($sName == 'lend') {
 	$oObject = new Lend;
 }
+elseif ($sName == 'open') {
+	$oObject = new Open;
+}
 elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
 	$oObject = new Data;
 }
@@ -47,7 +50,6 @@ switch ($oObject->r_ac){
 	case 'strt':
 		$oObject->set_session();
 		$oObject->output .=  $oObject->get_view("views/start.php");
-			
 		break;
 	case 'logi':
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
@@ -55,7 +57,29 @@ switch ($oObject->r_ac){
 	case 'logo':
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
-		
+	case 'open_change':
+		if ($_SESSION['admin']==1){	
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/open_form.php");
+		}
+		else{
+			$oObject->output.= NO_PERMISSION;
+		}
+		break;
+	case 'open_save':
+		if ($_SESSION['admin']==1){	
+		$oObject->save_open();
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/display_open.php");
+		}
+		else{
+			$oObject->output.= NO_PERMISSION;
+		}
+		break;
+	case 'open_show':
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/display_open.php");
+		break;	
 	case 'book_new':
 		if ($_SESSION['admin']==1){	
 		$oObject->output .= $oObject->get_view('views/book_form.php');
@@ -266,5 +290,5 @@ switch ($oObject->r_ac){
 //$oObject->show_this();
 echo $oObject->get_view("views/head.php");
 echo $oObject->get_view("views/body.php");
-
+echo $oObject->get_view("views/footer.php");
 ?>
