@@ -5,6 +5,7 @@ class Data {
 		$this->link_database();
 		$this->read_variables();
 		$this->set_session();
+		$this->opening_days = array ("monday", "tuesday", "wednesday", "thursday", "friday");
 	}
     
    function read_variables() {
@@ -111,7 +112,7 @@ class Data {
 	      //search for it
          $aCheckFields=array($sKey_ID=>$mID);
          $aRow=$this->select_row($sTable,$aCheckFields);
-         $returnID=$mID;
+         $returnID=$aRow[$sKey_ID];
       }
       if(($returnID>0) or ($returnID!="")) {
          $sQuery="update ".$sTable." set ";
@@ -349,7 +350,37 @@ class Data {
                 return $this->databaselink->query($sQuery);
 	} 
 
-}   
+}  
+
+class Open extends Data{
+	function get_open(){
+		$aOpen = array();
+		$aFields = array();
+		
+		$this->p_result = $this->select_rows(TABLE_OPEN, $aFields);
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aOpen[$aRow['day']] = $aRow;
+		}
+		return $aOpen;
+	}
+
+	function save_open(){
+		foreach($this->opening_days as $day){
+			$fieldS="r_".$day."_s";
+			$fieldE="r_".$day."_e";
+			$fieldN="r_".$day."_n";
+			$aFields = array (
+				'day' => $day,
+				'start' => $this->$fieldS,
+				'end' => $this->$fieldE,
+				'notice' => $this->$fieldN
+			);
+			$xy = $this->store_data(TABLE_OPEN,$aFields,"day",$day);
+			unset($aFields);
+		}
+	}
+
+}
 class Book extends Data {
 	function get_book_itemized (){
 		$aBook= array();
