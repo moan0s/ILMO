@@ -2,10 +2,12 @@
 
 <li><a href="index.php">Home</a></li>
 <?php 
-echo '<li><a href="index.php?ac=book_show">Alle Bücher</a></li>';
+echo 	'<li><a href="index.php?ac=book_show">Alle Bücher</a></li>
+ 	<li><a href="index.php?ac=open_show">Öffnungszeiten</a></li>';
 if ($_SESSION['admin'] ==1){ echo '
 <li><a href="index.php?ac=user_show">Alle Nutzer*innen</a></li>
 <li><a href="index.php?ac=lend_show">Alle Ausleihen</a></li>
+<li><a href="index.php?ac=open_change">Öffnungszeiten ändern</a></li>
 <li><a href="index.php?ac=book_new">Neues Buch</a></li>
 <li><a href="index.php?ac=user_new">Neue*r Nutzer*in</a></li>
 <li><a href="index.php?ac=lend_new">Neue Ausleihe</a></li>

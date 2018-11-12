@@ -8,7 +8,7 @@ echo '
 			<span class="site_logo"></span>
 		</a>
 		<h1>Lerninselbibliothek</h1>
-		<p>Forum der Medizintechniker in Stuttgart und Tübingen</p>
+		<p>Bibliothek des Studiengangs Medizintechnik</p>
 	</div>
 </div>
 

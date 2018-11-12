@@ -57,10 +57,7 @@ a {
 	display: inline-block;
 	width: 250px;
 	height: 145px;
-}
-
-.site_logo{
-background-image: url("../images/logo_forum_klein.jpg");
+	background-image: url("../images/logo_bib.png");
 }
 /* Site description and logo */
 .site-description {
@@ -107,4 +104,38 @@ padding-top: 20px;
 
 #navi >ul >li:hover{
 	background-color: #BAE7F4;
+}
+
+#footer{
+	clear: both;
+	background-color: grey;
+	vertical-align: baseline;
+	margin-top: 50px;
+	margin-bottom: 5px;
+	width: 100%;
+	float: left;
+	height: 180px;
+	border-radius: 7px;
+
+}
+
+.fs_logo {
+	display: inline-block;
+	width: 311px;
+	height: 140px;
+	background-image: url("../images/ifs_sw_klein.png");
+}
+
+.link_list {
+	display: inline-block;
+	width: 100%;
+	height: 140px;
+	padding-left: 10%;
+}
+.forum_logo {
+	display: inline-block;
+	background-image: url("../images/logo_forum_klein_sw.png");
+	width: 311px;
+	height: 140px;
+	float: right;
 }
