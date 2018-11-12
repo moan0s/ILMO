@@ -135,7 +135,7 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_delete':
-		if ($_SESSION['admin']==1)){	
+		if ($_SESSION['admin']==1){	
 		$oObject->delete_user();
 		$oObject->r_user_ID = NULL;
 		$oObject->aUser = $oObject->get_user();
