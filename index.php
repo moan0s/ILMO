@@ -69,7 +69,7 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 		$oObject->aRow_all = $oObject->get_book_itemized();
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_book_ID];
-		include ('views/book_form.php');
+		$oObject->output = $oObject->get_view('views/book_form.php');
 		}
 		else{
 			$oObject->output.= NO_PERMISSION;
