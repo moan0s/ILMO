@@ -12,9 +12,9 @@ Database: MariaDB
 session_start();
 
 //uncomment to show errors 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 //start: includes
 include ("config/config.inc.php");
@@ -266,5 +266,5 @@ switch ($oObject->r_ac){
 //$oObject->show_this();
 echo $oObject->get_view("views/head.php");
 echo $oObject->get_view("views/body.php");
-
+echo $oObject->get_view("views/footer.php");
 ?>
