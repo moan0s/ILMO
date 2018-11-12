@@ -118,7 +118,7 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_save':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
+		if ($_SESSION['admin']==1){	
 			$er = $oObject->check_input();
 			if ($er != ""){
 				$oObject->output .= $er;
@@ -135,7 +135,7 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_delete':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
+		if ($_SESSION['admin']==1)){	
 		$oObject->delete_user();
 		$oObject->r_user_ID = NULL;
 		$oObject->aUser = $oObject->get_user();

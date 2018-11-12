@@ -9,7 +9,7 @@ $table = "<table border='1'>";
 		";
 
 		
-if (($_SESSION['admin']==1) or ($this->r_user_ID==$_SESSION['user_ID'])){
+if ($_SESSION['admin']==1) {
 	$table .= 
 		'<th>Ändern</th>
 		<th>Löschen</th>
