@@ -207,9 +207,6 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_return':
 		if ($_SESSION['admin']==1){	
-		$oObject->return_lend();
-	//	$oBook = new Book();
-	//	$oBook->return_book($oObject->r_book_ID);
 		$oObject->r_lend_ID = NULL;
 		$oObject->r_book_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();
