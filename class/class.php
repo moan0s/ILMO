@@ -330,6 +330,11 @@ class Data {
 			return BOOK_DOES_NOT_EXIST;
 		}
 	}
+	function check_user_exists($user_ID){
+		if ($this->select_row(TABLE_USER, array ('user_ID' => $user_ID)) == -1){
+			return USER_DOES_NOT_EXIST;
+		}
+	}
 	function get_view($Datei) {
 	         ob_start();  //startet Buffer
 		 include($Datei);  
