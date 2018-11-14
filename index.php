@@ -117,6 +117,7 @@ switch ($oObject->r_ac){
 	case 'book_show_plain':
 		$oObject->aBook = $oObject->get_book();
 		$oObject->output .= $oObject->get_view("views/all_books.php");
+
 		break;
 	case 'book_show_itemized':
 		$oObject->aBook = $oObject->get_book_itemized();
@@ -192,7 +193,7 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_change':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
+		if ($_SESSION['admin']==1){	
 		$oObject->aRow_all = $oObject->get_user();
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_user_ID];
 		$oObject->output .= $oObject->get_view("views/user_form.php");
