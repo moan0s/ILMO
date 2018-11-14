@@ -12,15 +12,15 @@ Database: MariaDB
 session_start();
 
 //uncomment to show errors 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
 include ("language/german/texts.php");
-//$oObject = new Data();
+$oObject = new Data();
 //object: parameter to clear which object
 $sName = "book";
 if (isset ($_REQUEST['ac'])){
@@ -104,7 +104,7 @@ switch ($oObject->r_ac){
 		$oObject->save_book();
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book_itemized();
-		$oObject->output .= $oObject->get_view("views/all_booksi_itemized.php");
+		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
 			$oObject->output.= NO_PERMISSION;
@@ -142,7 +142,7 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_save':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
+		if ($_SESSION['admin']==1){	
 			$er = $oObject->check_input();
 			if ($er != ""){
 				$oObject->output .= $er;
@@ -159,7 +159,7 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_delete':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID']==$oObject->r_user_ID)){	
+		if ($_SESSION['admin']==1){	
 		$oObject->delete_user();
 		$oObject->r_user_ID = NULL;
 		$oObject->aUser = $oObject->get_user();
@@ -231,9 +231,6 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_return':
 		if ($_SESSION['admin']==1){	
-		$oObject->return_lend();
-	//	$oBook = new Book();
-	//	$oBook->return_book($oObject->r_book_ID);
 		$oObject->r_lend_ID = NULL;
 		$oObject->r_book_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();

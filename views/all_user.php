@@ -9,7 +9,7 @@ $table = "<table border='1'>";
 		";
 
 		
-if (($_SESSION['admin']==1) or ($this->r_user_ID==$_SESSION['user_ID'])){
+if ($_SESSION['admin']==1) {
 	$table .= 
 		'<th>Ändern</th>
 		<th>Löschen</th>
@@ -38,12 +38,12 @@ $table = $table."</table>";
 echo $table;
 
 
-if (($_SESSION['admin']==1) or ($this->r_user_ID==$_SESSION['user_ID'])){
-	$form =	'
-		<form action="<?'.htmlspecialchars($_SERVER["PHP_SELF"]);'" method="post">
-	<input type = hidden name="ac" value = "user_new">
+if ($_SESSION['admin']==1){
+	$form .=	'
+		<form action="<?'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+		<input type = hidden name="ac" value = "user_new">
 		<input type="submit" value="Benutzer*in hinzufügen">
-	</form>';
+		</form>';
 	echo $form;
 }
 
