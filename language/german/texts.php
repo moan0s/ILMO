@@ -11,5 +11,15 @@ define ("USER_INSTRUCTION", "
 define ("ADMIN_INSTRUCTION", "Du bist als Administrator angemeldet. 
 	Du kannst also Bücher verleihen, neue hinzufügen und vieles mehr.<br>");
 
+define ("W_DAY", "Tag");
+define ("W_START", "Start");
+define ("W_END", "Ende");
+define ("W_NOTICE", "Bemerkung");
 
+define ("MONDAY", "Montag");
+define ("TUESDAY", "Dienstag");
+define ("WEDNESDAY", "Mittwoch");
+define ("THURSDAY", "Donnerstag");
+define ("FRIDAY", "Freitag");
+	
 ?>
