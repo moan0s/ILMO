@@ -423,7 +423,7 @@ class Book extends Data {
 			'location' => $this->r_location,
 			'lend' => null		
 		);
-		if ((isset($this->r_number)) and ($this->r_number>0)){
+		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=1; $i<=$this->r_number; $i++){
 				$aFields['book_ID'] = $this->r_book_ID." ".chr(96+$i);
 				$this->ID=$this->store_data(TABLE_BOOKS, $aFields, FALSE, FALSE);

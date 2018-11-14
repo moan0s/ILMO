@@ -104,7 +104,7 @@ switch ($oObject->r_ac){
 		$oObject->save_book();
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book_itemized();
-		$oObject->output .= $oObject->get_view("views/all_booksi_itemized.php");
+		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
 			$oObject->output.= NO_PERMISSION;
