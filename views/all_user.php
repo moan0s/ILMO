@@ -12,8 +12,10 @@ $table = "<table border='1'>";
 if ($_SESSION['admin']==1) {
 	$table .= 
 		'<th>Ändern</th>
-		<th>Löschen</th>
-		<th>Zeige Ausleihen</th>';
+		<th>Löschen</th>';
+	if (($_SESSION['admin']==1) or ($this->r_user_ID = $_SESSION['user_ID'])){
+		$table .= '<th>Zeige Ausleihen</th>';
+	}
 }
 $table .= '</tr>';
 	foreach ($this->aUser as $user_ID => $aResult)
@@ -24,11 +26,14 @@ $table .= '</tr>';
 			<td>'.$aResult['forename'].'</td>
 			<td>'.$aResult['surname'].'</td>
 			<td>'.$aResult['email'].'</td>';
-			if (($_SESSION['admin']==1) or ($this->r_user_ID==$_SESSION['user_ID'])){
+			if ($_SESSION['admin']==1){
 				$table .=
 				'<td> <a href="index.php?ac=user_change&user_ID='.$aResult['user_ID'].'" > Ändern </<> </td>
-				<td> <a href="index.php?ac=user_delete&user_ID='.$aResult['user_ID'].'" > Löschen </<> </td>
-				<td> <a href="index.php?ac=lend_show&user_ID='.$aResult['user_ID'].'" > Zeige Ausleihen </<> </td>';
+				<td> <a href="index.php?ac=user_delete&user_ID='.$aResult['user_ID'].'" > Löschen </<> </td>';
+				if (($_SESSION['admin']==1) or ($this->r_user_ID = $_SESSION['user_ID'])){
+					$table .='
+						<td> <a href="index.php?ac=lend_show&user_ID='.$aResult['user_ID'].'" > Zeige Ausleihen </<> </td>';
+				}
 			}
 
 			$table .= '</tr>';
