@@ -215,6 +215,7 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 			$error_message = $oObject->check_book_lend($oObject->r_book_ID);
 			$error_message .= $oObject->check_input();
+			$error_message .= $oObject->check_book_exists($oObject->r_book_ID);
 			if($error_message !=""){
 				$oObject->output .= $error_message;
 			}

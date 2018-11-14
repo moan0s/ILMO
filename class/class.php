@@ -324,8 +324,13 @@ class Data {
 		}
 
 		return $error;
+   }
+	function check_book_exists($book_ID){
+		if ($this->select_row(TABLE_BOOKS, array ('book_ID' => $book_ID)) == -1){
+			return BOOK_DOES_NOT_EXIST;
+		}
 	}
-   function get_view($Datei) {
+	function get_view($Datei) {
 	         ob_start();  //startet Buffer
 		 include($Datei);  
 		 $Ausgabe=ob_get_contents();  //Buffer wird geschrieben
@@ -498,13 +503,13 @@ class User extends Data {
 class Lend extends Data {
 	function save_lend(){
 		//einfügen, dass das Buch als verliehen eingetragen  wird
-		$aFields = array(
-			'book_ID' => $this->r_book_ID,
-			'user_ID' => $this->r_user_ID,
-			'pickup_date' => date("Y-m-d H:i:s"),
-			'return_date' => NULL,
-			'returned' => NULL
-		);	
+			$aFields = array(
+				'book_ID' => $this->r_book_ID,
+				'user_ID' => $this->r_user_ID,
+				'pickup_date' => date("Y-m-d H:i:s"),
+				'return_date' => NULL,
+				'returned' => NULL
+			);
 		$this->ID=$this->store_data(TABLE_LEND, $aFields, FALSE, FALSE);
 		
 		$aFields = array(
