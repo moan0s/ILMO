@@ -521,7 +521,6 @@ class Lend extends Data {
 		'lend' => 1
 		);
 		$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_book_ID);
-	echo $this->ID;		
 	}
 	
 	function return_lend(){
@@ -558,12 +557,12 @@ class Lend extends Data {
 		
 		$oUser = new User;
 		$oBook = new Book;	
+		$oBook->r_book_ID = NULL;
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
 		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
 		if((isset($this->r_lend_ID)) and ($this->r_lend_ID!= "") and ($this->r_lend_ID!=NULL)){$aFields["lend_ID"] = $this->r_lend_ID;}
 		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
-		
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aLend[$aRow['lend_ID']] = $aRow;
 		}

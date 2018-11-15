@@ -223,7 +223,6 @@ switch ($oObject->r_ac){
 			else{
 				$oObject->save_lend();
 				$oObject->r_lend_ID = NULL;
-				$oObject->r_book_ID = NULL;
 				$oObject->aLend = $oObject->get_lend();
 				$oObject->output .= $oObject->get_view("views/all_lend.php");
 			
