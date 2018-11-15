@@ -12,7 +12,7 @@ Database: MariaDB
 session_start();
 
 //uncomment to show errors 
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
@@ -49,9 +49,11 @@ $oObject->navigation = $oObject->get_view("views/navigation.php");
 switch ($oObject->r_ac){
 	case 'strt':
 		$oObject->set_session();
+		$oObject->output .= $oObject->error;
 		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':
+		$oObject->output .= $oObject->error;
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 	case 'logo':
