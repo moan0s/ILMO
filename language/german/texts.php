@@ -11,8 +11,9 @@ define ("USER_INSTRUCTION", "
 define ("ADMIN_INSTRUCTION", "Du bist als Administrator angemeldet. 
 	Du kannst also Bücher verleihen, neue hinzufügen und vieles mehr.<br>");
 
-define ("BOOK_ALREADY_LEND", "Dieses Buch ist bereits verliehen");
-define ("BOOK_DOES_NOT_EXIST", "Dieses Buch existiert nicht");
+define ("BOOK_ALREADY_LEND", "Dieses Buch ist bereits verliehen<br>");
+define ("BOOK_DOES_NOT_EXIST", "Dieses Buch existiert nicht<br>");
+define ("USER_DOES_NOT_EXIST", "Diese*r Benutzer*in  existiert nicht<br>");
 
 define ("W_DAY", "Tag");
 define ("W_START", "Start");
