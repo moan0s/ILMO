@@ -49,11 +49,9 @@ $oObject->navigation = $oObject->get_view("views/navigation.php");
 switch ($oObject->r_ac){
 	case 'strt':
 		$oObject->set_session();
-		$oObject->output .= $oObject->error;
 		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':
-		$oObject->output .= $oObject->error;
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 	case 'logo':
