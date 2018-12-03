@@ -64,27 +64,33 @@ class Data {
       	}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
-		   $this->r_ac = "logi";
+	      $this->error .= ENTER_USER_IDENTIFICATION;
+	      $this->r_ac = "logi";
 		   //logi is short for login
          //dont forget to call the action in your controller
          return;
-      }
-	    if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
+      	}
+
+	if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
 		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
-		     $this->sPassword=md5(strrev(trim($this->r_login_password)));
-		     if($this->sPassword!="") {
+		     if((isset($this->sPassword)) and ($this->sPassword!="")) {
+		     	$this->sPassword=md5(strrev(trim($this->r_login_password)));
 		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
-              $mNumber=$aUser["user_ID"];
-              if ($mNumber<1) {
-		      	session_destroy();
-                 	$this->r_ac="logi";
-                 	return;
-              }
-		else {
-		         $_SESSION['user_ID']=$aUser['user_ID'];
-		         $_SESSION['admin']=$aUser['admin'];
+              		$mNumber=$aUser["user_ID"];
+              		if ($mNumber<1) {
+		      		session_destroy();
+                 		$this->r_ac="logi";
+                 		return;
+              		}
+			else {
+		        	 $_SESSION['user_ID']=$aUser['user_ID'];
+		       		 $_SESSION['admin']=$aUser['admin'];
 			}
-	       }
+		     }
+		     else{
+		     $this->error .= ENTER_PASSWORD; 
+		     }
+
         }
    }
    function em_get_user() { 

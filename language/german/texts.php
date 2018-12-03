@@ -15,7 +15,8 @@ define ("BOOK_ALREADY_LEND", "Dieses Buch ist bereits verliehen<br>");
 define ("BOOK_DOES_NOT_EXIST", "Dieses Buch existiert nicht<br>");
 define ("USER_DOES_NOT_EXIST", "Diese*r Benutzer*in  existiert nicht<br>");
 define ("WRONG_PASSWORD", "Fasches Passwort<br>");
-define ("GIVE_USER_IDENTIFICATION", "Bitte gib deine User_ID oder deine E-Mail ein");
+define ("ENTER_USER_IDENTIFICATION", "Bitte gib deine User_ID oder deine E-Mail ein");
+define ("ENTER_PASSWORD", "Bitte gib ein Passwort ein");
 
 define ("W_DAY", "Tag");
 define ("W_START", "Start");
