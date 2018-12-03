@@ -64,7 +64,9 @@ class Data {
       		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
-	      $this->error .= ENTER_USER_IDENTIFICATION;
+	      if($this->r_ac == "strt"){
+	      		$this->error .= ENTER_USER_IDENTIFICATION;
+	      }
 	      $this->r_ac = "logi";
 		   //logi is short for login
          //dont forget to call the action in your controller
@@ -79,7 +81,8 @@ class Data {
               		$mNumber=$aUser["user_ID"];
               		if ($mNumber<1) {
 		      		session_destroy();
-                 		$this->r_ac="logi";
+				$this->error = WRONG_LOGIN;
+				$this->r_ac="logi";
                  		return;
               		}
 			else {
@@ -89,10 +92,11 @@ class Data {
 		     }
 		     else{
 		     	$this->error .= ENTER_PASSWORD; 
+	      		$this->r_ac = "logi";
 		     	return;
 		     }
 
-        }
+	}
    }
    function em_get_user() { 
       if(isset($this->sUser)){
