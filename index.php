@@ -48,7 +48,6 @@ $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
 switch ($oObject->r_ac){
 	case 'strt':
-		$oObject->set_session();
 		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':
@@ -63,7 +62,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/open_form.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'open_save':
@@ -73,7 +72,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/display_open.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'open_show':
@@ -85,7 +84,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	
@@ -96,7 +95,7 @@ switch ($oObject->r_ac){
 		$oObject->output = $oObject->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;	
 	case 'book_save':
@@ -107,7 +106,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'book_show':
@@ -131,7 +130,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 	case 'user_new':
@@ -139,14 +138,14 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 	case 'user_save':
 		if ($_SESSION['admin']==1){	
 			$er = $oObject->check_input();
 			if ($er != ""){
-				$oObject->output .= $er;
+				$oObject->error .= $er;
 			}
 			else{
 			$oObject->save_user();
@@ -156,7 +155,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'user_delete':
@@ -167,7 +166,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 	case 'user_self':
@@ -181,7 +180,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 	case 'user_search':	
@@ -189,7 +188,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_search.php");
 		}
 		else {
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'user_change':
@@ -199,7 +198,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 		
@@ -208,7 +207,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 	case 'lend_save':
@@ -218,7 +217,7 @@ switch ($oObject->r_ac){
 			$error_message .= $oObject->check_book_exists($oObject->r_book_ID);
 			$error_message .= $oObject->check_user_exists($oObject->r_user_ID);
 			if($error_message !=""){
-				$oObject->output .= $error_message;
+				$oObject->error .= $error_message;
 			}
 			else{
 				$oObject->save_lend();
@@ -229,7 +228,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'lend_return':
@@ -240,7 +239,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'lend_delete':
@@ -253,7 +252,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'lend_show':
@@ -262,7 +261,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	case 'lend_self':
@@ -276,7 +275,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/lend_form.php");
 		}
 		else{
-			$oObject->output.= NO_PERMISSION;
+			$oObject->error .= NO_PERMISSION;
 		}
 		break;
 	default: 

@@ -56,36 +56,47 @@ class Data {
       //never forget: session_start(); is the first line in the index.php.!!
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
 	   if (isset($this->r_ac)){
-		   if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
-         	$_SESSION['username']="";
-		$_SESSION['admin']=0;
-		session_destroy();
-         	return;
-      	}
+		if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
+         		$_SESSION['username']="";
+			$_SESSION['admin']=0;
+			session_destroy();
+         		return;
+      		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
-		   $this->r_ac = "logi";
+	      if($this->r_ac == "strt"){
+	      		$this->error .= ENTER_USER_IDENTIFICATION;
+	      }
+	      $this->r_ac = "logi";
 		   //logi is short for login
          //dont forget to call the action in your controller
          return;
-      }
-	    if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
+      	}
+
+	if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
 		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
-		     $this->sPassword=md5(strrev(trim($this->r_login_password)));
-		     if($this->sPassword!="") {
+		    if((isset($this->r_login_password)) and ($this->r_login_password!="")) {
+		     	$this->sPassword=md5(strrev(trim($this->r_login_password)));
 		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
-              $mNumber=$aUser["user_ID"];
-              if ($mNumber<1) {
-		      	session_destroy();
-                 	$this->r_ac="logi";
-                 	return;
-              }
-		else {
-		         $_SESSION['user_ID']=$aUser['user_ID'];
-		         $_SESSION['admin']=$aUser['admin'];
+              		$mNumber=$aUser["user_ID"];
+              		if ($mNumber<1) {
+		      		session_destroy();
+				$this->error = WRONG_LOGIN;
+				$this->r_ac="logi";
+                 		return;
+              		}
+			else {
+		        	 $_SESSION['user_ID']=$aUser['user_ID'];
+		       		 $_SESSION['admin']=$aUser['admin'];
 			}
-	       }
-        }
+		     }
+		     else{
+		     	$this->error .= ENTER_PASSWORD; 
+	      		$this->r_ac = "logi";
+		     	return;
+		     }
+
+	}
    }
    function em_get_user() { 
       if(isset($this->sUser)){

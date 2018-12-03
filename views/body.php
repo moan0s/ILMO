@@ -19,8 +19,13 @@ echo $this->navigation;
 ?>
 </div>
 
-<div id=content>
 <?php
+if ((isset($this->error)) and ($this->error != "")){
+	echo "<div id=error>";
+	echo $this->error;
+	echo "</div>";
+}
+echo "<div id=content>";
 echo $this->output;
+echo "</div>";
 ?>
-</div>
