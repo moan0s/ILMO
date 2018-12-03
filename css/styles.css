@@ -79,13 +79,20 @@ float: left;
 
 }
 
+#error{
+float: left;
+width: 65%;
+padding-left: 3%;
+padding-top: 20px;
+color: red;
+}
+
 #content{
 float: left;
 width: 65%;
 padding-left: 3%;
 padding-top: 20px;
 }
-
 #content a:hover{
 	text-decoration: underline;
 }
