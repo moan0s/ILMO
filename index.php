@@ -48,7 +48,6 @@ $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
 switch ($oObject->r_ac){
 	case 'strt':
-		$oObject->set_session();
 		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':

@@ -56,12 +56,12 @@ class Data {
       //never forget: session_start(); is the first line in the index.php.!!
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
 	   if (isset($this->r_ac)){
-		   if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
-         	$_SESSION['username']="";
-		$_SESSION['admin']=0;
-		session_destroy();
-         	return;
-      	}
+		if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
+         		$_SESSION['username']="";
+			$_SESSION['admin']=0;
+			session_destroy();
+         		return;
+      		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 	      $this->error .= ENTER_USER_IDENTIFICATION;
@@ -73,7 +73,7 @@ class Data {
 
 	if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
 		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
-		     if((isset($this->sPassword)) and ($this->sPassword!="")) {
+		    if((isset($this->r_login_password)) and ($this->r_login_password!="")) {
 		     	$this->sPassword=md5(strrev(trim($this->r_login_password)));
 		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
               		$mNumber=$aUser["user_ID"];
@@ -88,7 +88,8 @@ class Data {
 			}
 		     }
 		     else{
-		     $this->error .= ENTER_PASSWORD; 
+		     	$this->error .= ENTER_PASSWORD; 
+		     	return;
 		     }
 
         }
