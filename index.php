@@ -11,7 +11,7 @@ Database: MariaDB
 
 session_start();
 //uncomment to show errors 
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
@@ -31,6 +31,9 @@ if($sName == 'user'){
 }
 elseif ($sName == 'book') {
 	$oObject = new Book;
+}
+elseif ($sName == 'stuf') {
+	$oObject = new Stuff;
 }
 elseif ($sName == 'lend') {
 	$oObject = new Lend;
@@ -131,6 +134,61 @@ switch ($oObject->r_ac){
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book_itemized();
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
+
+	case 'stuff_new':
+		if ($_SESSION['admin']==1){	
+		$oObject->output .= $oObject->get_view('views/stuff_form.php');
+		}
+		else{
+			$oObject->error .= NO_PERMISSION;
+		}
+		break;
+	
+	case 'stuff_change':
+		if ($_SESSION['admin']==1){	
+		$oObject->aRow_all = $oObject->get_stuff_itemized();
+		$oObject->aRow = $oObject->aRow_all[$oObject->r_stuff_ID];
+		$oObject->output = $oObject->get_view('views/stuff_form.php');
+		}
+		else{
+			$oObject->error .= NO_PERMISSION;
+		}
+		break;	
+	case 'stuff_save':
+		if ($_SESSION['admin']==1){	
+		$oObject->save_stuff();
+		$oObject->r_stuff_ID = NULL;
+		$oObject->aStuff = $oObject->get_stuff_itemized();
+		$oObject->output .= $oObject->get_view("views/all_stuff_itemized.php");
+		}
+		else{
+			$oObject->error .= NO_PERMISSION;
+		}
+		break;
+	case 'stuff_show':
+		$oObject->aStuff = $oObject->get_stuff();
+		$oObject->output .= $oObject->get_view("views/all_stuff.php");
+		break;
+	case 'stuff_show_plain':
+		$oObject->aStuff = $oObject->get_stuff();
+		$oObject->output .= $oObject->get_view("views/all_stuff.php");
+
+		break;
+	case 'stuff_show_itemized':
+		$oObject->aStuff = $oObject->get_stuff_itemized();
+		$oObject->output .= $oObject->get_view("views/all_stuff_itemized.php");
+		break;
+	case 'stuff_delete':
+		if ($_SESSION['admin']==1){	
+		$oObject->delete_stuff();
+		$oObject->r_stuff_ID = NULL;
+		$oObject->aStuff = $oObject->get_stuff_itemized();
+		$oObject->output .= $oObject->get_view("views/all_stuff_itemized.php");
 		}
 		else{
 			$oObject->error.= NO_PERMISSION;
