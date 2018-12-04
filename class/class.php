@@ -4,7 +4,9 @@ class Data {
 		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->read_variables();
-		$this->set_session();
+		if (substr($this->r_ac, -5) != 'plain'){
+			$this->set_session();
+		}
 		$this->opening_days = array ("monday", "tuesday", "wednesday", "thursday", "friday");
 	}
     

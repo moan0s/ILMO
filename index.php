@@ -2,15 +2,14 @@
 
 /*
 controller for a lending system
-version 1.2
-date 11.11.18
+version 1.1
+date 4.12.18
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
 
 
 session_start();
-
 //uncomment to show errors 
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
@@ -76,6 +75,10 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'open_show':
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/display_open.php");
+		break;	
+	case 'open_show_plain':
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/display_open.php");
 		break;	
@@ -289,5 +292,7 @@ switch ($oObject->r_ac){
 //$oObject->show_this();
 echo $oObject->get_view("views/head.php");
 echo $oObject->get_view("views/body.php");
-echo $oObject->get_view("views/footer.php");
+if (substr($oObject->r_ac, -5) != "plain"){
+	echo $oObject->get_view("views/footer.php");
+}
 ?>
