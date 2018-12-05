@@ -262,6 +262,10 @@ class Data {
 
    //checks whether a book is already lend
    //returns String containing "" or an error message
+   function change_language($language){
+	$_SESSION['language']=$language;
+   }
+   
    function check_ID_lend($ID){
 		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lend' => 1)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID, 'lend' => 1)) == -1)){
 		   $error_message= "";

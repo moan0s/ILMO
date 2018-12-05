@@ -18,7 +18,19 @@ ini_set('display_errors', 1);
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
-include ("language/german/texts.php");
+
+if (isset($_SESSION['language'])){
+	if($_SESSION['language'] == "english"){
+		include ("language/english/texts.php");
+	}
+	else{
+		include ("language/german/texts.php");
+	}
+}
+else {
+	$_SESSION['language'] = 'german';
+	include ("language/german/texts.php");
+}		
 $oObject = new Data();
 //object: parameter to clear which object
 $sName = "book";
@@ -41,7 +53,7 @@ elseif ($sName == 'lend') {
 elseif ($sName == 'open') {
 	$oObject = new Open;
 }
-elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
+else{
 	$oObject = new Data;
 }
 //view header
@@ -57,6 +69,10 @@ switch ($oObject->r_ac){
 		break;
 	case 'logo':
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
+		break;
+	case 'language_change':
+		$oObject->change_language($oObject->r_language);
+		$oObject->output .= $oObject->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
 		if ($_SESSION['admin']==1){	
