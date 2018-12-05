@@ -262,18 +262,29 @@ class Data {
 
    //checks whether a book is already lend
    //returns String containing "" or an error message
-   function check_book_lend($book_ID){
-	   $aFields = array('book_ID' => $book_ID);
-	   $aResult = $this->select_row(TABLE_BOOKS, $aFields);
-	   if($aResult['lend'] == 0){
+   function change_language($language){
+	$_SESSION['language']=$language;
+   }
+   
+   function check_ID_lend($ID){
+		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lend' => 1)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID, 'lend' => 1)) == -1)){
 		   $error_message= "";
-	   }
-	   else{
-		$error_message = "Dieses Buch ist bereits als ausgeliehen eingetragen<br>";
-	   }
+	   	}
+		else
+		{
+			$error_message = '<br>'.IS_ALREADY_LEND;
+	   	}
 	   return $error_message;
    }
 
+   function check_type(){
+	   if(isset($this->r_type)){
+		return;
+	}
+	else{
+		return PLEASE_GIVE_TYPE;
+	}
+   }
    //checks if an E-MAil Adress is already used
    function check_email_used(){
 		$aFields = array('email' => $this->r_email);
@@ -292,55 +303,55 @@ class Data {
 	   $error="";
 		if(isset($this->r_user_ID)){
 			if (($this->r_user_ID != "") and (!is_numeric($this->r_user_ID))){
-				$error .= "Bitte gib eine Zahl als Benutzer-ID ein<br>";	
+				$error .= GIVE_NUMBER_AS_USER_ID;	
 			}
 		}
 			
 		if(isset($this->r_book_ID)){
 			if (trim($this->r_book_ID) == ""){
-				$error .= "Bitte gib eine Bücher-ID ein<br>";	
+				$error .= GIVE_BOOK_ID;
 			}
 		}
 
 		if(isset($this->r_email)){
 			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
-				$error .= "Bitte gib eine gültige E-Mail Adresse ein<br>";	
+				$error .= GIVE_VALID_E_MAIL_ADRESS;
 			}
 			
 			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
 				if($this->check_email_used()){
-					$error .= "Diese E-Mail Adresse ist schon registriert. Bitte melde dich mit dieser an oder erstelle ein neues Konto mit einer anderen E-Mail Adresse";
+					$error .= E_MAIL_ALREADY_IN_USE;
 				}
 			}
 
 		}
 		if(isset($this->r_password)){
 			if (strlen($this->r_password)<4) {
-				$error .= "Bitte wähle ein Passwort, das 4 oder mehr Zeichen hat<br>";	
+				$error .= PASSWORD_TO_SHORT;	
 			}
 		}
 		if(isset($this->r_title)){
 			if ("" ==$this->r_title){
-				$error .= "Bitte gib einen Titel ein<br>";	
+				$error .= ENTER_BOOK_TITLE;
 			}
 		}
 
 		if(isset($this->r_author)){
 			if ("" == $this->r_author){
-				$error .= "Bitte gib einen Autor an<br>";	
+				$error .= ENTER_BOOK_AUTHOR;	
 			}
 		}
 		if(isset($this->r_location)){
 			if ($this->location ==""){
-				$error .= "Bitte gib einen Standort an<br>";	
+				$error .= ENTER_LOCATION;	
 			}
 		}
 
 		return $error;
    }
-	function check_book_exists($book_ID){
-		if ($this->select_row(TABLE_BOOKS, array ('book_ID' => $book_ID)) == -1){
-			return BOOK_DOES_NOT_EXIST;
+	function check_ID_exists($ID){
+		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID)) == -1)){
+			return ID_DOES_NOT_EXIST;
 		}
 	}
 	function check_user_exists($user_ID){
@@ -520,8 +531,13 @@ class Book extends Data {
 			'lend' => null		
 		);
 		if ((isset($this->r_number)) and ($this->r_number>1)){
-			for ($i=1; $i<=$this->r_number; $i++){
-				$aFields['book_ID'] = $this->r_book_ID." ".chr(96+$i);
+			for ($i=0; $i<=$this->r_number; $i++){
+				if ($i<26){
+					$aFields['book_ID'] = $this->r_book_ID." ".chr(97+$i);
+				}
+				else{
+					$aFields['book_ID'] = $this->r_book_ID." ".chr(97+(int)($i/26)).chr(96+$i%26);
+				}
 				$this->ID=$this->store_data(TABLE_BOOKS, $aFields, FALSE, FALSE);
 			}
 				
@@ -541,7 +557,6 @@ class Book extends Data {
 	function return_book($book_ID){
 		$aFields = array(
 			'lend' => 0		
-		//	'book_ID' => $this->r_book_ID
 		);
 
 		$this->id = $this->store_data(TABLE_BOOKS, $aFields, 'book_ID',$book_ID);
@@ -595,7 +610,7 @@ class Lend extends Data {
 	function save_lend(){
 		//einfügen, dass das Buch als verliehen eingetragen  wird
 			$aFields = array(
-				'book_ID' => $this->r_book_ID,
+				'ID' => $this->r_ID,
 				'user_ID' => $this->r_user_ID,
 				'pickup_date' => date("Y-m-d H:i:s"),
 				'return_date' => NULL,
@@ -605,8 +620,13 @@ class Lend extends Data {
 		
 		$aFields = array(
 		'lend' => 1
-		);
-		$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_book_ID);
+	);
+		if($this->r_type=="book"){
+			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
+		}
+		if($this->r_type=="stuff"){
+			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
+		}
 	}
 	
 	function return_lend(){
@@ -642,10 +662,13 @@ class Lend extends Data {
 		$aFields= array();
 		
 		$oUser = new User;
-		$oBook = new Book;	
+		$oBook = new Book;
+		$oStuff = new Stuff;	
 		$oBook->r_book_ID = NULL;
+		$oSTUFF->r_stuff_ID = NULL;
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
+		$this->all_stuff = $oStuff->get_stuff_itemized();
 		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
 		if((isset($this->r_lend_ID)) and ($this->r_lend_ID!= "") and ($this->r_lend_ID!=NULL)){$aFields["lend_ID"] = $this->r_lend_ID;}
 		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);

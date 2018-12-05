@@ -10,27 +10,15 @@ Database: MariaDB
 
 
 session_start();
-//uncomment to show errors
-//ini_set('display_errors', 1);
+//uncomment to show errors 
+ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
-
-if (isset($_SESSION['language'])){
-	if($_SESSION['language'] == "english"){
-		include ("language/english/texts.php");
-	}
-	else{
-		include ("language/german/texts.php");
-	}
-}
-else {
-	$_SESSION['language'] = 'german';
-	include ("language/german/texts.php");
-}		
+include ("language/german/texts.php");
 $oObject = new Data();
 //object: parameter to clear which object
 $sName = "book";
@@ -53,7 +41,7 @@ elseif ($sName == 'lend') {
 elseif ($sName == 'open') {
 	$oObject = new Open;
 }
-else{
+elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
 	$oObject = new Data;
 }
 //view header
@@ -69,10 +57,6 @@ switch ($oObject->r_ac){
 		break;
 	case 'logo':
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
-		break;
-	case 'language_change':
-		$oObject->change_language($oObject->r_language);
-		$oObject->output .= $oObject->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
 		if ($_SESSION['admin']==1){	

@@ -1,20 +1,20 @@
 <?php 
 $table = "<table border='1'>";
 		$table .=
-		"<tr>
-		<th>Ausleih-ID</th>
-		<th>Ausleihe am</th>
-		<th>Rückgabe am</th>
-		<th>Buchtitel</th>
-		<th>Buch-ID</th>
-		<th>Vorname</th>
-		<th>Nachname</th>
-		<th>User-ID</th>";
+		'<tr>
+		<th>'.LEND_ID.'</th>
+		<th>'.LEND_ON.'</th>
+		<th>'.RETURNED_ON.'</th>
+		<th>'.TITLE_MATERIAL.'</th>
+		<th>'.ID.'</th>
+		<th>'.FORENAME.'</th>
+		<th>'.SURNAME.'</th>
+		<th>'.USER_ID.'</th>';
 if ($_SESSION['admin']==1){
 	$table .= '
-		<th>Ändern</th>
-		<th>Löschen</th>
-		<th>Zurückgeben</th>';
+		<th>'.BUTTON_CHANGE.'</th>
+		<th>'.BUTTON_DELETE.'</th>
+		<th>'.BUTTON_RETURN.'</th>';
 }
 		$table .= "</tr>";
 		foreach ($this->aLend as $lend_ID => $aResult)
@@ -25,14 +25,14 @@ if ($_SESSION['admin']==1){
 			<td>'.$aResult['pickup_date'].'</td>
 			<td>';
 		if($aResult['return_date'] == 0000-00-00){
-			$table .= "Verliehen";
+			$table .= STATUS_LEND;
 		}
 		else{
 			$table.= $aResult['pickup_date'];
 		}
 			$table .= '</td>
-			<td>'.$this->all_book[$aResult['book_ID']]['title'].'</td>
-			<td>'.$aResult['book_ID'].'</td>
+			<td>'.$this->all_book[$aResult['ID']]['title'].$this->all_stuff[$aResult['ID']]['name'].'</td>
+			<td>'.$aResult['ID'].'</td>
 			<td>'.$this->all_user[$aResult['user_ID']]['forename'].'</td>
 			<td>'.$this->all_user[$aResult['user_ID']]['surname'].'</td>
 			<td>'.$aResult['user_ID'].'</td>';

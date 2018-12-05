@@ -54,7 +54,7 @@ CREATE TABLE `lend` (
 -- Dumping data for table `lend`
 --
 
-INSERT INTO `lend` (`lend_ID`, `book_ID`, `user_ID`, `pickup_date`, `return_date`, `returned`) VALUES
+INSERT INTO `lend` (`lend_ID`, `ID`, `user_ID`, `pickup_date`, `return_date`, `returned`) VALUES
 (66, 'B1 b', 1, '2018-10-28', '2018-10-28', 1),
 (67, 'B1 b', 32, '2018-10-28', '2018-10-28', 1),
 (68, 'B1 b', 32, '2018-10-28', '2018-10-28', 1),
