@@ -5,6 +5,23 @@ define ("NO_PERMISSION", "<h1>Keine Berechtigung</h1>Du hast nicht die nötigen 
 
 define ("WELCOME", "<h1>Herzlich Willkommen</h1><br>");
 
+define ("ALL_BOOKS", "Alle Bücher");
+define ("ALL_STUFF", "Alle Materialien");
+define ("OPENING_HOURS", "Öffnungszeiten");
+define ("ALL_USER", "Alle Benutzer*innen");
+define ("ALL_LEND", "Alle Ausleihen");
+define ("CHANGE_OPENING_HOURS", "Öffnungszeiten ändern");
+define ("NEW_BOOK", "Neues Buch");
+define ("NEW_STUFF", "Neues Material");
+define ("NEW_USER", "Neue Benutzer*in");
+define ("NEW_LEND", "Neue Ausleihe");
+define ("SEARCH_USER", "Benutzer*in suchen");
+define ("SHOW_BOOKS_ITEMIZED", "Bücher einzeln zeigen");
+define ("SHOW_STUFF_ITEMIZED", "Materialien einzeln zeigen");
+define ("MY_PROFIL", "Mein Profil");
+define ("MY_LENDS", "Meine Ausleihen");
+define ("LOGOUT", "Ausloggen");
+
 define ("USER_INSTRUCTION", "
 	Du hast jetzt die Möglichkeit dir anzusehen welche Bücher verfügbar sind und welche Bücher du ausgeliehen hast. 
 	Außerdem kannst du deine Daten wie E-Mail Adresse oder Passwort zu ändern.<br>");
@@ -67,10 +84,6 @@ define ("BUTTON_CHANGE", "Ändern");
 define ("BUTTON_DELETE", "Löschen");
 define ("BUTTON_RETURN", "Zurückgeben");
 
-define ("NEW_BOOK", "Neues Buch");
-define ("NEW_LEND", "Neue Ausleihe");
-define ("NEW_STUFF", "Neues Material");
-define ("NEW_USER", "Neue Benutzer*in");
 
 define ("ALL_STUFF", "Alle Materialien");
 ?>
