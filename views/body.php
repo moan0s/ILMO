@@ -16,11 +16,11 @@ echo '
 		<input type = hidden name="ac" value = "language_change">';
 	echo LANGUAGE.': 
 		<input type="radio" id="english" name="language" value="english"';
-	if ($this->aRow['language']=='english'){echo' checked';}
+	if ($_SESSION['language']=='english'){echo' checked';}
 	echo '>
 	<label for="english">'.ENGLISH.' </label>
 	<input type="radio" id="german" name="language" value="german"'; 
-	if ($this->aRow['language']=="german"){echo' checked';}
+	if ($_SESSION['language']=="german"){echo' checked';}
 	echo '>
 	<label for id ="german">'.GERMAN.'</label><br>'; 
 	echo	'<input type="submit" value="'.CHANGE_LANGUAGE.'">
