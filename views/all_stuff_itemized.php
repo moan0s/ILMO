@@ -14,7 +14,7 @@ $table = "<table border='0' cellspacing='0' >";
 if ($this->r_ac!="stuff_show_plain"){
 	$table .='
 		<th>'.BUTTON_CHANGE.'</th>
-		<th>'.BUTOON_DELETE.'</th>';
+		<th>'.BUTTON_DELETE.'</th>';
 }
 	$table .='</tr>';
 

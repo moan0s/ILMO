@@ -34,6 +34,16 @@ define ("LANGUAGE", "Sprache");
 define ("CHANGE_LANGUAGE", "Sprache wechseln");
 define ("CHANGED_LANGUAGE_TO", "Sprache wurde gewechselt zu");
 
+//error messages
+define ("GIVE_NUMBER_AS_USER_ID", "Bitte gib eine Zahl als User-ID ein.<br>");
+define ("GIVE_BOOK_ID", "Bitte gib eine Bücher-ID ein");
+define ("GIVE_VALID_E_MAIL_ADRESS", "Bitte gib eine gültige E-Mail Adresse ein");
+define ("E_MAIL_ALREADY_IN_USE", "Diese E-Mail Adresse ist bereits registriert. Bitte melde dich mit dieser an oder erstelle ein neues Konto mit einer anderen E-Mail Adresse");
+define ("PASSWORD_TO_SHORT", "DAs Passwort ist zu kurz. Bitte wähle ein Passwort mit mehr als 4 Zeichen");
+define ("ENTER_BOOK_TITLE", "Bitte gib einen Titel für das Buch ein.<br>");
+define ("ENTER_BOOK_AUTHOR", "Bitte gib einen Autor des Buchs ein");
+define ("ENTER_LOCATION", "Bitte gib den Standort des Artikels an");
+
 define ("BOOK_ALREADY_LEND", "Dieses Buch ist bereits verliehen.<br>");
 define ("IS_ALREADY_LEND", "Der Artikel ist bereits verliehen");
 define ("ID_DOES_NOT_EXIST", "Diese ID existiert nicht.<br>");
