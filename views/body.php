@@ -1,6 +1,6 @@
 <body>
 <?php
-if ($this->r_ac!="book_show_plain"){
+if (substr($this->r_ac, -5) != "plain"){
 echo '	
 <div id="header">
 	<div id="side-description" class"side-description">				

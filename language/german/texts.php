@@ -29,5 +29,26 @@ define ("TUESDAY", "Dienstag");
 define ("WEDNESDAY", "Mittwoch");
 define ("THURSDAY", "Donnerstag");
 define ("FRIDAY", "Freitag");
-	
+
+define ("TITLE", "Titel");
+define ("LOCATION", "Standort");
+define ("AVAILABLE", "Verfügbar");
+define ("STATUS_LEND", "Verliehen");
+define ("AVAILABILITY", "Verfügbarkeit");
+define ("TOTAL", "Gesamt");
+define ("STUFF_ID", "Materialien ID");
+define ("NAME", "Name");
+define ("STATUS", "Status");
+
+define ("SEND", "Absenden");
+define ("RESET", "Zurücksetzen");
+define ("CHANGE", "Ändern");
+define ("DELETE", "Löschen");
+
+define ("NEW_BOOK", "Neues Buch");
+define ("NEW_LEND", "Neue Ausleihe");
+define ("NEW_STUFF", "Neues Material");
+define ("NEW_USER", "Neue Benutzer*in");
+
+define ("ALL_STUFF", "Alle Materialien");
 ?>

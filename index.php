@@ -2,15 +2,14 @@
 
 /*
 controller for a lending system
-version 1.2
-date 11.11.18
+version 1.1
+date 4.12.18
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
 
 
 session_start();
-
 //uncomment to show errors 
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
@@ -32,6 +31,9 @@ if($sName == 'user'){
 }
 elseif ($sName == 'book') {
 	$oObject = new Book;
+}
+elseif ($sName == 'stuf') {
+	$oObject = new Stuff;
 }
 elseif ($sName == 'lend') {
 	$oObject = new Lend;
@@ -76,6 +78,10 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'open_show':
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/display_open.php");
+		break;	
+	case 'open_show_plain':
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/display_open.php");
 		break;	
@@ -128,6 +134,61 @@ switch ($oObject->r_ac){
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book_itemized();
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
+
+	case 'stuff_new':
+		if ($_SESSION['admin']==1){	
+		$oObject->output .= $oObject->get_view('views/stuff_form.php');
+		}
+		else{
+			$oObject->error .= NO_PERMISSION;
+		}
+		break;
+	
+	case 'stuff_change':
+		if ($_SESSION['admin']==1){	
+		$oObject->aRow_all = $oObject->get_stuff_itemized();
+		$oObject->aRow = $oObject->aRow_all[$oObject->r_stuff_ID];
+		$oObject->output = $oObject->get_view('views/stuff_form.php');
+		}
+		else{
+			$oObject->error .= NO_PERMISSION;
+		}
+		break;	
+	case 'stuff_save':
+		if ($_SESSION['admin']==1){	
+		$oObject->save_stuff();
+		$oObject->r_stuff_ID = NULL;
+		$oObject->aStuff = $oObject->get_stuff_itemized();
+		$oObject->output .= $oObject->get_view("views/all_stuff_itemized.php");
+		}
+		else{
+			$oObject->error .= NO_PERMISSION;
+		}
+		break;
+	case 'stuff_show':
+		$oObject->aStuff = $oObject->get_stuff();
+		$oObject->output .= $oObject->get_view("views/all_stuff.php");
+		break;
+	case 'stuff_show_plain':
+		$oObject->aStuff = $oObject->get_stuff();
+		$oObject->output .= $oObject->get_view("views/all_stuff.php");
+
+		break;
+	case 'stuff_show_itemized':
+		$oObject->aStuff = $oObject->get_stuff_itemized();
+		$oObject->output .= $oObject->get_view("views/all_stuff_itemized.php");
+		break;
+	case 'stuff_delete':
+		if ($_SESSION['admin']==1){	
+		$oObject->delete_stuff();
+		$oObject->r_stuff_ID = NULL;
+		$oObject->aStuff = $oObject->get_stuff_itemized();
+		$oObject->output .= $oObject->get_view("views/all_stuff_itemized.php");
 		}
 		else{
 			$oObject->error.= NO_PERMISSION;
@@ -289,5 +350,7 @@ switch ($oObject->r_ac){
 //$oObject->show_this();
 echo $oObject->get_view("views/head.php");
 echo $oObject->get_view("views/body.php");
-echo $oObject->get_view("views/footer.php");
+if (substr($oObject->r_ac, -5) != "plain"){
+	echo $oObject->get_view("views/footer.php");
+}
 ?>

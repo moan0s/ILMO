@@ -4,7 +4,9 @@ class Data {
 		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->read_variables();
-		$this->set_session();
+		if (substr($this->r_ac, -5) != 'plain'){
+			$this->set_session();
+		}
 		$this->opening_days = array ("monday", "tuesday", "wednesday", "thursday", "friday");
 	}
     
@@ -402,6 +404,79 @@ class Open extends Data{
 	}
 
 }
+
+class Stuff extends Data{
+function get_stuff_itemized (){
+		$aStuff= array();
+		$aFields= array();
+		if((isset($this->r_stuff_ID)) and ($this->r_stuff_ID!= "")){$aFields["stuff_ID"] = $this->r_stuff_ID;}
+		if((isset($this->r_name)) and ($this->r_name= "")){$aFields["name" ]= $this->r_name;}
+		$this->p_result = $this->select_rows(TABLE_STUFF, $aFields);
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aStuff[$aRow['stuff_ID']] = $aRow;
+		}
+		
+		return $aStuff;
+
+	}
+	function get_stuff(){
+	$sQuery="SELECT 
+	B1.name as name,
+	B1.location as location,
+	count(*) as number,
+	(
+	   select  count(*) as available from ".TABLE_STUFF." B2 where lend=0 and name=B1.name 
+	      ) as available 
+	     FROM `".TABLE_STUFF."` B1
+	     group by name";
+	
+	$this->p_result = $this->sql_statement($sQuery);
+	while($aRow=mysqli_fetch_assoc($this->p_result)){
+		$aStuff[$aRow['name']] = $aRow;
+		
+	}
+		
+	return $aStuff;
+
+
+	}	
+	function save_stuff(){
+		$aFields = array(
+			'name' => $this->r_name,
+			'location' => $this->r_location,
+			'lend' => null		
+		);
+		if ((isset($this->r_number)) and ($this->r_number>1)){
+			for ($i=1; $i<=$this->r_number; $i++){
+				$aFields['stuff_ID'] = $this->r_stuff_ID." ".$i;
+				$this->ID=$this->store_data(TABLE_STUFF, $aFields, FALSE, FALSE);
+			}
+			
+		}
+		else{
+			$aFields['stuff_ID'] = $this->r_stuff_ID;
+			$this->ID=$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID',$this->r_stuff_ID);
+		}
+				
+	}
+	function delete_stuff(){
+		$aFields = array (
+			'stuff_ID' => $this->r_stuff_ID
+		);
+		$this->removed=$this->delete_rows(TABLE_STUFF, $aFields);
+	}
+	function return_stuff($stuff_ID){
+		$aFields = array(
+			'lend' => 0		
+		);
+
+		$this->id = $this->store_data(TABLE_STUFF, $aFields, 'stuff_ID',$stuff_ID);
+	return $ID;
+	
+	}
+
+}
+
 class Book extends Data {
 	function get_book_itemized (){
 		$aBook= array();

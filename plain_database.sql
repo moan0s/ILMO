@@ -29,6 +29,13 @@ CREATE TABLE `books` (
   `lend` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = available; 1 = lend'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `stuff` (
+  `stuff_ID` varchar(64) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `location` varchar(255) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL,
+  `lend` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = available; 1 = lend'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --
 -- Table structure for table `lend`
