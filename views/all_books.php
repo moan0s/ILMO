@@ -16,11 +16,11 @@ if ($this->r_ac=="book_show_plain"
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
-		<th>Titel</th>
-		<th>Autor</th>
-		<th>Standort</th>
-		<th>Verfügbar</th>
-		<th>Gesamt</th>";
+		<th>".TITLE."</th>
+		<th>".AUTHOR."</th>
+		<th>".LOCATION."</th>
+		<th>".AVAILABLE."</th>
+		<th>".TOTAL."</th>";
 
 foreach ($this->aBook as $title => $aResult){
 	//var_dump($aResult);

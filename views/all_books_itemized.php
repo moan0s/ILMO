@@ -15,16 +15,16 @@ if($this->r_ac == "book_show_plain"){
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
-		<th>Buch_ID</th>
-		<th>Titel</th>
-		<th>Autor</th>
-		<th>Standort</th>
-		<th>Status</th>";
+		<th>".BOOK_ID."</th>
+		<th>".TITLE."</th>
+		<th>".AUTHOR."</th>
+		<th>".LOCATION."</th>
+		<th>".STATUS."</th>";
 
 if ($this->r_ac!="book_show_plain"){
 	$table .="
-		<th>Bearbeiten</th>
-		<th>Löschen</th>";}
+		<th>".BUTTON_CHANGE."</th>
+		<th>".BUTTON_DELETE."</th>";}
 	$table .="</tr>";
 
 		
@@ -32,11 +32,11 @@ if ($this->r_ac!="book_show_plain"){
 		{
 	if($aResult['lend'] == 0){
 		$sClass= "available";
-		$sStatus= "Verfügbar";
+		$sStatus= AVAILABLE;
 	}
 	else{
 		$sClass = "lend";
-		$sStatus = "Ausgeliehen";
+		$sStatus = LEND;
 	}
 			$table .=
 			'<tr class= "'.$sClass.'">
@@ -50,8 +50,8 @@ if ($this->r_ac!="book_show_plain"){
 if ($this->r_ac!="book_show_plain"){
 			$table .=
 				'</td>
-			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > Ändern </a> </td>
-			<td> <a href="index.php?ac=book_delete&book_ID='.$aResult['book_ID'].'" > Löschen </a> </td>
+			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > '.BUTTON_CHANGE.' </a> </td>
+			<td> <a href="index.php?ac=book_delete&book_ID='.$aResult['book_ID'].'" > '.BUTTON_DELETE.' </a> </td>
 			</tr>';
 		}
 		}	
@@ -63,7 +63,7 @@ if(($this->r_ac!="book_show_plain") and ($_SESSION['admin'] == 1)){
 	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
 	$form.= '" method="post">
 	<input type = hidden name="ac" value = "book_new">
-		<input type="submit" value="Neues Buch">
+		<input type="submit" value="'.NEW_BOOK.'">
 	</form>';
 	echo $form;
 }
