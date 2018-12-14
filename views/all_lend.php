@@ -13,7 +13,6 @@ $table = "<table border='1'>";
 if ($_SESSION['admin']==1){
 	$table .= '
 		<th>'.BUTTON_CHANGE.'</th>
-		<th>'.BUTTON_DELETE.'</th>
 		<th>'.BUTTON_RETURN.'</th>';
 }
 		$table .= "</tr>";
@@ -38,17 +37,17 @@ if ($_SESSION['admin']==1){
 			<td>'.$aResult['user_ID'].'</td>';
 			if($_SESSION['admin']==1){
 			$table .=
-			'<td> <a href="index.php?ac=lend_change&lend_ID='.$aResult['lend_ID'].'" > Ändern </<> </td>
-			<td> <a href="index.php?ac=lend_delete&lend_ID='.$aResult['lend_ID'].'&book_ID='.$aResult['book_ID'].'" > Löschen </<> </td>';
+			'<td> <a href="index.php?ac=lend_change&lend_ID='.$aResult['lend_ID'].'" >'.BUTTON_CHANGE.' </<> </td>
+';
 
 			if ($aResult['return_date']==000-00-00){
 				$table .='
-					<td> <a href="index.php?ac=lend_return&lend_ID='.$aResult['lend_ID'].'&book_ID='.$aResult['book_ID'].'" > Zurückgeben </<> </td>';
+					<td> <a href="index.php?ac=lend_return&lend_ID='.$aResult['lend_ID'].'&book_ID='.$aResult['book_ID'].'" >'.BUTTON_RETURN.' </<> </td>';
 			}
 
 			else{
 				$table .=' 
-					<td>Bereits zurückgegeben</td>';
+					<td>'.ALREADY_RETURNED.'</td>';
 			}
 
 			$table .='</tr>';
@@ -57,11 +56,11 @@ if ($_SESSION['admin']==1){
 		$table = $table."</table>";
 		echo $table;
 
-
-?>
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+$form .='
+	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
 	<input type = hidden name="ac" value = "lend_new">
-		<input type="submit" value="Neue Ausleihe">
-	</form>
-
+		<input type="submit" value='.NEW_LEND.'>
+	</form>';
+echo $form;
+?>
 
