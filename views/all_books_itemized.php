@@ -14,6 +14,7 @@ $table = "<table border='0' cellspacing='0' >";
 
 	$table .='
 		<th>'.BUTTON_CHANGE.'</th>
+		<th>'.BUTTON_DELETE.'</th>
 		</tr>';
 
 		
@@ -36,6 +37,7 @@ $table = "<table border='0' cellspacing='0' >";
 			<td>'.$aResult['location'].'</td>
 			<td>'.$sStatus.'</td>
 			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > '.BUTTON_CHANGE.' </a> </td>
+			<td> <a href="index.php?ac=book_delete&book_ID='.$aResult['book_ID'].'" > '.BUTTON_DELETE.' </a> </td>
 			</tr>';
 		}	
 		
