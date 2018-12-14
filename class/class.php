@@ -644,18 +644,6 @@ class Lend extends Data {
 	echo $this->ID;		
 	}
 	
-	function delete_lend(){
-		$aFields = array (
-			'lend_ID' => $this->r_lend_ID
-		);
-		$this->removed=$this->delete_rows(TABLE_LEND, $aFields);
-		$aFields = array(
-				'lend' => 0
-				);
-		$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_book_ID);
-		echo $this->ID;	
-	}
-
 	function get_lend (){
 		//needs: String lend_ID returns: Associative array with complete lend Information
 		//create an array containig lend_ID

@@ -320,19 +320,6 @@ switch ($oObject->r_ac){
 			$oObject->error .= NO_PERMISSION;
 		}
 		break;
-	case 'lend_delete':
-		if ($_SESSION['admin']==1){	
-		$oObject->delete_lend();
-	//	$oBook = new Book();
-	//	$oBook->return_book($oObject->r_book_ID);
-		$oObject->r_lend_ID = NULL;
-		$oObject->aLend = $oObject->get_lend();
-		$oObject->output .= $oObject->get_view("views/all_lend.php");
-		}
-		else{
-			$oObject->error .= NO_PERMISSION;
-		}
-		break;
 	case 'lend_show':
 		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){	
 		$oObject->aLend = $oObject->get_lend();
