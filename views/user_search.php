@@ -1,13 +1,30 @@
-
-
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-	<input type = hidden name="ac" value = "user_show">
-	Benutzer-ID: <input type="text" name="user_ID" value="<?php if(isset($oObject->aRow['user_ID'])){echo $oObject->aRow['user_ID'];} ?>"> <br>
-	Vorname: <input type="text" name="forename" value="<?php if(isset($oObject->aRow['forename'])){echo $oObject->aRow['forename'];} ?>"><br>
-	Nachname: <input type="text" name="surname" value="<?php if(isset($oObject->aRow['surname'])){echo $oObject->aRow['surname'];} ?>"> <br>
-	E-Mail Adresse: <input type="text" name="email" value="<?php if(isset($oObject->aRow['email'])){echo $oObject->aRow['email'];}?>"> <br>
-		<input type="submit" value="Suchen">
-		<input type="reset" value="Zurücksetzen">	
-</form>
+<?php
+$form .='
+	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+	<input type = hidden name="ac" value = "user_show">'.
+	USER_ID .': <input type="text" name="user_ID" value="'; 
+if(isset($oObject->aRow['user_ID'])){
+	$form .= $oObject->aRow['user_ID'];
+} 
+$form .= '"> <br>
+	'.FORENAME.': <input type="text" name="forename" value="';
+if(isset($oObject->aRow['forename'])){
+	$form .= $oObject->aRow['forename'];
+}
+$form .= '"><br>
+	'.SURNAME.'<input type="text" name="surname" value="';
+if(isset($oObject->aRow['surname'])){
+	$form .= $oObject->aRow['surname'];
+}
+$form .= '"> <br>'.
+	EMAIL.': <input type="text" name="email" value="';
+if(isset($oObject->aRow['email'])){
+	$form .= $oObject->aRow['email'];
+}
+$form .= '"> <br>
+		<input type="submit" value="'.BUTTON_SEARCH.'">
+		<input type="reset" value="'.BUTTON_RESET.'">	
+</form>';
+echo $form;
 
 

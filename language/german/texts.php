@@ -68,8 +68,10 @@ define ("FRIDAY", "Freitag");
 define ("USER_ID", "Benutzer-ID");
 define ("LEND_ID", "Ausleih-ID");
 define ("BOOK_ID", "Buch-ID");
+define ("NUMBER","Anzahl");
 define ("MATERIAL_ID" , "Material-ID");
 define ("TITLE", "Titel");
+define ("AUTHOR", "Autor");
 define ("TITLE_MATERIAL", "Buchtitel/Gegenstand");
 define ("LOCATION", "Standort");
 define ("LEND_ON", "Ausgeliehen am");
@@ -78,6 +80,8 @@ define ("ALREADY_RETURNED", "Bereits zurückgegeben");
 define ("ID", "ID");
 define ("SURNAME", "Nachname");
 define ("FORENAME", "Vorname");
+define ("EMAIL", "E-Mail");
+define ("PASSWORD", "Paswort");
 define ("AVAILABLE", "Verfügbar");
 define ("STATUS_LEND", "Verliehen");
 define ("AVAILABILITY", "Verfügbarkeit");
@@ -85,16 +89,22 @@ define ("TOTAL", "Gesamt");
 define ("STUFF_ID", "Materialien ID");
 define ("NAME", "Name");
 define ("STATUS", "Status");
+define ("TYPE", "Typ");
 
 define ("BOOK", "Buch");
 define ("MATERIAL", "Material");
+define ("ADMIN", "Administrator");
 
 define ("BUTTON_SEND", "Absenden");
 define ("BUTTON_RESET", "Zurücksetzen");
 define ("BUTTON_CHANGE", "Ändern");
 define ("BUTTON_DELETE", "Löschen");
 define ("BUTTON_RETURN", "Zurückgeben");
-
+define ("BUTTON_SHOW_LENDS", "Zeige Ausleihen");
+define ("BUTTON_ADD_USER","Benutzer*in hinzufügen");
+define ("BUTTON_SEARCH", "Suchen");
+define ("YES", "Ja");
+define ("NO","Nein");
 
 define ("ALL_STUFF", "Alle Materialien");
 ?>

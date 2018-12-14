@@ -10,7 +10,7 @@ Database: MariaDB
 
 
 session_start();
-//uncomment to show errors 
+//uncomment to show errors
 ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
@@ -18,7 +18,19 @@ ini_set('display_errors', 1);
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
-include ("language/german/texts.php");
+
+if (isset($_SESSION['language'])){
+	if($_SESSION['language'] == "english"){
+		include ("language/english/texts.php");
+	}
+	else{
+		include ("language/german/texts.php");
+	}
+}
+else {
+	$_SESSION['language'] = 'german';
+	include ("language/german/texts.php");
+}		
 $oObject = new Data();
 //object: parameter to clear which object
 $sName = "book";
@@ -41,7 +53,7 @@ elseif ($sName == 'lend') {
 elseif ($sName == 'open') {
 	$oObject = new Open;
 }
-elseif ((!isset ($oObject->r_ac)) or ($sName == 'logi') or ($sName == 'strt') or ($sName == 'logo')){
+else{
 	$oObject = new Data;
 }
 //view header
@@ -57,6 +69,10 @@ switch ($oObject->r_ac){
 		break;
 	case 'logo':
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
+		break;
+	case 'language_change':
+		$oObject->change_language($oObject->r_language);
+		$oObject->output .= $oObject->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
 		if ($_SESSION['admin']==1){	
@@ -295,21 +311,9 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_return':
 		if ($_SESSION['admin']==1){	
+		$oObject->return_lend();
 		$oObject->r_lend_ID = NULL;
 		$oObject->r_book_ID = NULL;
-		$oObject->aLend = $oObject->get_lend();
-		$oObject->output .= $oObject->get_view("views/all_lend.php");
-		}
-		else{
-			$oObject->error .= NO_PERMISSION;
-		}
-		break;
-	case 'lend_delete':
-		if ($_SESSION['admin']==1){	
-		$oObject->delete_lend();
-	//	$oBook = new Book();
-	//	$oBook->return_book($oObject->r_book_ID);
-		$oObject->r_lend_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
