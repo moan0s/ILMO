@@ -32,6 +32,8 @@ define ("LANGUAGE", "Language");
 define ("CHANGE_LANGUAGE", "Change language");
 define ("CHANGED_LANGUAGE_TO", "Changed language to");
 
+define ("CONTACT", "Contact");
+define ("PRIVACY", "Privacy");
 //error messages
 define ("GIVE_NUMBER_AS_USER_ID", "Please give a number as user-ID.<br>");
 define ("GIVE_BOOK_ID", "Please enter a book-ID.<br>");
@@ -66,8 +68,10 @@ define ("FRIDAY", "Friday");
 define ("USER_ID", "User-ID");
 define ("LEND_ID", "Lend-ID");
 define ("BOOK_ID", "Book-ID");
+define ("NUMBER","Number");
 define ("MATERIAL_ID" , "Material-ID");
 define ("TITLE", "Titel");
+define ("AUTHOR", "Author");
 define ("TITLE_MATERIAL", "Title/Material");
 define ("LOCATION", "Location");
 define ("LEND_ON", "Lend on");
@@ -75,6 +79,8 @@ define ("RETURNED_ON", "Returned on");
 define ("ID", "ID");
 define ("SURNAME", "Surname");
 define ("FORENAME", "Forename");
+define ("EMAIL", "E-Mail");
+define ("PASSWORD", "Password");
 define ("AVAILABLE", "Available");
 define ("STATUS_LEND", "Lend");
 define ("AVAILABILITY", "Availability");
@@ -83,16 +89,23 @@ define ("TOTAL", "Total");
 define ("STUFF_ID", "Material ID");
 define ("NAME", "Name");
 define ("STATUS", "Status");
+define ("TYPE", "Type");
 
 define ("BOOK", "Book");
 define ("MATERIAL", "Material");
+define ("ADMIN", "Administrator");
 
 define ("BUTTON_SEND", "Send");
 define ("BUTTON_RESET", "Reset");
 define ("BUTTON_CHANGE", "Change");
 define ("BUTTON_DELETE", "Delete");
 define ("BUTTON_RETURN", "Return");
+define ("BUTTON_SHOW_LENDS", "Show lends");
+define ("BUTTON_ADD_USER", "Add user");
+define ("BUTTON_SEARCH", "Search");
 
+define ("YES", "Yes");
+define ("NO", "No");
 
 define ("ALL_STUFF", "All materials");
 ?>

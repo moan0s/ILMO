@@ -11,7 +11,7 @@ Database: MariaDB
 
 session_start();
 //uncomment to show errors
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
@@ -22,9 +22,11 @@ include ("class/class.php");
 if (isset($_SESSION['language'])){
 	if($_SESSION['language'] == "english"){
 		include ("language/english/texts.php");
+		include ("language/english/library_info.php");
 	}
 	else{
 		include ("language/german/texts.php");
+		include ("language/german/library_info.php");
 	}
 }
 else {

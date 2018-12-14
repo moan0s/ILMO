@@ -1,25 +1,44 @@
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+<?php
+$form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
 	<input type = hidden name="ac" value = "user_save">
-	<input type = hidden name="user_ID" value = "<?php if(isset($this->r_user_ID)){echo $this->r_user_ID;}  ?>">
-	Vorname: <input type="text" name="forename" value="<?php if(isset($this->aRow['forename'])){echo $this->aRow['forename'];} ?>"><br>
-	Nachname: <input type="text" name="surname" value="<?php if(isset($this->aRow['surname'])){echo $this->aRow['surname'];} ?>"> <br>
-	E-Mail Adresse: <input type="text" name="email" value="<?php if(isset($this->aRow['email'])){echo $this->aRow['email'];}?>"> <br>
-	Passwort: <input type="password" name="password"  ?><br>
-<?php 
+	<input type = hidden name="user_ID" value = "';
+	if(isset($this->r_user_ID))
+	{
+		$form .= $this->r_user_ID;
+	} 
+	$form .= '">'.
+		FORENAME.': <input type="text" name="forename" value="'; 
+	if(isset($this->aRow['forename'])){
+		$form .= $this->aRow['forename'];
+	} 
+	$form .='"><br>'.
+		SURNAME.': <input type="text" name="surname" value="';
+	if(isset($this->aRow['surname'])){
+		$form .= $this->aRow['surname'];
+	}
+	$form .= '"> <br>'.
+		EMAIL.': <input type="text" name="email" value="';
+	if(isset($this->aRow['email'])){
+		$form .= $this->aRow['email'];
+	}
+	$form .= '"> <br>'.
+		PASSWORD.': <input type="password" name="password">  <br>';
+	
 	if ($_SESSION['admin']==1){
-	echo '
-		Admin: 
-		<input type="radio" id="yes" name="admin" value="1"';
+	$form .= ADMIN.': <input type="radio" id="yes" name="admin" value="1"';
 	if ($this->aRow['admin']==1){echo'checked';}
-	echo '>
-	<label for="yes"> Ja</label>
+	$form .='>
+	<label for="yes">'.YES.'</label>
 	<input type="radio" id="no" name="admin" value="0"'; 
-if ($this->aRow['admin']==0){echo'checked';}
-	echo '>
-	<label for id ="no"> Nein</label><br>'; 
-	}?>	
-	<input type="submit" value="absenden">
-	<input type="reset" value="Zurücksetzen";
-</form>
-
-
+		if ($this->aRow['admin']==0){
+			$form .= 'checked';
+		}
+	$form .= '>
+	<label for id ="no"> '.NO.'</label><br>'; 
+	}
+	$form .= '
+	<input type="submit" value="'.BUTTON_SEND.'">
+	<input type="reset" value="'.BUTTON_RESET.'";
+	</form>';
+echo $form;
+?>
