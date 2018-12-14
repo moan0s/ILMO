@@ -33,6 +33,8 @@ define ("GERMAN", "Deutsch");
 define ("LANGUAGE", "Sprache");
 define ("CHANGE_LANGUAGE", "Sprache wechseln");
 define ("CHANGED_LANGUAGE_TO", "Sprache wurde gewechselt zu");
+define ("CONTACT", "Kontakt");
+define ("PRIVACY", "Datenschutz");
 
 //error messages
 define ("GIVE_NUMBER_AS_USER_ID", "Bitte gib eine Zahl als User-ID ein.<br>");

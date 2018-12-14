@@ -32,6 +32,8 @@ define ("LANGUAGE", "Language");
 define ("CHANGE_LANGUAGE", "Change language");
 define ("CHANGED_LANGUAGE_TO", "Changed language to");
 
+define ("CONTACT", "Contact");
+define ("PRIVACY", "Privacy");
 //error messages
 define ("GIVE_NUMBER_AS_USER_ID", "Please give a number as user-ID.<br>");
 define ("GIVE_BOOK_ID", "Please enter a book-ID.<br>");

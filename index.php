@@ -22,9 +22,11 @@ include ("class/class.php");
 if (isset($_SESSION['language'])){
 	if($_SESSION['language'] == "english"){
 		include ("language/english/texts.php");
+		include ("language/english/library_info.php");
 	}
 	else{
 		include ("language/german/texts.php");
+		include ("language/german/library_info.php");
 	}
 }
 else {
