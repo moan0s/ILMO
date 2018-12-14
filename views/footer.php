@@ -16,6 +16,7 @@ $footer .='
 	</ul>
 	</span>
 </div>
-</div>
+</div>';
+echo $footer;
 
 ?>
