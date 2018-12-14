@@ -639,9 +639,11 @@ class Lend extends Data {
 		
 		$aFields = array(
 		'lend' => 0
-		);
-		$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_book_ID);
-	echo $this->ID;		
+	);
+		if (-1 == $this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID)){
+			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
+		}
+
 	}
 	
 	function get_lend (){

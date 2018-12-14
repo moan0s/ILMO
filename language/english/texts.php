@@ -78,6 +78,7 @@ define ("FORENAME", "Forename");
 define ("AVAILABLE", "Available");
 define ("STATUS_LEND", "Lend");
 define ("AVAILABILITY", "Availability");
+define ("ALREADY_RETURNED", "Already returned");
 define ("TOTAL", "Total");
 define ("STUFF_ID", "Material ID");
 define ("NAME", "Name");

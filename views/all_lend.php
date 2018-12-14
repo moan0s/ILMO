@@ -42,7 +42,7 @@ if ($_SESSION['admin']==1){
 
 			if ($aResult['return_date']==000-00-00){
 				$table .='
-					<td> <a href="index.php?ac=lend_return&lend_ID='.$aResult['lend_ID'].'&book_ID='.$aResult['book_ID'].'" >'.BUTTON_RETURN.' </<> </td>';
+					<td> <a href="index.php?ac=lend_return&lend_ID='.$aResult["lend_ID"].'&ID='.$aResult["ID"].'" >'.BUTTON_RETURN.' </<> </td>';
 			}
 
 			else{
