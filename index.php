@@ -311,21 +311,9 @@ switch ($oObject->r_ac){
 		break;
 	case 'lend_return':
 		if ($_SESSION['admin']==1){	
+		$oObject->return_lend();
 		$oObject->r_lend_ID = NULL;
 		$oObject->r_book_ID = NULL;
-		$oObject->aLend = $oObject->get_lend();
-		$oObject->output .= $oObject->get_view("views/all_lend.php");
-		}
-		else{
-			$oObject->error .= NO_PERMISSION;
-		}
-		break;
-	case 'lend_delete':
-		if ($_SESSION['admin']==1){	
-		$oObject->delete_lend();
-	//	$oBook = new Book();
-	//	$oBook->return_book($oObject->r_book_ID);
-		$oObject->r_lend_ID = NULL;
 		$oObject->aLend = $oObject->get_lend();
 		$oObject->output .= $oObject->get_view("views/all_lend.php");
 		}
