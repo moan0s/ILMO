@@ -1,9 +1,10 @@
 <?php
-echo WELCOME;
+$start .= WELCOME;
 if ($_SESSION['admin']==0){
-echo USER_INSTRUCTION;
+$start .= USER_INSTRUCTION;
 }
 else{
-echo ADMIN_INSTRUCTION;
+$start .= ADMIN_INSTRUCTION;
 }
+echo $start;
 ?>

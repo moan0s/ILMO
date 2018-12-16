@@ -6,7 +6,7 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
-		<th>".TITLE."</th>
+		<th>".TITLE."</th
 		<th>".AUTHOR."</th>
 		<th>".LOCATION."</th>
 		<th>".AVAILABLE."</th>
@@ -14,7 +14,7 @@ $table = "<table border='0' cellspacing='0' >";
 
 foreach ($this->aBook as $title => $aResult){
 	//var_dump($aResult);
-	if($aResult['verfuegbar']==0){
+	if($aResult['available']==0){
 		$sClass = 'lend';
 	}
 	else{
@@ -25,8 +25,8 @@ foreach ($this->aBook as $title => $aResult){
 			<td>'.$aResult['title'].'</td>
 			<td>'.$aResult['author'].'</td>
 			<td>'.$aResult['location'].'</td>
-			<td>'.$aResult['verfuegbar'].'</td>
-			<td>'.$aResult['anzahl'].'</td>';
+			<td>'.$aResult['available'].'</td>
+			<td>'.$aResult['number'].'</td>';
 }	
 		$table .="</table>";
 		echo $table;

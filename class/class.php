@@ -508,10 +508,10 @@ class Book extends Data {
 	B1.title as title,
 	B1.author as author,
 	B1.location as location,
-	count(*) as anzahl,
+	count(*) as number,
 	(
-	   select  count(*) as verfuegbar from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
-	      ) as verfuegbar 
+	   select  count(*) as available from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
+	      ) as available 
 	     FROM `".TABLE_BOOKS."` B1
 	     group by title";
 	$this->p_result = $this->sql_statement($sQuery);

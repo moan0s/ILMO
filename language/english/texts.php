@@ -22,6 +22,8 @@ define ("MY_PROFIL", "My profil");
 define ("MY_LENDS", "My lends");
 define ("LOGOUT", "Logout");
 
+define ("PLEASE_LOG_IN", "Please log in");
+define ("USER_ID_OR_EMAIL", "User-ID or E-Mail");
 define ("USER_INSTRUCTION", "
 	You can check the available books and materials, the opening hours and see your profile and your lends.<br>");
 define ("ADMIN_INSTRUCTION", "You are logged in as administrator. You have the ability to add and change users, books and materials.<br>");
@@ -35,7 +37,7 @@ define ("CHANGED_LANGUAGE_TO", "Changed language to");
 define ("CONTACT", "Contact");
 define ("PRIVACY", "Privacy");
 define ("LINKS", "Links");
-
+define ("HOME", "Home"); 
 
 //error messages
 define ("GIVE_NUMBER_AS_USER_ID", "Please give a number as user-ID.<br>");
