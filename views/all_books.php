@@ -5,12 +5,13 @@
 <?php
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
-		"<tr>
-		<th>".TITLE."</th
-		<th>".AUTHOR."</th>
-		<th>".LOCATION."</th>
-		<th>".AVAILABLE."</th>
-		<th>".TOTAL."</th>";
+		'<tr>
+		<th>'.TITLE.'</th
+		<th>'.AUTHOR.'</th>
+		<th>'.LOCATION.'</th>
+		<th>'.AVAILABLE.'</th>
+		<th>'.TOTAL.'</th>
+		</tr>';
 
 foreach ($this->aBook as $title => $aResult){
 	//var_dump($aResult);

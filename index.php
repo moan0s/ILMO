@@ -32,6 +32,7 @@ if (isset($_SESSION['language'])){
 else {
 	$_SESSION['language'] = 'german';
 	include ("language/german/texts.php");
+	include ("language/german/library_info.php");
 }		
 $oObject = new Data();
 //object: parameter to clear which object
