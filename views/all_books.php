@@ -6,7 +6,7 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		'<tr>
-		<th>'.TITLE.'</th
+		<th>'.TITLE.'</th>
 		<th>'.AUTHOR.'</th>
 		<th>'.LOCATION.'</th>
 		<th>'.AVAILABLE.'</th>

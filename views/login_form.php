@@ -10,7 +10,7 @@ $login .= '
 			<label for ="pw"> '.PASSWORD.' </label><br>
 			<input id="pw" type="password" name="login_password"><br>
 			<input type="submit" value="'.BUTTON_SEND.'">
-			<input type="reset" value=".BUTTON_RESTT.">	
+			<input type="reset" value="'.BUTTON_RESET.'">	
 </form>';
 echo $login;
 
