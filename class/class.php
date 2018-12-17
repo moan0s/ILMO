@@ -752,7 +752,7 @@ class Mail extends Data {
 				//echo 'An:'.$to.'<br>Betreff:'.$subject.'<br>Nachricht'.$message;
 
 				if(mail($to, $subject, $message, $header)){
-					$stats['succesful']++;
+					$stats['successful']++;
 				}
 				else{
 					$stats['failed']++;
@@ -769,7 +769,7 @@ class Mail extends Data {
 				'X-Mailer' => 'PHP/' . phpversion()
 			    );
 		 */
-		
+		return $stats;
 	}
 
 
