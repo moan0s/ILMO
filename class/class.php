@@ -457,6 +457,7 @@ function get_stuff_itemized (){
 			'location' => $this->r_location,
 			'lend' => null		
 		);
+		echo $this->r_number;
 		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=1; $i<=$this->r_number; $i++){
 				$aFields['stuff_ID'] = $this->r_stuff_ID." ".$i;
@@ -612,6 +613,7 @@ class Lend extends Data {
 	function save_lend(){
 			$aFields = array(
 				'ID' => $this->r_ID,
+				'type' => $this->r_type,
 				'user_ID' => $this->r_user_ID,
 				'pickup_date' => date("Y-m-d H:i:s"),
 				'return_date' => NULL,
@@ -632,6 +634,7 @@ class Lend extends Data {
 	
 	function return_lend(){
 		//einfügen, dass das Buch als verliehen eingetragen  wird
+		$aLend = $this->get_lend();
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
 			'returned' => 1
@@ -641,7 +644,10 @@ class Lend extends Data {
 		$aFields = array(
 		'lend' => 0
 	);
-		if (-1 == $this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID)){
+		if ($aLend['type']=='book'){ 
+			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
+		}
+		if ($aLend['type']=='stuff'){
 			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
 		}
 
@@ -734,22 +740,38 @@ class Mail extends Data {
 				include ('language/'.$aUser["language"].'/texts.php');
 				include ('language/'.$aUser["language"].'/library_info.php');
 				include ('language/'.$aUser["language"].'/mail.php');
-				$oBook = new Book;
-				$oBook->r_book_ID = $aRow['ID'];
-				$aBook = $oBook->get_book_itemized()[$aRow['ID']];
+				if ($aRow['type'] == 'book'){
+					$oBook = new Book;
+					$oBook->r_book_ID = $aRow['ID'];
+					$aBook = $oBook->get_book_itemized()[$aRow['ID']];
+				}
+				if ($aRow['type'] == 'stuff'){
+					$oMaterial = new Material;
+					$oMaterial->r_material_ID = $aRow['ID'];
+					$aMaterial = $oMaterial->get_material_itemized()[$aRow['ID']];
+				}
+				
 				$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
 				$message = 
 					HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
-					YOU_HAVE_LEND_THE_FOLLOWING."\r\n\r\n".
+					YOU_HAVE_LEND."\r\n\r\n";
+				
+				if ($aRow['type'] == book){
+				$message.=
 					TITLE.': '.$aBook['title']."\r\n".
-					AUTHOR.': '.$aBook['author']."\r\n".
+					AUTHOR.': '.$aBook['author']."\r\n";
+				}
+				if ($aRow['type'] == material){
+				$message.=
+					NAME.': '.$aMaterial['name']."\r\n";
+				}
+				$message .=
 					LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
 					CONDITIONS_OF_LOAN.
 					SHOW_LOANS_ONLINE."\r\n\r\n".
 					GREETINGS."\r\n".
 					TEAM."\r\n\r\n".
 					FUTHER_INFORMATION;
-				//echo 'An:'.$to.'<br>Betreff:'.$subject.'<br>Nachricht'.$message;
 
 				if(mail($to, $subject, $message, $header)){
 					$stats['successful']++;

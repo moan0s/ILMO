@@ -30,7 +30,8 @@ CREATE TABLE `bib_stuff` (
 
 CREATE TABLE `bib_lend` (
   `lend_ID` int(11) NOT NULL,
-  `book_ID` text COLLATE latin1_german1_ci NOT NULL,
+  `type` varchar NOT NULL,
+  `ID` text COLLATE latin1_german1_ci NOT NULL,
   `user_ID` int(11) NOT NULL,
   `pickup_date` date NOT NULL,
   `return_date` date DEFAULT NULL,
