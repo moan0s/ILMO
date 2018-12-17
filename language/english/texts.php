@@ -100,6 +100,10 @@ define ("BOOK", "Book");
 define ("MATERIAL", "Material");
 define ("ADMIN", "Administrator");
 
+define ("TOTAL_MAILS", "Total number of mails");
+define ("SUCESSFUL_MAILS", "Successful mails");
+define ("FAILED_MAILS", "Failed mails");
+
 define ("BUTTON_SEND", "Send");
 define ("BUTTON_RESET", "Reset");
 define ("BUTTON_CHANGE", "Change");

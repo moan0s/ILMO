@@ -11,7 +11,7 @@ Database: MariaDB
 
 session_start();
 //uncomment to show errors
-//ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
@@ -56,6 +56,9 @@ elseif ($sName == 'lend') {
 elseif ($sName == 'open') {
 	$oObject = new Open;
 }
+elseif ($sName == 'mail') {
+	$oObject = new Mail;
+}
 else{
 	$oObject = new Data;
 }
@@ -64,7 +67,21 @@ $oObject->output = "";
 $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
 switch ($oObject->r_ac){
+	case 'mail_send':
+		$oObject->send_mail();		
+		$oObject->output .= $oObject->get_view("views/mail_stats.php");
+		break;
+
 	case 'strt':
+		if ($_SESSION['admin'] == 1){
+			$oMail = new Mail;
+			if ($oMail->check_if_mail_send()){
+				$oObject->mail_stats = $oMail->send_mail();
+				$oMail->set_mail_send();
+				$oObject->output .= get_view("views/mail_stats.php");
+			}
+
+		}
 		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':

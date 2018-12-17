@@ -572,6 +572,7 @@ class User extends Data {
 			'forename' => $this->r_forename,
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
+			'language' => $this->r_language,
 			'password' => md5(strrev($this->r_password)),
 			'admin' => $this->r_admin
 		);
@@ -595,6 +596,7 @@ class User extends Data {
 		if((isset($this->r_forename)) and ($this->r_forename!= "")){$aFields["forename" ]= $this->r_forename;}
 		if((isset($this->r_surname)) and ($this->r_surname != "")){$aFields["surname"] = $this->r_surname;}
 		if((isset($this->r_email)) and ($this->r_email!= "")){$aFields["email"] = $this->r_email;}
+		if((isset($this->r_language)) and ($this->r_language!= "")){$aFields["language"] = $this->r_email;}
 		
 		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
@@ -608,7 +610,6 @@ class User extends Data {
 
 class Lend extends Data {
 	function save_lend(){
-		//einfügen, dass das Buch als verliehen eingetragen  wird
 			$aFields = array(
 				'ID' => $this->r_ID,
 				'user_ID' => $this->r_user_ID,
@@ -671,6 +672,111 @@ class Lend extends Data {
 
 
 }
+
+class Mail extends Data {
+	function check_if_mail_send(){
+		$sQuery = 'SELECT * FROM '.TABLE_LOG.' WHERE issue=mail';
+		$this->p_result = $this->sql_statement($sQuery);
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aDate[$aRow['issue']] = $aRow;
+		}
+		$date = $aDate['mail']['date'];
+		$today = new DateTime($date);
+		$last_mail = new DateTime(date("Y-m-d H:i:s"));
+		$interval = $today->diff($last_mail);
+		echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
+
+		// shows the total amount of days (not divided into years, months and days like above)
+		// echo "difference " . $interval->days . " days ";
+	}
+	function set_mail_send(){
+		$aFields = array(
+				'date' => date("Y-m-d H:i:s")
+			);
+		$this->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
+
+	}
+
+
+	function get_unreturned_loans() {
+		$aFields = array('returned' => '0');	
+		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
+		
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aLend[$aRow['lend_ID']] = $aRow;
+		}
+		return $aLend;
+	}
+	
+
+	function send_mail() {
+		$stats = array(
+			'succesful' => 0,
+		       	'failed' => 0,
+			'total' => 0);
+
+
+		$header = 
+			'From: '.ADMIN_MAIL.'' . "\r\n" .
+		    	'Reply-To: '.ADMIN_MAIL.'' . "\r\n" .
+			'X-Mailer: PHP/' . phpversion();
+		$header .= "Mime-Version: 1.0\r\n";
+		$header .= "Content-type: text/plain; charset=utf-8";
+		
+		$aUnreturnedLoans = $this->get_unreturned_loans();
+		foreach($aUnreturnedLoans as $lend_ID => $aRow){
+			if (1==1/*reminder_neccessary($aRow['last-reminder'])*/){
+				$stats['total']++;
+				$oUser = new User;
+				$oUser->r_user_ID= $aRow['user_ID'];
+				$aUser = $oUser->get_user()[$aRow['user_ID']];
+				$to = $aUser['email'];
+				include ('language/'.$aUser["language"].'/texts.php');
+				include ('language/'.$aUser["language"].'/library_info.php');
+				include ('language/'.$aUser["language"].'/mail.php');
+				$oBook = new Book;
+				$oBook->r_book_ID = $aRow['ID'];
+				$aBook = $oBook->get_book_itemized()[$aRow['ID']];
+				$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
+				$message = 
+					HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
+					YOU_HAVE_LEND_THE_FOLLOWING."\r\n\r\n".
+					TITLE.': '.$aBook['title']."\r\n".
+					AUTHOR.': '.$aBook['author']."\r\n".
+					LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
+					CONDITIONS_OF_LOAN.
+					SHOW_LOANS_ONLINE."\r\n\r\n".
+					GREETINGS."\r\n".
+					TEAM."\r\n\r\n".
+					FUTHER_INFORMATION;
+				//echo 'An:'.$to.'<br>Betreff:'.$subject.'<br>Nachricht'.$message;
+
+				if(mail($to, $subject, $message, $header)){
+					$stats['succesful']++;
+				}
+				else{
+					$stats['failed']++;
+				}
+			}
+		}
+		include ('language/'.$_SESSION["language"].'/texts.php');
+		include ('language/'.$_SESSION["language"].'/library_info.php');
+		include ('language/'.$_SESSION["language"].'/mail.php');
+		/*
+		$header = array(
+			    	'From' => ADMIN_MAIL,
+			        'Reply-To' => ADMIN_MAIL,
+				'X-Mailer' => 'PHP/' . phpversion()
+			    );
+		 */
+		
+	}
+
+
+
+}
+
+
 	
 	
 ?>
