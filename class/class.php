@@ -681,6 +681,8 @@ class Lend extends Data {
 }
 
 class Mail extends Data {
+	//void->bool
+	//returns bool that indicates if the mails for this day were send 
 	function check_if_mail_send(){
 		$aFields = array('issue' => 'mail');
 		$aMail_log = $this->select_row(TABLE_LOG, $aFields);
@@ -688,7 +690,7 @@ class Mail extends Data {
 		return ($date_last_mails_send == date("Y-m-d"));
 
 	}
-
+	//logs that the mails for one day were send
 	function set_mails_send(){
 		$aFields = array(
 				'date' => date("Y-m-d")
@@ -696,7 +698,8 @@ class Mail extends Data {
 		$this->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
 
 	}
-	
+	//int $lend_ID + date $date -> void
+	//sets 'last' remminder in TABLE_LEND to the given date
 	function set_last_reminder($lend_ID, $date){
 		$aFields = array(
 				'last_reminder' => $date
@@ -704,7 +707,8 @@ class Mail extends Data {
 		$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $lend_ID);
 
 	}
-
+	//void-> array(ID=loan_ID) of array(all loan  information)
+	//gets all loans from the database that are not returned 
 	function get_unreturned_loans() {
 		$aFields = array('returned' => '0');	
 		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
@@ -714,7 +718,8 @@ class Mail extends Data {
 		}
 		return $aLend;
 	}
-	
+	//string in format date(YYYY-mm-dd) -> bool
+	//checks if the last reminder was send more than 90 days before
 	function reminder_necessary($last_reminder){
 		if ($last_reminder=='0000-00-00'){
 			return true;
@@ -725,67 +730,17 @@ class Mail extends Data {
 
 
 	}
-	function send_mail() {
+
+	function send_todays_mails() {
 		$stats = array(
 			'succesful' => 0,
 		       	'failed' => 0,
 			'total' => 0);
-		/*
-		$header = array(
-			    	'From' => ADMIN_MAIL,
-			        'Reply-To' => ADMIN_MAIL,
-				'X-Mailer' => 'PHP/' . phpversion()
-			    );
-		 */
-		$header = 
-			'From: '.ADMIN_MAIL.'' . "\r\n" .
-		    	'Reply-To: '.ADMIN_MAIL.'' . "\r\n" .
-			'X-Mailer: PHP/' . phpversion();
-		$header .= "Mime-Version: 1.0\r\n";
-		$header .= "Content-type: text/plain; charset=utf-8";
-		
 		$aUnreturnedLoans = $this->get_unreturned_loans();
 		foreach($aUnreturnedLoans as $lend_ID => $aRow){
 			if ($this->reminder_necessary($aRow['last_reminder'])){
 				$stats['total']++;
-				$oUser = new User;
-				$oUser->r_user_ID= $aRow['user_ID'];
-				$aUser = $oUser->get_user()[$aRow['user_ID']];
-				$to = $aUser['email'];
-				include ('language/'.$aUser["language"].'/mail.php');
-				if ($aRow['type'] == 'book'){
-					$oBook = new Book;
-					$oBook->r_book_ID = $aRow['ID'];
-					$aBook = $oBook->get_book_itemized()[$aRow['ID']];
-				}
-				if ($aRow['type'] == 'stuff'){
-					$oMaterial = new Stuff;
-					$oMaterial->r_stuff_ID = $aRow['ID'];
-					$aMaterial = $oMaterial->get_stuff_itemized()[$aRow['ID']];
-				}
-				
-				$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
-				$message = 
-					HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
-					YOU_HAVE_LEND."\r\n\r\n";
-				
-				if ($aRow['type'] == 'book'){
-				$message.=
-					TITLE.': '.$aBook['title']."\r\n".
-					AUTHOR.': '.$aBook['author']."\r\n";
-				}
-				if ($aRow['type'] == 'stuff'){
-				$message.=
-					NAME.': '.$aMaterial['name']."\r\n";
-				}
-				$message .=
-					LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
-					CONDITIONS_OF_LOAN.' '.
-					SHOW_LOANS_ONLINE."\r\n\r\n".
-					GREETINGS."\r\n".
-					TEAM."\r\n\r\n".
-					FUTHER_INFORMATION;
-				if(mail($to, $subject, $message, $header)){
+				if($this->send_reminder($aRow)){
 					$this->set_last_reminder($aRow['lend_ID'], date("Y-m-d"));
 					$stats['successful']++;
 				}
@@ -796,9 +751,49 @@ class Mail extends Data {
 		}
 		return $stats;
 	}
+	function send_reminder($aRow){
+	
+		$oUser = new User;
+		$oUser->r_user_ID= $aRow['user_ID'];
+		$aUser = $oUser->get_user()[$aRow['user_ID']];
+		$to = $aUser['email'];
+		include ('language/'.$aUser["language"].'/mail.php');
+		if ($aRow['type'] == 'book'){
+			$oBook = new Book;
+			$oBook->r_book_ID = $aRow['ID'];
+			$aBook = $oBook->get_book_itemized()[$aRow['ID']];
+		}
+		if ($aRow['type'] == 'stuff'){
+			$oMaterial = new Stuff;
+			$oMaterial->r_stuff_ID = $aRow['ID'];
+			$aMaterial = $oMaterial->get_stuff_itemized()[$aRow['ID']];
+		}
+		
+		$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
+		$message = 
+			HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
+			YOU_HAVE_LEND."\r\n\r\n";
+		
+		if ($aRow['type'] == 'book'){
+			$message.=
+				TITLE.': '.$aBook['title']."\r\n".
+				AUTHOR.': '.$aBook['author']."\r\n";
+		}
+		if ($aRow['type'] == 'stuff'){
+			$message.=
+				NAME.': '.$aMaterial['name']."\r\n";
+		}
+		$message .=
+			LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
+			CONDITIONS_OF_LOAN.' '.
+			SHOW_LOANS_ONLINE."\r\n\r\n".
+			GREETINGS."\r\n".
+			TEAM."\r\n\r\n".
+			FUTHER_INFORMATION;
+	
+		return mail($to, $subject, $message, MAIL_HEADER);
 
-
-
+	}
 }
 
 

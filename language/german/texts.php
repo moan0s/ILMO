@@ -88,7 +88,7 @@ define ("SURNAME", "Nachname");
 define ("FORENAME", "Vorname");
 define ("EMAIL", "E-Mail");
 define ("PASSWORD", "Paswort");
-define ("AVAILABLE", "Verfügbar");
+define ("STATUS_AVAILABLE", "Verfügbar");
 define ("STATUS_LEND", "Verliehen");
 define ("AVAILABILITY", "Verfügbarkeit");
 define ("TOTAL", "Gesamt");
@@ -101,6 +101,7 @@ define ("BOOK", "Buch");
 define ("MATERIAL", "Material");
 define ("ADMIN", "Administrator");
 
+define ("TODAYS_MAIL_STATS", "Heutige Mailstatistik");
 define ("TOTAL_MAILS", "Gesamtzahl der Mails");
 define ("SUCCESSFUL_MAILS", "Erfolgreich gesendete Mails");
 define ("FAILED_MAILS", "Fehlgeschlagene Sendeversuche");

@@ -3,7 +3,7 @@
 /*
 controller for a lending system
 version 1.1
-date 4.12.18
+date 19.12.18
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
@@ -11,7 +11,7 @@ Database: MariaDB
 
 session_start();
 //uncomment to show errors
-ini_set('display_errors', 1);
+//ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
@@ -77,8 +77,8 @@ switch ($oObject->r_ac){
 	case 'strt':
 		if ($_SESSION['admin'] == 1){
 			$oMail = new Mail;
-			if (/*!$oMail->check_if_mail_send()*/1==1){
-				$oObject->mail_stats = $oMail->send_mail();
+			if (!$oMail->check_if_mail_send()){
+				$oObject->mail_stats = $oMail->send_todays_mails();
 				$oMail->set_mails_send();
 				$oObject->output .= $oObject->get_view("views/mail_stats.php");
 			}

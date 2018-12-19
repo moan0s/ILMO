@@ -12,4 +12,11 @@ define ("SHOW_LOANS_ONLINE", "Du kannst alle deine Ausleihen unter ".URL." einse
 define("GREETINGS", "Viele Grüße");
 define("TEAM", "Die Lerninsel-HiWis");
 define("FUTHER_INFORMATION", "Diese E-Mail wurde automatisiert erstellt und versendet. Solltest du das genannte nicht ausgeliehen haben antworte einfach kurz auf diese Mail. Wichtige Informationen findest du unter www.fs-medtech.de");
+
+define ("MAIL_HEADER",
+		'From: '.ADMIN_MAIL.'' . "\r\n" .
+		'Reply-To: '.ADMIN_MAIL.'' . "\r\n" .
+		'X-Mailer: PHP/' . phpversion()."\r\n".
+		"Mime-Version: 1.0\r\n".
+		"Content-type: text/plain; charset=utf-8");
 ?>
