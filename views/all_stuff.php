@@ -8,7 +8,7 @@ $table = "<table border='0' cellspacing='0' >";
 		"<tr>
 		<th>".NAME."</th>
 		<th>".LOCATION."</th>
-		<th>".AVAILABLE."</th>
+		<th>".STATUS_AVAILABLE."</th>
 		<th>".TOTAL."</th>";
 
 foreach ($this->aStuff as $title => $aResult){

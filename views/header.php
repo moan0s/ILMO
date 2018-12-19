@@ -2,7 +2,7 @@
 $header = '
 <div id="header">
 	<div id="side-description" class"side-description">				
-		<a id="logo" class="logo" href="./index.php" title="'.START_PAGE.'">
+		<a id="logo" class="logo" href="./index.php" title="'.HOME.'">
 			<span class="site_logo"></span>
 		</a>
 		<h1>'.LIBRARY_NAME.'</h1>

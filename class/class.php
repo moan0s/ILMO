@@ -52,10 +52,15 @@ class Data {
       }
       $this->databasename=DB_DATABASE;
       $this->databaselink->query("SET SQL_MODE = '';");
-   }
+	}
+
+	//Stores the Database on a distant SFTP-Server
+	//returns true if successful
+	function backup_database(){
+		return true;
+	}
    
    function set_session(){
-      //never forget: session_start(); is the first line in the index.php.!!
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
 	   if (isset($this->r_ac)){
 		if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)

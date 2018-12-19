@@ -9,7 +9,7 @@ $table = "<table border='0' cellspacing='0' >";
 		<th>'.TITLE.'</th>
 		<th>'.AUTHOR.'</th>
 		<th>'.LOCATION.'</th>
-		<th>'.AVAILABLE.'</th>
+		<th>'.STATUS_AVAILABLE.'</th>
 		<th>'.TOTAL.'</th>
 		</tr>';
 

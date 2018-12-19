@@ -1,5 +1,5 @@
 <?php
-define ("LIBRARY_NAME", "Lerninselbibilithek");
+define ("LIBRARY_NAME", "Lerninselbibliothek");
 define ("LIBRARY_DESCRIPTION", "Bibliothek des Studiengangs Medizintechnik");
 
 define ("CONTACT_LINK", "https://www.fs-medtech.de/kontakt/");
