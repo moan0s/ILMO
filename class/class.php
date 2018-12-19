@@ -457,7 +457,6 @@ function get_stuff_itemized (){
 			'location' => $this->r_location,
 			'lend' => null		
 		);
-		echo $this->r_number;
 		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=1; $i<=$this->r_number; $i++){
 				$aFields['stuff_ID'] = $this->r_stuff_ID." ".$i;
@@ -617,7 +616,9 @@ class Lend extends Data {
 				'user_ID' => $this->r_user_ID,
 				'pickup_date' => date("Y-m-d H:i:s"),
 				'return_date' => NULL,
-				'returned' => NULL
+				'returned' => NULL,
+				'last_reminder' => date("Y-m-d"),
+
 			);
 		$this->ID=$this->store_data(TABLE_LEND, $aFields, FALSE, FALSE);
 		
@@ -681,28 +682,28 @@ class Lend extends Data {
 
 class Mail extends Data {
 	function check_if_mail_send(){
-		$sQuery = 'SELECT * FROM '.TABLE_LOG.' WHERE issue=mail';
-		$this->p_result = $this->sql_statement($sQuery);
-		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aDate[$aRow['issue']] = $aRow;
-		}
-		$date = $aDate['mail']['date'];
-		$today = new DateTime($date);
-		$last_mail = new DateTime(date("Y-m-d H:i:s"));
-		$interval = $today->diff($last_mail);
-		echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
+		$aFields = array('issue' => 'mail');
+		$aMail_log = $this->select_row(TABLE_LOG, $aFields);
+		$date_last_mails_send = $aMail_log['date'];
+		return ($date_last_mails_send == date("Y-m-d"));
 
-		// shows the total amount of days (not divided into years, months and days like above)
-		// echo "difference " . $interval->days . " days ";
 	}
-	function set_mail_send(){
+
+	function set_mails_send(){
 		$aFields = array(
-				'date' => date("Y-m-d H:i:s")
+				'date' => date("Y-m-d")
 			);
 		$this->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
 
 	}
+	
+	function set_last_reminder($lend_ID, $date){
+		$aFields = array(
+				'last_reminder' => $date
+			);
+		$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $lend_ID);
 
+	}
 
 	function get_unreturned_loans() {
 		$aFields = array('returned' => '0');	
@@ -714,14 +715,28 @@ class Mail extends Data {
 		return $aLend;
 	}
 	
+	function reminder_necessary($last_reminder){
+		if ($last_reminder=='0000-00-00'){
+			return true;
+		}
+		$today = new DateTime("today");
+		$interval = $today->diff(new DateTime($last_reminder));
+		return ($interval->d > 90); 
 
+
+	}
 	function send_mail() {
 		$stats = array(
 			'succesful' => 0,
 		       	'failed' => 0,
 			'total' => 0);
-
-
+		/*
+		$header = array(
+			    	'From' => ADMIN_MAIL,
+			        'Reply-To' => ADMIN_MAIL,
+				'X-Mailer' => 'PHP/' . phpversion()
+			    );
+		 */
 		$header = 
 			'From: '.ADMIN_MAIL.'' . "\r\n" .
 		    	'Reply-To: '.ADMIN_MAIL.'' . "\r\n" .
@@ -731,14 +746,12 @@ class Mail extends Data {
 		
 		$aUnreturnedLoans = $this->get_unreturned_loans();
 		foreach($aUnreturnedLoans as $lend_ID => $aRow){
-			if (1==1/*reminder_neccessary($aRow['last-reminder'])*/){
+			if ($this->reminder_necessary($aRow['last_reminder'])){
 				$stats['total']++;
 				$oUser = new User;
 				$oUser->r_user_ID= $aRow['user_ID'];
 				$aUser = $oUser->get_user()[$aRow['user_ID']];
 				$to = $aUser['email'];
-				include ('language/'.$aUser["language"].'/texts.php');
-				include ('language/'.$aUser["language"].'/library_info.php');
 				include ('language/'.$aUser["language"].'/mail.php');
 				if ($aRow['type'] == 'book'){
 					$oBook = new Book;
@@ -746,9 +759,9 @@ class Mail extends Data {
 					$aBook = $oBook->get_book_itemized()[$aRow['ID']];
 				}
 				if ($aRow['type'] == 'stuff'){
-					$oMaterial = new Material;
-					$oMaterial->r_material_ID = $aRow['ID'];
-					$aMaterial = $oMaterial->get_material_itemized()[$aRow['ID']];
+					$oMaterial = new Stuff;
+					$oMaterial->r_stuff_ID = $aRow['ID'];
+					$aMaterial = $oMaterial->get_stuff_itemized()[$aRow['ID']];
 				}
 				
 				$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
@@ -756,24 +769,24 @@ class Mail extends Data {
 					HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
 					YOU_HAVE_LEND."\r\n\r\n";
 				
-				if ($aRow['type'] == book){
+				if ($aRow['type'] == 'book'){
 				$message.=
 					TITLE.': '.$aBook['title']."\r\n".
 					AUTHOR.': '.$aBook['author']."\r\n";
 				}
-				if ($aRow['type'] == material){
+				if ($aRow['type'] == 'stuff'){
 				$message.=
 					NAME.': '.$aMaterial['name']."\r\n";
 				}
 				$message .=
 					LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
-					CONDITIONS_OF_LOAN.
+					CONDITIONS_OF_LOAN.' '.
 					SHOW_LOANS_ONLINE."\r\n\r\n".
 					GREETINGS."\r\n".
 					TEAM."\r\n\r\n".
 					FUTHER_INFORMATION;
-
 				if(mail($to, $subject, $message, $header)){
+					$this->set_last_reminder($aRow['lend_ID'], date("Y-m-d"));
 					$stats['successful']++;
 				}
 				else{
@@ -781,16 +794,6 @@ class Mail extends Data {
 				}
 			}
 		}
-		include ('language/'.$_SESSION["language"].'/texts.php');
-		include ('language/'.$_SESSION["language"].'/library_info.php');
-		include ('language/'.$_SESSION["language"].'/mail.php');
-		/*
-		$header = array(
-			    	'From' => ADMIN_MAIL,
-			        'Reply-To' => ADMIN_MAIL,
-				'X-Mailer' => 'PHP/' . phpversion()
-			    );
-		 */
 		return $stats;
 	}
 

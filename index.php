@@ -77,10 +77,10 @@ switch ($oObject->r_ac){
 	case 'strt':
 		if ($_SESSION['admin'] == 1){
 			$oMail = new Mail;
-			if ($oMail->check_if_mail_send()){
+			if (/*!$oMail->check_if_mail_send()*/1==1){
 				$oObject->mail_stats = $oMail->send_mail();
-				$oMail->set_mail_send();
-				$oObject->output .= get_view("views/mail_stats.php");
+				$oMail->set_mails_send();
+				$oObject->output .= $oObject->get_view("views/mail_stats.php");
 			}
 
 		}

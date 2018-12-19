@@ -3,6 +3,9 @@
 define ("YOUR_LOANS_AT_THE", "Your loans at the");
 define ("HELLO", "Hello");
 define ("YOU_HAVE_LEND", "You have lend:");
+define ("MAIL_TITLE", "Title");
+define ("MAIL_AUTOR", "Author");
+define ("MAIL_NAME", "Name");
 define ("CONDITIONS_OF_LOAN", "You can keep the loan as long as you need it. If you do not need it anymore: Please return it soon.");
 define ("SHOW_LOANS_ONLINE", "You can see all your loans at ".URL.". Just login via email and your password."); 
 define("GREETINGS", "Kind regards");
