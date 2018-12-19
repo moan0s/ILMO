@@ -8,7 +8,7 @@
 	<link rel="SHORTCUT ICON" type="image/x-icon" href="images/favicon.ico">
 <?php
 echo '      <link REL="stylesheet" TYPE="text/css" HREF="css/styles.css">
-      <title>Lerninsel Bibliothek</title>
+      <title>'.LIBRARY_NAME.'</title>
       
       ';     
 ?>

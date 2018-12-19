@@ -508,10 +508,10 @@ class Book extends Data {
 	B1.title as title,
 	B1.author as author,
 	B1.location as location,
-	count(*) as anzahl,
+	count(*) as number,
 	(
-	   select  count(*) as verfuegbar from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
-	      ) as verfuegbar 
+	   select  count(*) as available from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
+	      ) as available 
 	     FROM `".TABLE_BOOKS."` B1
 	     group by title";
 	$this->p_result = $this->sql_statement($sQuery);
@@ -572,6 +572,7 @@ class User extends Data {
 			'forename' => $this->r_forename,
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
+			'language' => $this->r_language,
 			'password' => md5(strrev($this->r_password)),
 			'admin' => $this->r_admin
 		);
@@ -595,6 +596,7 @@ class User extends Data {
 		if((isset($this->r_forename)) and ($this->r_forename!= "")){$aFields["forename" ]= $this->r_forename;}
 		if((isset($this->r_surname)) and ($this->r_surname != "")){$aFields["surname"] = $this->r_surname;}
 		if((isset($this->r_email)) and ($this->r_email!= "")){$aFields["email"] = $this->r_email;}
+		if((isset($this->r_language)) and ($this->r_language!= "")){$aFields["language"] = $this->r_email;}
 		
 		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
@@ -608,13 +610,15 @@ class User extends Data {
 
 class Lend extends Data {
 	function save_lend(){
-		//einfügen, dass das Buch als verliehen eingetragen  wird
 			$aFields = array(
 				'ID' => $this->r_ID,
+				'type' => $this->r_type,
 				'user_ID' => $this->r_user_ID,
 				'pickup_date' => date("Y-m-d H:i:s"),
 				'return_date' => NULL,
-				'returned' => NULL
+				'returned' => NULL,
+				'last_reminder' => date("Y-m-d"),
+
 			);
 		$this->ID=$this->store_data(TABLE_LEND, $aFields, FALSE, FALSE);
 		
@@ -631,6 +635,7 @@ class Lend extends Data {
 	
 	function return_lend(){
 		//einfügen, dass das Buch als verliehen eingetragen  wird
+		$aLend = $this->get_lend();
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
 			'returned' => 1
@@ -640,7 +645,10 @@ class Lend extends Data {
 		$aFields = array(
 		'lend' => 0
 	);
-		if (-1 == $this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID)){
+		if ($aLend['type']=='book'){ 
+			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
+		}
+		if ($aLend['type']=='stuff'){
 			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
 		}
 
@@ -671,6 +679,124 @@ class Lend extends Data {
 
 
 }
+
+class Mail extends Data {
+	//void->bool
+	//returns bool that indicates if the mails for this day were send 
+	function check_if_mail_send(){
+		$aFields = array('issue' => 'mail');
+		$aMail_log = $this->select_row(TABLE_LOG, $aFields);
+		$date_last_mails_send = $aMail_log['date'];
+		return ($date_last_mails_send == date("Y-m-d"));
+
+	}
+	//logs that the mails for one day were send
+	function set_mails_send(){
+		$aFields = array(
+				'date' => date("Y-m-d")
+			);
+		$this->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
+
+	}
+	//int $lend_ID + date $date -> void
+	//sets 'last' remminder in TABLE_LEND to the given date
+	function set_last_reminder($lend_ID, $date){
+		$aFields = array(
+				'last_reminder' => $date
+			);
+		$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $lend_ID);
+
+	}
+	//void-> array(ID=loan_ID) of array(all loan  information)
+	//gets all loans from the database that are not returned 
+	function get_unreturned_loans() {
+		$aFields = array('returned' => '0');	
+		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
+		
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aLend[$aRow['lend_ID']] = $aRow;
+		}
+		return $aLend;
+	}
+	//string in format date(YYYY-mm-dd) -> bool
+	//checks if the last reminder was send more than 90 days before
+	function reminder_necessary($last_reminder){
+		if ($last_reminder=='0000-00-00'){
+			return true;
+		}
+		$today = new DateTime("today");
+		$interval = $today->diff(new DateTime($last_reminder));
+		return ($interval->d > 90); 
+
+
+	}
+
+	function send_todays_mails() {
+		$stats = array(
+			'succesful' => 0,
+		       	'failed' => 0,
+			'total' => 0);
+		$aUnreturnedLoans = $this->get_unreturned_loans();
+		foreach($aUnreturnedLoans as $lend_ID => $aRow){
+			if ($this->reminder_necessary($aRow['last_reminder'])){
+				$stats['total']++;
+				if($this->send_reminder($aRow)){
+					$this->set_last_reminder($aRow['lend_ID'], date("Y-m-d"));
+					$stats['successful']++;
+				}
+				else{
+					$stats['failed']++;
+				}
+			}
+		}
+		return $stats;
+	}
+	function send_reminder($aRow){
+	
+		$oUser = new User;
+		$oUser->r_user_ID= $aRow['user_ID'];
+		$aUser = $oUser->get_user()[$aRow['user_ID']];
+		$to = $aUser['email'];
+		include ('language/'.$aUser["language"].'/mail.php');
+		if ($aRow['type'] == 'book'){
+			$oBook = new Book;
+			$oBook->r_book_ID = $aRow['ID'];
+			$aBook = $oBook->get_book_itemized()[$aRow['ID']];
+		}
+		if ($aRow['type'] == 'stuff'){
+			$oMaterial = new Stuff;
+			$oMaterial->r_stuff_ID = $aRow['ID'];
+			$aMaterial = $oMaterial->get_stuff_itemized()[$aRow['ID']];
+		}
+		
+		$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
+		$message = 
+			HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
+			YOU_HAVE_LEND."\r\n\r\n";
+		
+		if ($aRow['type'] == 'book'){
+			$message.=
+				TITLE.': '.$aBook['title']."\r\n".
+				AUTHOR.': '.$aBook['author']."\r\n";
+		}
+		if ($aRow['type'] == 'stuff'){
+			$message.=
+				NAME.': '.$aMaterial['name']."\r\n";
+		}
+		$message .=
+			LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
+			CONDITIONS_OF_LOAN.' '.
+			SHOW_LOANS_ONLINE."\r\n\r\n".
+			GREETINGS."\r\n".
+			TEAM."\r\n\r\n".
+			FUTHER_INFORMATION;
+	
+		return mail($to, $subject, $message, MAIL_HEADER);
+
+	}
+}
+
+
 	
 	
 ?>

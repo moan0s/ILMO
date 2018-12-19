@@ -3,7 +3,7 @@
 /*
 controller for a lending system
 version 1.1
-date 4.12.18
+date 19.12.18
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
@@ -32,6 +32,7 @@ if (isset($_SESSION['language'])){
 else {
 	$_SESSION['language'] = 'german';
 	include ("language/german/texts.php");
+	include ("language/german/library_info.php");
 }		
 $oObject = new Data();
 //object: parameter to clear which object
@@ -55,6 +56,9 @@ elseif ($sName == 'lend') {
 elseif ($sName == 'open') {
 	$oObject = new Open;
 }
+elseif ($sName == 'mail') {
+	$oObject = new Mail;
+}
 else{
 	$oObject = new Data;
 }
@@ -63,7 +67,23 @@ $oObject->output = "";
 $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
 switch ($oObject->r_ac){
+	case 'mail_send':
+		$oMail = new Mail;
+		$oObject->mail_stats = $oMail->send_mail();
+		$oObject->send_mail();		
+		$oObject->output .= $oObject->get_view("views/mail_stats.php");
+		break;
+
 	case 'strt':
+		if ($_SESSION['admin'] == 1){
+			$oMail = new Mail;
+			if (!$oMail->check_if_mail_send()){
+				$oObject->mail_stats = $oMail->send_todays_mails();
+				$oMail->set_mails_send();
+				$oObject->output .= $oObject->get_view("views/mail_stats.php");
+			}
+
+		}
 		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':

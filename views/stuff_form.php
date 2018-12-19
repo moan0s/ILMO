@@ -8,7 +8,7 @@ if(isset($oObject->aRow['stuff_ID'])){
 $form .= '"> <br>';
 
 if(!isset($oObject->aRow['stuff_ID'])){
-	$form .= NUMBER.': <input type=\"text\" name=\"number\"> <br>';
+	$form .= NUMBER.': <input type=\"text\" name="number"> <br>';
 		}
 $form .= NAME.' : <input type="text" name="name" value=';
 if(isset($oObject->aRow['name'])){

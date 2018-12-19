@@ -22,6 +22,8 @@ define ("MY_PROFIL", "Mein Profil");
 define ("MY_LENDS", "Meine Ausleihen");
 define ("LOGOUT", "Ausloggen");
 
+define ("PLEASE_LOG_IN", "Melde dich bitte an:");
+define ("USER_ID_OR_EMAIL", "User-ID oder E-Mail");
 define ("USER_INSTRUCTION", "
 	Du hast jetzt die Möglichkeit dir anzusehen welche Bücher verfügbar sind und welche Bücher du ausgeliehen hast. 
 	Außerdem kannst du deine Daten wie E-Mail Adresse oder Passwort zu ändern.<br>");
@@ -36,6 +38,7 @@ define ("CHANGED_LANGUAGE_TO", "Sprache wurde gewechselt zu");
 define ("CONTACT", "Kontakt");
 define ("PRIVACY", "Datenschutz");
 define ("LINKS", "Links");
+define ("HOME", "Startseite");
 
 //error messages
 define ("GIVE_NUMBER_AS_USER_ID", "Bitte gib eine Zahl als User-ID ein.<br>");
@@ -85,7 +88,7 @@ define ("SURNAME", "Nachname");
 define ("FORENAME", "Vorname");
 define ("EMAIL", "E-Mail");
 define ("PASSWORD", "Paswort");
-define ("AVAILABLE", "Verfügbar");
+define ("STATUS_AVAILABLE", "Verfügbar");
 define ("STATUS_LEND", "Verliehen");
 define ("AVAILABILITY", "Verfügbarkeit");
 define ("TOTAL", "Gesamt");
@@ -97,6 +100,11 @@ define ("TYPE", "Typ");
 define ("BOOK", "Buch");
 define ("MATERIAL", "Material");
 define ("ADMIN", "Administrator");
+
+define ("TODAYS_MAIL_STATS", "Heutige Mailstatistik");
+define ("TOTAL_MAILS", "Gesamtzahl der Mails");
+define ("SUCCESSFUL_MAILS", "Erfolgreich gesendete Mails");
+define ("FAILED_MAILS", "Fehlgeschlagene Sendeversuche");
 
 define ("BUTTON_SEND", "Absenden");
 define ("BUTTON_RESET", "Zurücksetzen");

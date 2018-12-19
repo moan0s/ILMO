@@ -1,7 +1,7 @@
 <?php
 
 //main texts that will be shown
-define ("NO_PERMISSION", "<h1>Keine Berechtigung</h1>You don't have the permission for this action. If you think this is an mistake please inform an administrator");
+define ("NO_PERMISSION", "<h1>No Permission!</h1>You don't have the permission for this action. If you think this is an mistake please inform an administrator");
 
 define ("WELCOME", "<h1>Welcome!</h1><br>");
 
@@ -12,16 +12,18 @@ define ("ALL_USER", "All user");
 define ("ALL_LEND", "All lend");
 define ("CHANGE_OPENING_HOURS", "Change Opening hours");
 define ("NEW_BOOK", "New book");
-define ("NEW_LEND", "New lend");
+define ("NEW_LEND", "New loan");
 define ("NEW_STUFF", "New material");
 define ("NEW_USER", "New User");
 define ("SEARCH_USER", "Search user");
 define ("SHOW_BOOKS_ITEMIZED", "Show books itemized");
 define ("SHOW_STUFF_ITEMIZED", "Show material itemized");
 define ("MY_PROFIL", "My profil");
-define ("MY_LENDS", "My lends");
+define ("MY_LENDS", "My loans");
 define ("LOGOUT", "Logout");
 
+define ("PLEASE_LOG_IN", "Please log in");
+define ("USER_ID_OR_EMAIL", "User-ID or E-Mail");
 define ("USER_INSTRUCTION", "
 	You can check the available books and materials, the opening hours and see your profile and your lends.<br>");
 define ("ADMIN_INSTRUCTION", "You are logged in as administrator. You have the ability to add and change users, books and materials.<br>");
@@ -35,7 +37,7 @@ define ("CHANGED_LANGUAGE_TO", "Changed language to");
 define ("CONTACT", "Contact");
 define ("PRIVACY", "Privacy");
 define ("LINKS", "Links");
-
+define ("HOME", "Home"); 
 
 //error messages
 define ("GIVE_NUMBER_AS_USER_ID", "Please give a number as user-ID.<br>");
@@ -84,7 +86,7 @@ define ("SURNAME", "Surname");
 define ("FORENAME", "Forename");
 define ("EMAIL", "E-Mail");
 define ("PASSWORD", "Password");
-define ("AVAILABLE", "Available");
+define ("STATUS_AVAILABLE", "Available");
 define ("STATUS_LEND", "Lend");
 define ("AVAILABILITY", "Availability");
 define ("ALREADY_RETURNED", "Already returned");
@@ -97,6 +99,11 @@ define ("TYPE", "Type");
 define ("BOOK", "Book");
 define ("MATERIAL", "Material");
 define ("ADMIN", "Administrator");
+
+define ("TODAYS_MAIL_STATS", "Todays mail statistics");
+define ("TOTAL_MAILS", "Total number of mails");
+define ("SUCESSFUL_MAILS", "Successful mails");
+define ("FAILED_MAILS", "Failed mails");
 
 define ("BUTTON_SEND", "Send");
 define ("BUTTON_RESET", "Reset");

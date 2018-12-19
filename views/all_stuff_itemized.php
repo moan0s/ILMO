@@ -21,7 +21,7 @@ $table = "<table border='0' cellspacing='0' >";
 		{
 	if($aResult['lend'] == 0){
 		$sClass= "available";
-		$sStatus= AVAILABLE;
+		$sStatus= STATUS_AVAILABLE;
 	}
 	else{
 		$sClass = "lend";

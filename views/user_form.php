@@ -22,11 +22,27 @@ $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post"
 		$form .= $this->aRow['email'];
 	}
 	$form .= '"> <br>'.
+		LANGUAGE.': <input type="radio" id="english" name="language" value="english"';
+	
+	if ($this->aRow['language']== "english"){
+			 $form .= 'checked';
+	}
+	$form .= '>
+			<label for="english">'.ENGLISH.'</label>
+			<input type="radio" id="german" name="type" value="german" '; 
+	if ($this->aRow['language']=="german"){
+			$form .= 'checked';
+	}
+	$form .= '">
+		<label for="german">'.GERMAN.'</label>
+	       	<br>'.
 		PASSWORD.': <input type="password" name="password">  <br>';
 	
 	if ($_SESSION['admin']==1){
 	$form .= ADMIN.': <input type="radio" id="yes" name="admin" value="1"';
-	if ($this->aRow['admin']==1){echo'checked';}
+	if ($this->aRow['admin']==1){
+		$form .= 'checked';
+	}
 	$form .='>
 	<label for="yes">'.YES.'</label>
 	<input type="radio" id="no" name="admin" value="0"'; 
