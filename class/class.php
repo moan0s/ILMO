@@ -21,7 +21,7 @@ class Data {
 
 			}
 	 */	
-		return parse_ini_file(__DIR__."/../settings.ini");
+		return parse_ini_file(__DIR__."/../config/settings.ini");
 			/*array(
 			'max_loan_time' => 0, //enter 0 for no max loan time
 			'email_interval' => 90,
@@ -827,8 +827,8 @@ class Mail extends Data {
 	}
 
 	function log_mail($email, $user_ID, $issue){
-		$fLog = fopen(__DIR__/../$this->settings['path_mail_log'], 'wb');
-		fwrite($fLog, '['.date(Y-m-d H:i:s)']: To: "'$email.'" with user_ID: "'.$user_ID.'" because of: "'.$issue.'"'."\n");
+		$fLog = fopen(__DIR__."/../".$this->settings['path_mail_log'], 'wb');
+		fwrite($fLog, '['.date("Y-m-d H:i:s").']: To: "'.$email.'" with user_ID: "'.$user_ID.'" because of: "'.$issue.'"'."\n");
 		fclose($fLog);
 
 	}
