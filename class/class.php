@@ -11,12 +11,24 @@ class Data {
 	}
 
 	function get_settings(){
-		return array(
+	/*	if(file_exists($sDatei)){
+			$fp=fopen($sDatei,"r");
+			$sSettings=fread($fp,16364);
+	               	fclose($fp);
+			$aText=explode(";",$sSettings);
+			foreach ($aSettings as $sRow){
+				$aSettings
+
+			}
+	 */	
+		return parse_ini_file(__DIR__."/../settings.ini");
+			/*array(
 			'max_loan_time' => 0, //enter 0 for no max loan time
 			'email_interval' => 90,
 			'opening_days' =>
 				array ("monday", "tuesday", "wednesday", "thursday", "friday")	
-		);
+			);*/
+
 
 
 	}
@@ -737,19 +749,20 @@ class Mail extends Data {
 	//string in format date(YYYY-mm-dd) -> bool
 	//checks if the last reminder was send more than 90 days before
 	function reminder_necessary($last_reminder){
-		if ($last_reminder=='0000-00-00'){
-			return true;
+		if((isset($this->settings['mail_reminder_interval'])) and (0 != $this->settings['mail_reminder_interval'])){
+			if ($last_reminder=='0000-00-00'){
+				return true;
+			}
+			$today = new DateTime("today");
+			$interval = $today->diff(new DateTime($last_reminder));
+			return ($interval->days > $this->settings['mail_reminder_interval']); 
+
 		}
-		$today = new DateTime("today");
-		$interval = $today->diff(new DateTime($last_reminder));
-		return ($interval->d > 90); 
-
-
 	}
 
 	function send_todays_mails() {
 		$stats = array(
-			'succesful' => 0,
+			'successful' => 0,
 		       	'failed' => 0,
 			'total' => 0);
 		$aUnreturnedLoans = $this->get_unreturned_loans();
