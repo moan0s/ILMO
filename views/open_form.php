@@ -8,7 +8,7 @@ $open_form ='
 	<th>'.W_START.'</th>
 	<th>'.W_END.'</th>
 	<th>'.W_NOTICE.'</th>';
-	foreach($this->opening_days as $day){
+	foreach($this->settings['opening_days'] as $day){
 		$open_form .= '<tr>
 			<td>'.constant(strtoupper($day)).'</td>
 			<td><input type="text" name="'.$day.'_s" value="'.$this->aOpen[$day]["start"].'"></td>

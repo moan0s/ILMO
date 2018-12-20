@@ -7,7 +7,18 @@ class Data {
 		if (substr($this->r_ac, -5) != 'plain'){
 			$this->set_session();
 		}
-		$this->opening_days = array ("monday", "tuesday", "wednesday", "thursday", "friday");
+		$this->settings = $this->get_settings(); 
+	}
+
+	function get_settings(){
+		return array(
+			'max_loan_time' => 0, //enter 0 for no max loan time
+			'email_interval' => 90,
+			'opening_days' =>
+				array ("monday", "tuesday", "wednesday", "thursday", "friday")	
+		);
+
+
 	}
     
    function read_variables() {
@@ -404,7 +415,7 @@ class Open extends Data{
 	}
 
 	function save_open(){
-		foreach($this->opening_days as $day){
+		foreach($this->settings['opening_days'] as $day){
 			$fieldS="r_".$day."_s";
 			$fieldE="r_".$day."_e";
 			$fieldN="r_".$day."_n";
