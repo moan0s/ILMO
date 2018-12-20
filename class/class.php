@@ -691,7 +691,7 @@ class Lend extends Data {
 		$oBook = new Book;
 		$oStuff = new Stuff;	
 		$oBook->r_book_ID = NULL;
-		$oSTUFF->r_stuff_ID = NULL;
+		$oStuff->r_stuff_ID = NULL;
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
 		$this->all_stuff = $oStuff->get_stuff_itemized();
