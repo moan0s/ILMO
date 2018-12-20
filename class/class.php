@@ -819,8 +819,17 @@ class Mail extends Data {
 			GREETINGS."\r\n".
 			TEAM."\r\n\r\n".
 			FUTHER_INFORMATION;
+		$issue = "Reminder on loan ".$aRow['lend_ID'];
+		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
 	
 		return mail($to, $subject, $message, MAIL_HEADER);
+
+	}
+
+	function log_mail($email, $user_ID, $issue){
+		$fLog = fopen(__DIR__/../$this->settings['path_mail_log'], 'wb');
+		fwrite($fLog, '['.date(Y-m-d H:i:s)']: To: "'$email.'" with user_ID: "'.$user_ID.'" because of: "'.$issue.'"'."\n");
+		fclose($fLog);
 
 	}
 }
