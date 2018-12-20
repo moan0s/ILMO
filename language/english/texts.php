@@ -66,7 +66,7 @@ define ("W_NOTICE", "Notice");
 
 define ("MONDAY", "Monday");
 define ("TUESDAY", "Tuesday");
-define ("WEDNESDAY", "Wednessday");
+define ("WEDNESDAY", "Wednesday");
 define ("THURSDAY", "Thursday");
 define ("FRIDAY", "Friday");
 

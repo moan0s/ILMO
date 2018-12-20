@@ -7,7 +7,30 @@ class Data {
 		if (substr($this->r_ac, -5) != 'plain'){
 			$this->set_session();
 		}
-		$this->opening_days = array ("monday", "tuesday", "wednesday", "thursday", "friday");
+		$this->settings = $this->get_settings(); 
+	}
+
+	function get_settings(){
+	/*	if(file_exists($sDatei)){
+			$fp=fopen($sDatei,"r");
+			$sSettings=fread($fp,16364);
+	               	fclose($fp);
+			$aText=explode(";",$sSettings);
+			foreach ($aSettings as $sRow){
+				$aSettings
+
+			}
+	 */	
+		return parse_ini_file(__DIR__."/../settings.ini");
+			/*array(
+			'max_loan_time' => 0, //enter 0 for no max loan time
+			'email_interval' => 90,
+			'opening_days' =>
+				array ("monday", "tuesday", "wednesday", "thursday", "friday")	
+			);*/
+
+
+
 	}
     
    function read_variables() {
@@ -52,10 +75,15 @@ class Data {
       }
       $this->databasename=DB_DATABASE;
       $this->databaselink->query("SET SQL_MODE = '';");
-   }
+	}
+
+	//Stores the Database on a distant SFTP-Server
+	//returns true if successful
+	function backup_database(){
+		return true;
+	}
    
    function set_session(){
-      //never forget: session_start(); is the first line in the index.php.!!
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
 	   if (isset($this->r_ac)){
 		if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
@@ -399,7 +427,7 @@ class Open extends Data{
 	}
 
 	function save_open(){
-		foreach($this->opening_days as $day){
+		foreach($this->settings['opening_days'] as $day){
 			$fieldS="r_".$day."_s";
 			$fieldE="r_".$day."_e";
 			$fieldN="r_".$day."_n";
@@ -721,19 +749,20 @@ class Mail extends Data {
 	//string in format date(YYYY-mm-dd) -> bool
 	//checks if the last reminder was send more than 90 days before
 	function reminder_necessary($last_reminder){
-		if ($last_reminder=='0000-00-00'){
-			return true;
+		if((isset($this->settings['mail_reminder_interval'])) and (0 != $this->settings['mail_reminder_interval'])){
+			if ($last_reminder=='0000-00-00'){
+				return true;
+			}
+			$today = new DateTime("today");
+			$interval = $today->diff(new DateTime($last_reminder));
+			return ($interval->days > $this->settings['mail_reminder_interval']); 
+
 		}
-		$today = new DateTime("today");
-		$interval = $today->diff(new DateTime($last_reminder));
-		return ($interval->d > 90); 
-
-
 	}
 
 	function send_todays_mails() {
 		$stats = array(
-			'succesful' => 0,
+			'successful' => 0,
 		       	'failed' => 0,
 			'total' => 0);
 		$aUnreturnedLoans = $this->get_unreturned_loans();
