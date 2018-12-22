@@ -2,7 +2,7 @@
 
 define ("YOUR_LOANS_AT_THE", "Deine Ausleihen in der");
 define ("HELLO", "Hallo");
-define ("YOU_HAVE_LEND", "du hast bei uns noch folgens ausgeliehen:");
+define ("YOU_HAVE_LENT", "du hast bei uns noch folgens ausgeliehen:");
 define ("TITLE", "Titel");
 define ("AUTHOR", "Autor");
 define ("NAME", "Name");

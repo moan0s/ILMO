@@ -288,19 +288,19 @@ class Data {
 		  return $this->databaselink->query($sQuery);
    }
 
-   //checks whether a book is already lend
+   //checks whether a book is already loan
    //returns String containing "" or an error message
    function change_language($language){
 	$_SESSION['language']=$language;
    }
    
-   function check_ID_lend($ID){
-		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lend' => 1)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID, 'lend' => 1)) == -1)){
+   function check_ID_loan($ID){
+		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lent' => 1)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID, 'lent' => 1)) == -1)){
 		   $error_message= "";
 	   	}
 		else
 		{
-			$error_message = '<br>'.IS_ALREADY_LEND;
+			$error_message = '<br>'.IS_ALREADY_LENT;
 	   	}
 	   return $error_message;
    }
@@ -378,7 +378,7 @@ class Data {
 		return $error;
    }
 	function check_ID_exists($ID){
-		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID)) == -1)){
+		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID)) == -1)){
 			return ID_DOES_NOT_EXIST;
 		}
 	}
@@ -444,72 +444,72 @@ class Open extends Data{
 
 }
 
-class Stuff extends Data{
-function get_stuff_itemized (){
-		$aStuff= array();
+class Material extends Data{
+function get_material_itemized (){
+		$aMaterial= array();
 		$aFields= array();
-		if((isset($this->r_stuff_ID)) and ($this->r_stuff_ID!= "")){$aFields["stuff_ID"] = $this->r_stuff_ID;}
+		if((isset($this->r_material_ID)) and ($this->r_material_ID!= "")){$aFields["material_ID"] = $this->r_material_ID;}
 		if((isset($this->r_name)) and ($this->r_name= "")){$aFields["name" ]= $this->r_name;}
-		$this->p_result = $this->select_rows(TABLE_STUFF, $aFields);
+		$this->p_result = $this->select_rows(TABLE_MATERIAL, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aStuff[$aRow['stuff_ID']] = $aRow;
+			$aMaterial[$aRow['material_ID']] = $aRow;
 		}
 		
-		return $aStuff;
+		return $aMaterial;
 
 	}
-	function get_stuff(){
+	function get_material(){
 	$sQuery="SELECT 
 	B1.name as name,
 	B1.location as location,
 	count(*) as number,
 	(
-	   select  count(*) as available from ".TABLE_STUFF." B2 where lend=0 and name=B1.name 
+	   select  count(*) as available from ".TABLE_MATERIAL." B2 where lent=0 and name=B1.name 
 	      ) as available 
-	     FROM `".TABLE_STUFF."` B1
+	     FROM `".TABLE_MATERIAL."` B1
 	     group by name";
 	
 	$this->p_result = $this->sql_statement($sQuery);
 	while($aRow=mysqli_fetch_assoc($this->p_result)){
-		$aStuff[$aRow['name']] = $aRow;
+		$aMaterial[$aRow['name']] = $aRow;
 		
 	}
 		
-	return $aStuff;
+	return $aMaterial;
 
 
 	}	
-	function save_stuff(){
+	function save_material(){
 		$aFields = array(
 			'name' => $this->r_name,
 			'location' => $this->r_location,
-			'lend' => null		
+			'lent' => null		
 		);
 		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=1; $i<=$this->r_number; $i++){
-				$aFields['stuff_ID'] = $this->r_stuff_ID." ".$i;
-				$this->ID=$this->store_data(TABLE_STUFF, $aFields, FALSE, FALSE);
+				$aFields['material_ID'] = $this->r_material_ID." ".$i;
+				$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, FALSE, FALSE);
 			}
 			
 		}
 		else{
-			$aFields['stuff_ID'] = $this->r_stuff_ID;
-			$this->ID=$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID',$this->r_stuff_ID);
+			$aFields['material_ID'] = $this->r_material_ID;
+			$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$this->r_material_ID);
 		}
 				
 	}
-	function delete_stuff(){
+	function delete_material(){
 		$aFields = array (
-			'stuff_ID' => $this->r_stuff_ID
+			'material_ID' => $this->r_material_ID
 		);
-		$this->removed=$this->delete_rows(TABLE_STUFF, $aFields);
+		$this->removed=$this->delete_rows(TABLE_MATERIAL, $aFields);
 	}
-	function return_stuff($stuff_ID){
+	function return_material($material_ID){
 		$aFields = array(
-			'lend' => 0		
+			'loan' => 0		
 		);
 
-		$this->id = $this->store_data(TABLE_STUFF, $aFields, 'stuff_ID',$stuff_ID);
+		$this->id = $this->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$material_ID);
 	return $ID;
 	
 	}
@@ -538,7 +538,7 @@ class Book extends Data {
 	B1.location as location,
 	count(*) as number,
 	(
-	   select  count(*) as available from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
+	   select  count(*) as available from ".TABLE_BOOKS." B2 where lent=0 and title=B1.title 
 	      ) as available 
 	     FROM `".TABLE_BOOKS."` B1
 	     group by title";
@@ -556,7 +556,7 @@ class Book extends Data {
 			'title' => $this->r_title,
 			'author' => $this->r_author,
 			'location' => $this->r_location,
-			'lend' => null		
+			'lent' => null		
 		);
 		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=0; $i<=$this->r_number; $i++){
@@ -584,7 +584,7 @@ class Book extends Data {
 	}
 	function return_book($book_ID){
 		$aFields = array(
-			'lend' => 0		
+			'lent' => 0		
 		);
 
 		$this->id = $this->store_data(TABLE_BOOKS, $aFields, 'book_ID',$book_ID);
@@ -636,8 +636,8 @@ class User extends Data {
 
 }
 
-class Lend extends Data {
-	function save_lend(){
+class Loan extends Data {
+	function save_loan(){
 			$aFields = array(
 				'ID' => $this->r_ID,
 				'type' => $this->r_type,
@@ -648,61 +648,61 @@ class Lend extends Data {
 				'last_reminder' => date("Y-m-d"),
 
 			);
-		$this->ID=$this->store_data(TABLE_LEND, $aFields, FALSE, FALSE);
+		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
 		
 		$aFields = array(
-		'lend' => 1
+		'lent' => 1
 	);
 		if($this->r_type=="book"){
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}
-		if($this->r_type=="stuff"){
-			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
+		if($this->r_type=="material"){
+			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
 	}
 	
-	function return_lend(){
+	function return_loan(){
 		//einfügen, dass das Buch als verliehen eingetragen  wird
-		$aLend = $this->get_lend();
+		$aLoan = $this->get_loan();
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
 			'returned' => 1
 		);	
-		$this->ID=$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $this->r_lend_ID);
+		$this->ID=$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $this->r_loan_ID);
 		
 		$aFields = array(
-		'lend' => 0
+		'lent' => 0
 	);
-		if ($aLend['type']=='book'){ 
+		if ($aLoan['type']=='book'){ 
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}
-		if ($aLend['type']=='stuff'){
-			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
+		if ($aLoan['type']=='material'){
+			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
 
 	}
 	
-	function get_lend (){
-		//needs: String lend_ID returns: Associative array with complete lend Information
-		//create an array containig lend_ID
+	function get_loan (){
+		//needs: String loan_ID returns: Associative array with complete loan Information
+		//create an array containig loan_ID
 		$aFields= array();
 		
 		$oUser = new User;
 		$oBook = new Book;
-		$oStuff = new Stuff;	
+		$oMaterial = new Material;	
 		$oBook->r_book_ID = NULL;
-		$oStuff->r_stuff_ID = NULL;
+		$oMaterial->r_material_ID = NULL;
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
-		$this->all_stuff = $oStuff->get_stuff_itemized();
+		$this->all_material = $oMaterial->get_material_itemized();
 		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($this->r_lend_ID)) and ($this->r_lend_ID!= "") and ($this->r_lend_ID!=NULL)){$aFields["lend_ID"] = $this->r_lend_ID;}
-		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
+		if((isset($this->r_loan_ID)) and ($this->r_loan_ID!= "") and ($this->r_loan_ID!=NULL)){$aFields["loan_ID"] = $this->r_loan_ID;}
+		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aLend[$aRow['lend_ID']] = $aRow;
+			$aLoan[$aRow['loan_ID']] = $aRow;
 		}
 		
-		return $aLend;
+		return $aLoan;
 	} 
 
 
@@ -726,25 +726,25 @@ class Mail extends Data {
 		$this->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
 
 	}
-	//int $lend_ID + date $date -> void
-	//sets 'last' remminder in TABLE_LEND to the given date
-	function set_last_reminder($lend_ID, $date){
+	//int $loan_ID + date $date -> void
+	//sets 'last' remminder in TABLE_LOAN to the given date
+	function set_last_reminder($loan_ID, $date){
 		$aFields = array(
 				'last_reminder' => $date
 			);
-		$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $lend_ID);
+		$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $loan_ID);
 
 	}
 	//void-> array(ID=loan_ID) of array(all loan  information)
 	//gets all loans from the database that are not returned 
 	function get_unreturned_loans() {
 		$aFields = array('returned' => '0');	
-		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
+		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aLend[$aRow['lend_ID']] = $aRow;
+			$aLoan[$aRow['loan_ID']] = $aRow;
 		}
-		return $aLend;
+		return $aLoan;
 	}
 	//string in format date(YYYY-mm-dd) -> bool
 	//checks if the last reminder was send more than 90 days before
@@ -766,11 +766,11 @@ class Mail extends Data {
 		       	'failed' => 0,
 			'total' => 0);
 		$aUnreturnedLoans = $this->get_unreturned_loans();
-		foreach($aUnreturnedLoans as $lend_ID => $aRow){
+		foreach($aUnreturnedLoans as $loan_ID => $aRow){
 			if ($this->reminder_necessary($aRow['last_reminder'])){
 				$stats['total']++;
 				if($this->send_reminder($aRow)){
-					$this->set_last_reminder($aRow['lend_ID'], date("Y-m-d"));
+					$this->set_last_reminder($aRow['loan_ID'], date("Y-m-d"));
 					$stats['successful']++;
 				}
 				else{
@@ -792,34 +792,34 @@ class Mail extends Data {
 			$oBook->r_book_ID = $aRow['ID'];
 			$aBook = $oBook->get_book_itemized()[$aRow['ID']];
 		}
-		if ($aRow['type'] == 'stuff'){
-			$oMaterial = new Stuff;
-			$oMaterial->r_stuff_ID = $aRow['ID'];
-			$aMaterial = $oMaterial->get_stuff_itemized()[$aRow['ID']];
+		if ($aRow['type'] == 'material'){
+			$oMaterial = new Material;
+			$oMaterial->r_material_ID = $aRow['ID'];
+			$aMaterial = $oMaterial->get_material_itemized()[$aRow['ID']];
 		}
 		
-		$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
+		$subject = '[Ausleihe '.$aRow['loan_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
 		$message = 
 			HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
-			YOU_HAVE_LEND."\r\n\r\n";
+			YOU_HAVE_LENT."\r\n\r\n";
 		
 		if ($aRow['type'] == 'book'){
 			$message.=
 				TITLE.': '.$aBook['title']."\r\n".
 				AUTHOR.': '.$aBook['author']."\r\n";
 		}
-		if ($aRow['type'] == 'stuff'){
+		if ($aRow['type'] == 'material'){
 			$message.=
 				NAME.': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
-			LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
+			LOAN_ON.': '.$aRow['pickup_date']."\r\n\r\n".
 			CONDITIONS_OF_LOAN.' '.
 			SHOW_LOANS_ONLINE."\r\n\r\n".
 			GREETINGS."\r\n".
 			TEAM."\r\n\r\n".
 			FUTHER_INFORMATION;
-		$issue = "Reminder on loan ".$aRow['lend_ID'];
+		$issue = "Reminder on loan ".$aRow['loan_ID'];
 		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
 	
 		return mail($to, $subject, $message, MAIL_HEADER);

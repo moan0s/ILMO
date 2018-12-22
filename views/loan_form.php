@@ -1,6 +1,6 @@
 <?php
 $form .= '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-	<input type = hidden name="ac" value = "lend_save">
+	<input type = hidden name="ac" value = "loan_save">
 	'.USER_ID.': <input type="text" name="user_ID" value="'; 
 if(isset($this->aRow['user_ID'])){
 	$form .= $oObject->aRow['user_ID'];
@@ -12,12 +12,12 @@ if ($this->aRow['type']== "book"){
 }
 $form .= '>
 	<label for="book">'.BOOK.'</label>
-	<input type="radio" id="stuff" name="type" value="stuff"'; 
-if ($this->aRow['type']=="stuff"){
+	<input type="radio" id="material" name="type" value="material"'; 
+if ($this->aRow['type']=="material"){
 	$form .= 'checked';
 }
 $form .= '>
-	<label for id ="stuff">'.MATERIAL.'</label><br>'.	
+	<label for id ="material">'.MATERIAL.'</label><br>'.	
 	ID.': <input type="text" name="ID" value="';
 if(isset($this->aRow['ID'])){
 	$form .= $oObject->aRow['ID'];

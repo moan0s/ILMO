@@ -20,13 +20,13 @@ $table = "<table border='0' cellspacing='0' >";
 		
 		foreach ($this->aBook as $book_ID => $aResult)
 		{
-		if($aResult['lend'] == 0){
+		if($aResult['lent'] == 0){
 			$sClass= "available";
 			$sStatus= STATUS_AVAILABLE;
 		}
 		else{
-			$sClass = "lend";
-			$sStatus = STATUS_LEND;
+			$sClass = "lent";
+			$sStatus = STATUS_LENT;
 		}
 	
 		$table .=

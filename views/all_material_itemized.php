@@ -6,7 +6,7 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		'<tr>
-		<th>'.STUFF_ID.'</th>
+		<th>'.MATERIAL_ID.'</th>
 		<th>'.NAME.'</th>
 		<th>'.LOCATION.'</th>
 		<th>'.STATUS.'</th>';
@@ -17,19 +17,19 @@ $table = "<table border='0' cellspacing='0' >";
 	$table .='</tr>';
 
 		
-		foreach ($this->aStuff as $stuff_ID => $aResult)
+		foreach ($this->aMaterial as $material_ID => $aResult)
 		{
-	if($aResult['lend'] == 0){
+	if($aResult['lent'] == 0){
 		$sClass= "available";
 		$sStatus= STATUS_AVAILABLE;
 	}
 	else{
-		$sClass = "lend";
-		$sStatus = STATUS_LEND;
+		$sClass = "lent";
+		$sStatus = STATUS_LENT;
 	}
 			$table .=
 			'<tr class= "'.$sClass.'">
-			<td>'.$aResult['stuff_ID'].'</td>
+			<td>'.$aResult['material_ID'].'</td>
 			<td>'.$aResult['name'].'</td>
 			<td>'.$aResult['location'].'</td>
 			<td>'.$sStatus;
@@ -37,8 +37,8 @@ $table = "<table border='0' cellspacing='0' >";
 		
 			$table .=
 				'</td>
-			<td> <a href="index.php?ac=stuff_change&stuff_ID='.$aResult['stuff_ID'].'" >'.BUTTON_CHANGE.' </a> </td>
-			<td> <a href="index.php?ac=stuff_delete&stuff_ID='.$aResult['stuff_ID'].'" >'.BUTTON_DELETE.'</a> </td>
+			<td> <a href="index.php?ac=material_change&material_ID='.$aResult['material_ID'].'" >'.BUTTON_CHANGE.' </a> </td>
+			<td> <a href="index.php?ac=material_delete&material_ID='.$aResult['material_ID'].'" >'.BUTTON_DELETE.'</a> </td>
 			</tr>';
 		}	
 		$table .="</table>";
@@ -47,8 +47,8 @@ $table = "<table border='0' cellspacing='0' >";
 	$form = '<form action="'; 
 	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
 	$form.= '" method="post">
-	<input type = hidden name="ac" value = "stuff_new">
-		<input type="submit" value="'.NEW_STUFF.'">
+	<input type = hidden name="ac" value = "material_new">
+		<input type="submit" value="'.NEW_MATERIAL.'">
 	</form>';
 	echo $form;
 ?>

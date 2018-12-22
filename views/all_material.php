@@ -11,9 +11,9 @@ $table = "<table border='0' cellspacing='0' >";
 		<th>".STATUS_AVAILABLE."</th>
 		<th>".TOTAL."</th>";
 
-foreach ($this->aStuff as $title => $aResult){
+foreach ($this->aMaterial as $title => $aResult){
 	if($aResult['available']==0){
-		$sClass = 'lend';
+		$sClass = 'lent';
 	}
 	else{
 	$sClass = 'available';

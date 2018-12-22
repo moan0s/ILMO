@@ -1,13 +1,13 @@
 <?php
 $form .= '<form action="'.$_SERVER["PHP_SELF"].'" method="post">
-	<input type = hidden name="ac" value = "stuff_save">
-	'.MATERIAL_ID.': <input type="text" name="stuff_ID" value="'; 
-if(isset($oObject->aRow['stuff_ID'])){
-	$form .= ': '.$oObject->aRow['stuff_ID'];
+	<input type = hidden name="ac" value = "material_save">
+	'.MATERIAL_ID.': <input type="text" name="material_ID" value="'; 
+if(isset($oObject->aRow['material_ID'])){
+	$form .= ': '.$oObject->aRow['material_ID'];
 } 
 $form .= '"> <br>';
 
-if(!isset($oObject->aRow['stuff_ID'])){
+if(!isset($oObject->aRow['material_ID'])){
 	$form .= NUMBER.': <input type=\"text\" name="number"> <br>';
 		}
 $form .= NAME.' : <input type="text" name="name" value=';

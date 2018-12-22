@@ -14,7 +14,7 @@ if ($_SESSION['admin']==1) {
 		'<th>'.BUTTON_CHANGE.'</th>
 		<th>'.BUTTON_DELETE.'</th>';
 	if (($_SESSION['admin']==1) or ($this->r_user_ID = $_SESSION['user_ID'])){
-		$table .= '<th>'.BUTTON_SHOW_LENDS.'</th>';
+		$table .= '<th>'.BUTTON_SHOW_LOANS.'</th>';
 	}
 }
 $table .= '</tr>';
@@ -32,7 +32,7 @@ $table .= '</tr>';
 				<td> <a href="index.php?ac=user_delete&user_ID='.$aResult['user_ID'].'" >'.BUTTON_DELETE.' </<> </td>';
 				if (($_SESSION['admin']==1) or ($this->r_user_ID = $_SESSION['user_ID'])){
 					$table .='
-						<td> <a href="index.php?ac=lend_show&user_ID='.$aResult['user_ID'].'" > '.BUTTON_SHOW_LENDS.' </<> </td>';
+						<td> <a href="index.php?ac=loan_show&user_ID='.$aResult['user_ID'].'" > '.BUTTON_SHOW_LOANS.' </<> </td>';
 				}
 			}
 

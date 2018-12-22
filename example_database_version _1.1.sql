@@ -65,7 +65,7 @@ CREATE TABLE `lib_lend` (
 
 INSERT INTO `lib_lend` (`lend_ID`, `type`, `ID`, `user_ID`, `pickup_date`, `return_date`, `returned`, `last_reminder`) VALUES
 (1, 'book', 'S1 a', 1, '2018-12-12', '0000-00-00', 0, '0000-00-00'),
-(2, 'stuff', 'SM 1', 2, '2018-12-12', '2018-12-14', 0, '0000-00-00');
+(2, 'material', 'SM 1', 2, '2018-12-12', '2018-12-14', 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -112,21 +112,21 @@ INSERT INTO `lib_open` (`day`, `start`, `end`, `notice`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stuff`
+-- Table structure for table `material`
 --
 
-CREATE TABLE `lib_stuff` (
-  `stuff_ID` varchar(64) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL,
+CREATE TABLE `lib_material` (
+  `material_ID` varchar(64) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL,
   `lend` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = available; 1 = lend'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `stuff`
+-- Dumping data for table `material`
 --
 
-INSERT INTO `lib_stuff` (`stuff_ID`, `name`, `location`, `lend`) VALUES
+INSERT INTO `lib_material` (`material_ID`, `name`, `location`, `lend`) VALUES
 ('SM 1', 'examplekit', '', 0);
 
 -- --------------------------------------------------------
