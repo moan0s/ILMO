@@ -58,6 +58,9 @@ elseif ($sName == 'open') {
 elseif ($sName == 'mail') {
 	$oObject = new Mail;
 }
+elseif ($sName == 'pres') {
+	$oObject = new Presence;
+}
 else{
 	$oObject = new Data;
 }
@@ -364,6 +367,17 @@ switch ($oObject->r_ac){
 		else{
 			$oObject->error .= NO_PERMISSION;
 		}
+		break;
+
+	case 'presence_checkin':
+		$UID = 234;
+		$oObject->set_status($UID, 0);
+		echo "checked in: ".$UID;
+		break;
+	case 'presence_checkout':
+		$UID = 234;
+		$oObject->set_status($UID, 1);
+		echo "checked out: ".$UID;
 		break;
 	default: 
 		$oObject->output .= $oObject->get_view("views/start.php");

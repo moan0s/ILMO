@@ -832,8 +832,9 @@ class Mail extends Data {
 		fclose($fLog);
 
 	}
-}
 
+}
+include ("class/presence.php");
 
 	
 	
