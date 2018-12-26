@@ -1,6 +1,16 @@
 <?php
 
 class Presence extends Data{
+	//todo ist to check if UID and timstamp is okay
+	function save_presence(){
+		$aFields = array(
+			'UID' => $this->r_UID,
+			'checkin_time' => $this->r_checkin_time,
+			'checkout_time' => $this->r_checkout_time
+		);
+		$this->store_data(TABLE_PRESENCE, $aFields);
+
+	}
 	function set_status($UID, $status){
 		if ($status==0){
 			$aFields = array(
@@ -14,8 +24,30 @@ class Presence extends Data{
 			$this->sql_statement($sql_statement);
 		}
 	}
+
+	function is_present($aRow){
+		return $aRow['checkout_time'] == '0000-00-00 00:00:00';
+
+	}
+	//returns all past and present attendences
+	function get_presence($UID = null, $presence_ID = null){
+		if(isset($UID)){
+			$aFields['UID'] = $UID;
+		}
+		if(isset($presence_ID)){
+			$aFields['presence_ID'] = $presence_ID;
+		}	
+		$oUser = new User;
+		$this->all_user = $oUser->get_user_by_UID();
+		$pResult = $this->select_rows(TABLE_PRESENCE, $aFields);
+ 		while($aRow=mysqli_fetch_assoc($pResult)){
+				$aPresence[$aRow['presence_ID']] = $aRow;
+ 		}
+		return $aPresence;
 	
-	function get_status($UID){
+	}
+	//returns current presences, if wanted for only one UID
+	function get_status($UID = null){
 		$aFields = array(
 			'checkout_time' => '0000-00-00 00:00:00'
 		);
@@ -23,13 +55,19 @@ class Presence extends Data{
 			$aFields ['UID'] = $UID;
 		}
 		$pResult = $this->select_rows(TABLE_PRESENCE, $aFields);
-
+ 		while($aRow=mysqli_fetch_assoc($pResult)){
+	 		$aPresence[$aRow['presence_ID']] = $aRow;
+ 		}
+		return $aPresence;
 	}
 
+	function delete_presence ($presence_ID){
+		$aFields = array ( 
+			'presence_ID' => $presence_ID
+		);
+		return $this->delete_rows(TABLE_PRESENCE, $aFields);
 
-
-
-
+	}
 
 
 

@@ -4,32 +4,14 @@ class Data {
 		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->read_variables();
-		if (substr($this->r_ac, -5) != 'plain'){
+		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session();
 		}
 		$this->settings = $this->get_settings(); 
 	}
 
 	function get_settings(){
-	/*	if(file_exists($sDatei)){
-			$fp=fopen($sDatei,"r");
-			$sSettings=fread($fp,16364);
-	               	fclose($fp);
-			$aText=explode(";",$sSettings);
-			foreach ($aSettings as $sRow){
-				$aSettings
-
-			}
-	 */	
 		return parse_ini_file(__DIR__."/../config/settings.ini");
-			/*array(
-			'max_loan_time' => 0, //enter 0 for no max loan time
-			'email_interval' => 90,
-			'opening_days' =>
-				array ("monday", "tuesday", "wednesday", "thursday", "friday")	
-			);*/
-
-
 
 	}
     
@@ -633,6 +615,18 @@ class User extends Data {
 		
 		return $aUser;
 	}
+	function get_user_by_UID (){
+		$aUser= array();
+		$aFields= array();
+		
+		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aUser[$aRow['UID']] = $aRow;
+		}
+		
+		return $aUser;
+	}
+
 
 }
 

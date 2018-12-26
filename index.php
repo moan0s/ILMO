@@ -369,15 +369,51 @@ switch ($oObject->r_ac){
 		}
 		break;
 
-	case 'presence_checkin':
-		$UID = 234;
-		$oObject->set_status($UID, 0);
-		echo "checked in: ".$UID;
+	case 'presence_checkin_bot':
+		$oObject->set_status($oObject->r_UID, 0);
 		break;
-	case 'presence_checkout':
-		$UID = 234;
-		$oObject->set_status($UID, 1);
-		echo "checked out: ".$UID;
+	case 'presence_checkout_bot':
+		$oObject->set_status($oObject->r_UID, 1);
+		break;
+	case 'presence_show_all':
+		if ($_SESSION['admin']==1){	
+			$oObject->aPresence = $oObject->get_presence();
+			$oObject->output .= $oObject->get_view("views/all_present.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
+	case 'presence_show_status':
+		if ($_SESSION['admin']==1){	
+			$oObject->aPresence = $oObject->get_status();
+			$oObject->output .= $oObject->get_view("views/all_present.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
+	case 'presence_delete':
+		if ($_SESSION['admin']==1){	
+			$oObject->delete_presence($oObject->r_presence_ID);
+			$oObject->r_presence_ID = NULL;
+			$oObject->aUser = $oObject->get_presence();
+			$oObject->output .= $oObject->get_view("views/all_present.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
+	case 'presence_delete':
+		if ($_SESSION['admin']==1){	
+			$oObject->save_presence($oObject->r_presence_ID);
+			$oObject->r_presence_ID = NULL;
+			$oObject->aUser = $oObject->get_presence();
+			$oObject->output .= $oObject->get_view("views/all_present.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
 		break;
 	default: 
 		$oObject->output .= $oObject->get_view("views/start.php");

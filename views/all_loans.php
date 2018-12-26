@@ -27,7 +27,7 @@ if ($_SESSION['admin']==1){
 			$table .= STATUS_LENT;
 		}
 		else{
-			$table.= $aResult['pickup_date'];
+			$table.= $aResult['return_date'];
 		}
 			$table .= '</td>
 			<td>'.$this->all_book[$aResult['ID']]['title'].$this->all_material[$aResult['ID']]['name'].'</td>

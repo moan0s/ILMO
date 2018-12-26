@@ -16,6 +16,7 @@ $navigation .= '
 	<li><a href="index.php?ac=loan_new">'.NEW_LOAN.'</a></li>
 	<li><a href="index.php?ac=user_search">'.SEARCH_USER.'</a></li>
 	<li><a href="index.php?ac=book_show_itemized">'.SHOW_BOOKS_ITEMIZED.'</a></li>
+	<li><a href="index.php?ac=presence_show_all">'.SHOW_PRESENCE.'</a></li>
 	<li><a href="index.php?ac=material_show_itemized">'.SHOW_MATERIAL_ITEMIZED.'</a></li>';
 }
 $navigation .=	'
