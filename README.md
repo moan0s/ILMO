@@ -1,4 +1,4 @@
-# ifs-library
+ifs-library
 ==============
 A software to manage a library, especially books, other material, users, emails and opening hours. Also the tracking of working hours is possible.
 
