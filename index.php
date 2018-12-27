@@ -397,14 +397,25 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 			$oObject->delete_presence($oObject->r_presence_ID);
 			$oObject->r_presence_ID = NULL;
-			$oObject->aUser = $oObject->get_presence();
+			$oObject->aPresence = $oObject->get_presence();
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
 			$oObject->error.= NO_PERMISSION;
 		}
 		break;
-	case 'presence_delete':
+	case 'presence_change':
+		if ($_SESSION['admin']==1){	
+			$oObject->aRow_all = $oObject->get_presence();
+			$oObject->aRow = $oObject->aRow_all[$oObject->r_presence_ID];
+			$oObject->output .= $oObject->get_view("views/presence_form.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
+
+	case 'presence_save':
 		if ($_SESSION['admin']==1){	
 			$oObject->save_presence($oObject->r_presence_ID);
 			$oObject->r_presence_ID = NULL;
