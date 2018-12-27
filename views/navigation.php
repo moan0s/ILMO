@@ -8,16 +8,15 @@ $navigation .='
 if ($_SESSION['admin'] ==1){  
 $navigation .= '
 	<li><a href="index.php?ac=user_show">'.ALL_USER.'</a></li>
-	<li><a href="index.php?ac=loan_show">'.ALL_LOAN.'</a></li>
-	<li><a href="index.php?ac=open_change">'.CHANGE_OPENING_HOURS.'</a></li>
-	<li><a href="index.php?ac=book_new">'.NEW_BOOK.'</a></li>
-	<li><a href="index.php?ac=material_new">'.NEW_MATERIAL.'</a></li>
-	<li><a href="index.php?ac=user_new">'.NEW_USER.'</a></li>
-	<li><a href="index.php?ac=loan_new">'.NEW_LOAN.'</a></li>
 	<li><a href="index.php?ac=user_search">'.SEARCH_USER.'</a></li>
+	<li><a href="index.php?ac=user_new">'.NEW_USER.'</a></li>
+	<li><a href="index.php?ac=open_change">'.CHANGE_OPENING_HOURS.'</a></li>
+	<li><a href="index.php?ac=loan_show">'.ALL_LOAN.'</a></li>
+	<li><a href="index.php?ac=loan_new">'.NEW_LOAN.'</a></li>
 	<li><a href="index.php?ac=book_show_itemized">'.SHOW_BOOKS_ITEMIZED.'</a></li>
+	<li><a href="index.php?ac=material_show_itemized">'.SHOW_MATERIAL_ITEMIZED.'</a></li>
 	<li><a href="index.php?ac=presence_show_all">'.SHOW_PRESENCE.'</a></li>
-	<li><a href="index.php?ac=material_show_itemized">'.SHOW_MATERIAL_ITEMIZED.'</a></li>';
+';
 }
 $navigation .=	'
 	<li><a href="index.php?ac=user_self">'.MY_PROFIL.'</a></li>
