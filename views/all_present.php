@@ -2,7 +2,6 @@
 $table = "<table border='1'>";
 		$table .=
 		'<tr>
-		<th>'.UID.'</th>
 		<th>'.FORENAME.'</th>
 		<th>'.SURNAME.'</th>
 		<th>'.CHECKIN.'</th>
@@ -14,11 +13,10 @@ if ($_SESSION['admin']==1){
 		<th>'.BUTTON_DELETE.'</th>';
 }
 $table .= "</tr>";
-foreach ($this->aPresence as $presence_ID => $aResult)
-	{
+foreach ($this->aPresence as $presence_ID => $aResult){
+	if(isset($this->all_user[$aResult['UID']]['forename'])){
 			$table .=
 			'<tr>
-			<td>'.$aResult['UID'].'</td>
 			<td>'.$this->all_user[$aResult['UID']]['forename'].'</td>
 			<td>'.$this->all_user[$aResult['UID']]['surname'].'</td>
 			<td>'.$aResult['checkin_time'].'</td>
@@ -49,9 +47,11 @@ foreach ($this->aPresence as $presence_ID => $aResult)
 				'<td> <a href="index.php?ac=presence_delete&presence_ID='.$aResult['presence_ID'].'" >'.BUTTON_DELETE.' </<> </td>
 				</tr>';
 			}
-		}	
-		$table = $table."</table>";
-		echo $table;
+	}
+}	
+$table = $table."</table>";
+
+echo $table;
 
 $form .='
 	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">

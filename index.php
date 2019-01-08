@@ -371,9 +371,16 @@ switch ($oObject->r_ac){
 
 	case 'presence_checkin_bot':
 		$oObject->set_status($oObject->r_UID, 0);
+		$oObject->output_json(TRUE);
 		break;
 	case 'presence_checkout_bot':
 		$oObject->set_status($oObject->r_UID, 1);
+		$oObject->output_json(TRUE);
+		break;
+	case 'get_UID_status_bot':
+		$status = $oObject->get_status($oObject->r_UID);
+		//var_dump($status);
+		$oObject->output_json($status);
 		break;
 	case 'presence_show_all':
 		if ($_SESSION['admin']==1){	
@@ -434,9 +441,11 @@ switch ($oObject->r_ac){
 }
 
 //$oObject->show_this();
-echo $oObject->get_view("views/head.php");
-echo $oObject->get_view("views/body.php");
-if (substr($oObject->r_ac, -5) != "plain"){
-	echo $oObject->get_view("views/footer.php");
+if (substr($oObject->r_ac, -3) != "bot"){
+	echo $oObject->get_view("views/head.php");
+	echo $oObject->get_view("views/body.php");
+	if (substr($oObject->r_ac, -5) != "plain"){
+		echo $oObject->get_view("views/footer.php");
+	}
 }
 ?>

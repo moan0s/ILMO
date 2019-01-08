@@ -5,14 +5,29 @@ class Data {
 		$this->link_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
-			$this->set_session();
+			$this->set_session($this->r_ac);
 		}
+		$this->status = $this->get_status();
 		$this->settings = $this->get_settings(); 
+	}
+	#returns true if sombody is checked in in the library
+	function get_status($UID = NULL){
+		$aFields = array(
+			'checkout_time' => '0000-00-00 00:00:00'
+		);
+		if(isset($UID)){
+			$aFields['UID'] = $UID;	
+		}
+		return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
 	}
 
 	function get_settings(){
 		return parse_ini_file(__DIR__."/../config/settings.ini");
 
+	}
+	function output_json($data){
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
     
    function read_variables() {
@@ -53,22 +68,24 @@ class Data {
       $this->databaselink = new mysqli(DB_HOST,DB_USER,DB_PW,DB_DATABASE);
       $this->databaselink->set_charset('utf8');
       if ($this->databaselink->connect_errno) {
-         echo "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
+         	return "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
       }
-      $this->databasename=DB_DATABASE;
-      $this->databaselink->query("SET SQL_MODE = '';");
+      	else{
+      		$this->databasename=DB_DATABASE;
+      		$this->databaselink->query("SET SQL_MODE = '';");
+		return True;
 	}
-
+	}
 	//Stores the Database on a distant SFTP-Server
 	//returns true if successful
 	function backup_database(){
 		return true;
 	}
    
-   function set_session(){
+   function set_session($action = NULL){
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
-	   if (isset($this->r_ac)){
-		if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
+	   if (isset($action)){
+		if($action=="logo") { //logo is short for logout (action are alwas 4 characters long)
          		$_SESSION['username']="";
 			$_SESSION['admin']=0;
 			session_destroy();
@@ -76,10 +93,10 @@ class Data {
       		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
-	      if($this->r_ac == "strt"){
+	      if($action == "strt"){
 	      		$this->error .= ENTER_USER_IDENTIFICATION;
 	      }
-	      $this->r_ac = "logi";
+	      $action = "logi";
 		   //logi is short for login
          //dont forget to call the action in your controller
          return;

@@ -47,7 +47,7 @@ class Presence extends Data{
 	
 	}
 	//returns current presences, if wanted for only one UID
-	function get_status($UID = null){
+	function get_current_presence($UID = null){
 		$aFields = array(
 			'checkout_time' => '0000-00-00 00:00:00'
 		);
@@ -60,6 +60,15 @@ class Presence extends Data{
  		}
 		return $aPresence;
 	}
+
+	#returns true if sombody is checked in in the library
+	function get_status(){
+		$aFields = array(
+			'checkout_time' => '0000-00-00 00:00:00'
+		);
+		return is_null($this->select_rows(TABLE_PRESENCE, $aFields));
+	}
+
 
 	function delete_presence ($presence_ID){
 		$aFields = array ( 
