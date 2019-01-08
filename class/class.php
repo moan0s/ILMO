@@ -79,7 +79,7 @@ class Data {
 	//Stores the Database on a distant SFTP-Server
 	//returns true if successful
 	function backup_database(){
-		return true;
+		return True;
 	}
    
    function set_session($action = NULL){
@@ -89,7 +89,7 @@ class Data {
          		$_SESSION['username']="";
 			$_SESSION['admin']=0;
 			session_destroy();
-         		return;
+         q		return;
       		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
@@ -103,12 +103,11 @@ class Data {
       	}
 
 	if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
-		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
+		    $sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
 		    if((isset($this->r_login_password)) and ($this->r_login_password!="")) {
-		     	$this->sPassword=md5(strrev(trim($this->r_login_password)));
-		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
-              		$mNumber=$aUser["user_ID"];
-              		if ($mNumber<1) {
+		     	$sPassword=md5(strrev(trim($this->r_login_password)));
+		        $aUser=$this->em_get_user($sUser, $sPassword); //retrieve the user from the database, using pw-hash and username
+              		if (!$aUser) {
 		      		session_destroy();
 				$this->error = WRONG_LOGIN;
 				$this->r_ac="logi";
@@ -127,20 +126,20 @@ class Data {
 
 	}
    }
-   function em_get_user() { 
-      if(isset($this->sUser)){
-         if(strpos($this->sUser,"@")>0) {
-             $aFields=array("email"=>$this->sUser,"password"=>$this->sPassword);
+   function em_get_user($SUser, $sPassword) { 
+      if(isset($sUser)){
+         if(strpos($sUser,"@")>0) {
+             $aFields=array("email"=>$sUser,"password"=>$sPassword);
          }
          else {    
-            $aFields=array("user_ID"=>$this->sUser,"password"=>$this->sPassword);
+            $aFields=array("user_ID"=>$sUser,"password"=>$sPassword);
          }   
          $aResult=$this->select_row(TABLE_USER,$aFields);
          if($aResult["user_ID"]>0) {
               return $aResult;
         }
       }              
-      return -1;   
+      return False;   
    }
 
    function store_data($sTable,$aFields,$sKey_ID,$mID) {
@@ -287,8 +286,6 @@ class Data {
 		  return $this->databaselink->query($sQuery);
    }
 
-   //checks whether a book is already loan
-   //returns String containing "" or an error message
    function change_language($language){
 	$_SESSION['language']=$language;
    }
