@@ -89,14 +89,14 @@ class Data {
          		$_SESSION['username']="";
 			$_SESSION['admin']=0;
 			session_destroy();
-         q		return;
+         		return;
       		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 	      if($action == "strt"){
 	      		$this->error .= ENTER_USER_IDENTIFICATION;
 	      }
-	      $action = "logi";
+	      $this->r_ac = "logi";
 		   //logi is short for login
          //dont forget to call the action in your controller
          return;
@@ -106,8 +106,8 @@ class Data {
 		    $sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
 		    if((isset($this->r_login_password)) and ($this->r_login_password!="")) {
 		     	$sPassword=md5(strrev(trim($this->r_login_password)));
-		        $aUser=$this->em_get_user($sUser, $sPassword); //retrieve the user from the database, using pw-hash and username
-              		if (!$aUser) {
+		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword); //retrieve the user from the database, using pw-hash and username
+			if (!$aUser) {
 		      		session_destroy();
 				$this->error = WRONG_LOGIN;
 				$this->r_ac="logi";
@@ -126,20 +126,20 @@ class Data {
 
 	}
    }
-   function em_get_user($SUser, $sPassword) { 
-      if(isset($sUser)){
-         if(strpos($sUser,"@")>0) {
-             $aFields=array("email"=>$sUser,"password"=>$sPassword);
-         }
-         else {    
-            $aFields=array("user_ID"=>$sUser,"password"=>$sPassword);
-         }   
-         $aResult=$this->select_row(TABLE_USER,$aFields);
-         if($aResult["user_ID"]>0) {
-              return $aResult;
-        }
-      }              
-      return False;   
+   function em_get_user($sUser, $sPassword) { 
+	   if(isset($sUser)){
+		   if(strpos($sUser,"@")>0) {
+			   $aFields=array("email"=>$sUser,"password"=>$sPassword);
+		   }
+		   else{
+			$aFields=array("user_ID"=>$sUser,"password"=>$sPassword);
+		   }	  
+		   $aResult=$this->select_row(TABLE_USER,$aFields);
+		   if($aResult["user_ID"]>0) {
+			   return $aResult;
+		   }
+	   }              
+	   return False;   
    }
 
    function store_data($sTable,$aFields,$sKey_ID,$mID) {
