@@ -6,26 +6,26 @@ define ("NO_PERMISSION", "<h1>No Permission!</h1>You don't have the permission f
 define ("WELCOME", "<h1>Welcome!</h1><br>");
 
 define ("ALL_BOOKS", "All books");
-define ("ALL_STUFF", "All material");
+define ("ALL_MATERIAL", "All material");
 define ("OPENING_HOURS", "Opening hours");
 define ("ALL_USER", "All user");
-define ("ALL_LEND", "All lend");
+define ("ALL_LOAN", "All loan");
 define ("CHANGE_OPENING_HOURS", "Change Opening hours");
 define ("NEW_BOOK", "New book");
-define ("NEW_LEND", "New loan");
-define ("NEW_STUFF", "New material");
+define ("NEW_LOAN", "New loan");
+define ("NEW_MATERIAL", "New material");
 define ("NEW_USER", "New User");
 define ("SEARCH_USER", "Search user");
 define ("SHOW_BOOKS_ITEMIZED", "Show books itemized");
-define ("SHOW_STUFF_ITEMIZED", "Show material itemized");
+define ("SHOW_MATERIAL_ITEMIZED", "Show material itemized");
 define ("MY_PROFIL", "My profil");
-define ("MY_LENDS", "My loans");
+define ("MY_LOANS", "My loans");
 define ("LOGOUT", "Logout");
 
 define ("PLEASE_LOG_IN", "Please log in");
 define ("USER_ID_OR_EMAIL", "User-ID or E-Mail");
 define ("USER_INSTRUCTION", "
-	You can check the available books and materials, the opening hours and see your profile and your lends.<br>");
+	You can check the available books and materials, the opening hours and see your profile and your loans.<br>");
 define ("ADMIN_INSTRUCTION", "You are logged in as administrator. You have the ability to add and change users, books and materials.<br>");
 
 define ("ENGLISH", "English");
@@ -49,8 +49,8 @@ define ("ENTER_BOOK_TITLE", "Please enter a title for the book.<br>");
 define ("ENTER_BOOK_AUTHOR", "Please enter a author for the book.<br>");
 define ("ENTER_LOCATION", "Please enter a location.<br>");
 
-define ("BOOK_ALREADY_LEND", "This book is already lend.<br>");
-define ("IS_ALREADY_LEND", "This article is already lend.");
+define ("BOOK_ALREADY_LOAN", "This book is already loan.<br>");
+define ("IS_ALREADY_LENT", "This article is already lent.");
 define ("ID_DOES_NOT_EXIST", "This ID does not exist.<br>");
 define ("USER_DOES_NOT_EXIST", "This user does not exist.<br>");
 define ("WRONG_PASSWORD", "Wrong Password.<br>");
@@ -71,7 +71,7 @@ define ("THURSDAY", "Thursday");
 define ("FRIDAY", "Friday");
 
 define ("USER_ID", "User-ID");
-define ("LEND_ID", "Lend-ID");
+define ("LOAN_ID", "Loan-ID");
 define ("BOOK_ID", "Book-ID");
 define ("NUMBER","Number");
 define ("MATERIAL_ID" , "Material-ID");
@@ -79,7 +79,7 @@ define ("TITLE", "Titel");
 define ("AUTHOR", "Author");
 define ("TITLE_MATERIAL", "Title/Material");
 define ("LOCATION", "Location");
-define ("LEND_ON", "Lend on");
+define ("LOAN_ON", "Loan on");
 define ("RETURNED_ON", "Returned on");
 define ("ID", "ID");
 define ("SURNAME", "Surname");
@@ -87,11 +87,11 @@ define ("FORENAME", "Forename");
 define ("EMAIL", "E-Mail");
 define ("PASSWORD", "Password");
 define ("STATUS_AVAILABLE", "Available");
-define ("STATUS_LEND", "Lend");
+define ("STATUS_LENT", "Lent");
 define ("AVAILABILITY", "Availability");
 define ("ALREADY_RETURNED", "Already returned");
 define ("TOTAL", "Total");
-define ("STUFF_ID", "Material ID");
+define ("MATERIAL_ID", "Material ID");
 define ("NAME", "Name");
 define ("STATUS", "Status");
 define ("TYPE", "Type");
@@ -110,12 +110,12 @@ define ("BUTTON_RESET", "Reset");
 define ("BUTTON_CHANGE", "Change");
 define ("BUTTON_DELETE", "Delete");
 define ("BUTTON_RETURN", "Return");
-define ("BUTTON_SHOW_LENDS", "Show lends");
+define ("BUTTON_SHOW_LOANS", "Show loans");
 define ("BUTTON_ADD_USER", "Add user");
 define ("BUTTON_SEARCH", "Search");
 
 define ("YES", "Yes");
 define ("NO", "No");
 
-define ("ALL_STUFF", "All materials");
+define ("ALL_MATERIAL", "All materials");
 ?>

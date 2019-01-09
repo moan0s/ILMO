@@ -21,7 +21,7 @@ th {
 	background-color: #ECECEC;
 }
 
-tr.lend {
+tr.lent {
  background-color: #CE2C2C;
 }
 
@@ -47,27 +47,26 @@ a {
 }
 
 
-#logo.logo{
+.side-description{
+	width: 50%;
+	float: left;
+	
+}
+.logo{
+	box-sizing: border-box;
 	float: left;
 	width: auto;
 	padding: 10px 13px 0 10px;
 }
 
-.site_logo {
-	display: inline-block;
-	width: 314px;
-	height: 145px;
-	background-image: url("../images/logo_bib.png");
-}
-/* Site description and logo */
-.site-description {
+.status {
+	box-sizing: border-box;
+	display: block;
 	float: left;
-	width: 65%;
+	width: 50%;
 }
 
-.site-description h1 {
-margin-right: 0;
-}
+
 
 
 #navi{

@@ -2,7 +2,7 @@
 
 define ("YOUR_LOANS_AT_THE", "Your loans at the");
 define ("HELLO", "Hello");
-define ("YOU_HAVE_LEND", "You have lend:");
+define ("YOU_HAVE_LENT", "You have loan:");
 define ("MAIL_TITLE", "Title");
 define ("MAIL_AUTOR", "Author");
 define ("MAIL_NAME", "Name");

@@ -4,33 +4,30 @@ class Data {
 		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->read_variables();
-		if (substr($this->r_ac, -5) != 'plain'){
-			$this->set_session();
+		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
+			$this->set_session($this->r_ac);
 		}
+		$this->status = $this->get_status();
 		$this->settings = $this->get_settings(); 
+	}
+	#returns true if sombody is checked in in the library
+	function get_status($UID = NULL){
+		$aFields = array(
+			'checkout_time' => '0000-00-00 00:00:00'
+		);
+		if(isset($UID)){
+			$aFields['UID'] = $UID;	
+		}
+		return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
 	}
 
 	function get_settings(){
-	/*	if(file_exists($sDatei)){
-			$fp=fopen($sDatei,"r");
-			$sSettings=fread($fp,16364);
-	               	fclose($fp);
-			$aText=explode(";",$sSettings);
-			foreach ($aSettings as $sRow){
-				$aSettings
+		return parse_ini_file(__DIR__."/../config/settings.ini");
 
-			}
-	 */	
-		return parse_ini_file(__DIR__."/../settings.ini");
-			/*array(
-			'max_loan_time' => 0, //enter 0 for no max loan time
-			'email_interval' => 90,
-			'opening_days' =>
-				array ("monday", "tuesday", "wednesday", "thursday", "friday")	
-			);*/
-
-
-
+	}
+	function output_json($data){
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
     
    function read_variables() {
@@ -71,22 +68,24 @@ class Data {
       $this->databaselink = new mysqli(DB_HOST,DB_USER,DB_PW,DB_DATABASE);
       $this->databaselink->set_charset('utf8');
       if ($this->databaselink->connect_errno) {
-         echo "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
+         	return "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
       }
-      $this->databasename=DB_DATABASE;
-      $this->databaselink->query("SET SQL_MODE = '';");
+      	else{
+      		$this->databasename=DB_DATABASE;
+      		$this->databaselink->query("SET SQL_MODE = '';");
+		return True;
 	}
-
+	}
 	//Stores the Database on a distant SFTP-Server
 	//returns true if successful
 	function backup_database(){
-		return true;
+		return True;
 	}
    
-   function set_session(){
+   function set_session($action = NULL){
 	   //Variables set via the read_variables: action (i.e. "logout" ), user, pwd
-	   if (isset($this->r_ac)){
-		if($this->r_ac=="logo") { //logo is short for logout (action are alwas 4 characters long)
+	   if (isset($action)){
+		if($action=="logo") { //logo is short for logout (action are alwas 4 characters long)
          		$_SESSION['username']="";
 			$_SESSION['admin']=0;
 			session_destroy();
@@ -94,7 +93,7 @@ class Data {
       		}
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
-	      if($this->r_ac == "strt"){
+	      if($action == "strt"){
 	      		$this->error .= ENTER_USER_IDENTIFICATION;
 	      }
 	      $this->r_ac = "logi";
@@ -104,12 +103,11 @@ class Data {
       	}
 
 	if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
-		    $this->sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
+		    $sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
 		    if((isset($this->r_login_password)) and ($this->r_login_password!="")) {
-		     	$this->sPassword=md5(strrev(trim($this->r_login_password)));
-		        $aUser=$this->em_get_user(); //retrieve the user from the database, using pw-hash and username
-              		$mNumber=$aUser["user_ID"];
-              		if ($mNumber<1) {
+		     	$sPassword=md5(strrev(trim($this->r_login_password)));
+		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword); //retrieve the user from the database, using pw-hash and username
+			if (!$aUser) {
 		      		session_destroy();
 				$this->error = WRONG_LOGIN;
 				$this->r_ac="logi";
@@ -128,20 +126,20 @@ class Data {
 
 	}
    }
-   function em_get_user() { 
-      if(isset($this->sUser)){
-         if(strpos($this->sUser,"@")>0) {
-             $aFields=array("email"=>$this->sUser,"password"=>$this->sPassword);
-         }
-         else {    
-            $aFields=array("user_ID"=>$this->sUser,"password"=>$this->sPassword);
-         }   
-         $aResult=$this->select_row(TABLE_USER,$aFields);
-         if($aResult["user_ID"]>0) {
-              return $aResult;
-        }
-      }              
-      return -1;   
+   function em_get_user($sUser, $sPassword) { 
+	   if(isset($sUser)){
+		   if(strpos($sUser,"@")>0) {
+			   $aFields=array("email"=>$sUser,"password"=>$sPassword);
+		   }
+		   else{
+			$aFields=array("user_ID"=>$sUser,"password"=>$sPassword);
+		   }	  
+		   $aResult=$this->select_row(TABLE_USER,$aFields);
+		   if($aResult["user_ID"]>0) {
+			   return $aResult;
+		   }
+	   }              
+	   return False;   
    }
 
    function store_data($sTable,$aFields,$sKey_ID,$mID) {
@@ -288,19 +286,17 @@ class Data {
 		  return $this->databaselink->query($sQuery);
    }
 
-   //checks whether a book is already lend
-   //returns String containing "" or an error message
    function change_language($language){
 	$_SESSION['language']=$language;
    }
    
-   function check_ID_lend($ID){
-		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lend' => 1)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID, 'lend' => 1)) == -1)){
+   function check_ID_loan($ID){
+		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lent' => 1)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID, 'lent' => 1)) == -1)){
 		   $error_message= "";
 	   	}
 		else
 		{
-			$error_message = '<br>'.IS_ALREADY_LEND;
+			$error_message = '<br>'.IS_ALREADY_LENT;
 	   	}
 	   return $error_message;
    }
@@ -378,7 +374,7 @@ class Data {
 		return $error;
    }
 	function check_ID_exists($ID){
-		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_STUFF, array ('stuff_ID' => $ID)) == -1)){
+		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID)) == -1)){
 			return ID_DOES_NOT_EXIST;
 		}
 	}
@@ -444,72 +440,72 @@ class Open extends Data{
 
 }
 
-class Stuff extends Data{
-function get_stuff_itemized (){
-		$aStuff= array();
+class Material extends Data{
+function get_material_itemized (){
+		$aMaterial= array();
 		$aFields= array();
-		if((isset($this->r_stuff_ID)) and ($this->r_stuff_ID!= "")){$aFields["stuff_ID"] = $this->r_stuff_ID;}
+		if((isset($this->r_material_ID)) and ($this->r_material_ID!= "")){$aFields["material_ID"] = $this->r_material_ID;}
 		if((isset($this->r_name)) and ($this->r_name= "")){$aFields["name" ]= $this->r_name;}
-		$this->p_result = $this->select_rows(TABLE_STUFF, $aFields);
+		$this->p_result = $this->select_rows(TABLE_MATERIAL, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aStuff[$aRow['stuff_ID']] = $aRow;
+			$aMaterial[$aRow['material_ID']] = $aRow;
 		}
 		
-		return $aStuff;
+		return $aMaterial;
 
 	}
-	function get_stuff(){
+	function get_material(){
 	$sQuery="SELECT 
 	B1.name as name,
 	B1.location as location,
 	count(*) as number,
 	(
-	   select  count(*) as available from ".TABLE_STUFF." B2 where lend=0 and name=B1.name 
+	   select  count(*) as available from ".TABLE_MATERIAL." B2 where lent=0 and name=B1.name 
 	      ) as available 
-	     FROM `".TABLE_STUFF."` B1
+	     FROM `".TABLE_MATERIAL."` B1
 	     group by name";
 	
 	$this->p_result = $this->sql_statement($sQuery);
 	while($aRow=mysqli_fetch_assoc($this->p_result)){
-		$aStuff[$aRow['name']] = $aRow;
+		$aMaterial[$aRow['name']] = $aRow;
 		
 	}
 		
-	return $aStuff;
+	return $aMaterial;
 
 
 	}	
-	function save_stuff(){
+	function save_material(){
 		$aFields = array(
 			'name' => $this->r_name,
 			'location' => $this->r_location,
-			'lend' => null		
+			'lent' => null		
 		);
 		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=1; $i<=$this->r_number; $i++){
-				$aFields['stuff_ID'] = $this->r_stuff_ID." ".$i;
-				$this->ID=$this->store_data(TABLE_STUFF, $aFields, FALSE, FALSE);
+				$aFields['material_ID'] = $this->r_material_ID." ".$i;
+				$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, FALSE, FALSE);
 			}
 			
 		}
 		else{
-			$aFields['stuff_ID'] = $this->r_stuff_ID;
-			$this->ID=$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID',$this->r_stuff_ID);
+			$aFields['material_ID'] = $this->r_material_ID;
+			$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$this->r_material_ID);
 		}
 				
 	}
-	function delete_stuff(){
+	function delete_material(){
 		$aFields = array (
-			'stuff_ID' => $this->r_stuff_ID
+			'material_ID' => $this->r_material_ID
 		);
-		$this->removed=$this->delete_rows(TABLE_STUFF, $aFields);
+		$this->removed=$this->delete_rows(TABLE_MATERIAL, $aFields);
 	}
-	function return_stuff($stuff_ID){
+	function return_material($material_ID){
 		$aFields = array(
-			'lend' => 0		
+			'loan' => 0		
 		);
 
-		$this->id = $this->store_data(TABLE_STUFF, $aFields, 'stuff_ID',$stuff_ID);
+		$this->id = $this->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$material_ID);
 	return $ID;
 	
 	}
@@ -538,7 +534,7 @@ class Book extends Data {
 	B1.location as location,
 	count(*) as number,
 	(
-	   select  count(*) as available from ".TABLE_BOOKS." B2 where lend=0 and title=B1.title 
+	   select  count(*) as available from ".TABLE_BOOKS." B2 where lent=0 and title=B1.title 
 	      ) as available 
 	     FROM `".TABLE_BOOKS."` B1
 	     group by title";
@@ -556,7 +552,7 @@ class Book extends Data {
 			'title' => $this->r_title,
 			'author' => $this->r_author,
 			'location' => $this->r_location,
-			'lend' => null		
+			'lent' => null		
 		);
 		if ((isset($this->r_number)) and ($this->r_number>1)){
 			for ($i=0; $i<=$this->r_number; $i++){
@@ -584,7 +580,7 @@ class Book extends Data {
 	}
 	function return_book($book_ID){
 		$aFields = array(
-			'lend' => 0		
+			'lent' => 0		
 		);
 
 		$this->id = $this->store_data(TABLE_BOOKS, $aFields, 'book_ID',$book_ID);
@@ -633,11 +629,23 @@ class User extends Data {
 		
 		return $aUser;
 	}
+	function get_user_by_UID (){
+		$aUser= array();
+		$aFields= array();
+		
+		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
+		while($aRow=mysqli_fetch_assoc($this->p_result)){
+			$aUser[$aRow['UID']] = $aRow;
+		}
+		
+		return $aUser;
+	}
+
 
 }
 
-class Lend extends Data {
-	function save_lend(){
+class Loan extends Data {
+	function save_loan(){
 			$aFields = array(
 				'ID' => $this->r_ID,
 				'type' => $this->r_type,
@@ -648,61 +656,61 @@ class Lend extends Data {
 				'last_reminder' => date("Y-m-d"),
 
 			);
-		$this->ID=$this->store_data(TABLE_LEND, $aFields, FALSE, FALSE);
+		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
 		
 		$aFields = array(
-		'lend' => 1
+		'lent' => 1
 	);
 		if($this->r_type=="book"){
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}
-		if($this->r_type=="stuff"){
-			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
+		if($this->r_type=="material"){
+			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
 	}
 	
-	function return_lend(){
+	function return_loan(){
 		//einfügen, dass das Buch als verliehen eingetragen  wird
-		$aLend = $this->get_lend();
+		$aLoan = $this->get_loan();
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
 			'returned' => 1
 		);	
-		$this->ID=$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $this->r_lend_ID);
+		$this->ID=$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $this->r_loan_ID);
 		
 		$aFields = array(
-		'lend' => 0
+		'lent' => 0
 	);
-		if ($aLend['type']=='book'){ 
+		if ($aLoan['type']=='book'){ 
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}
-		if ($aLend['type']=='stuff'){
-			$this->store_data(TABLE_STUFF, $aFields, 'stuff_ID', $this->r_ID);
+		if ($aLoan['type']=='material'){
+			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
 
 	}
 	
-	function get_lend (){
-		//needs: String lend_ID returns: Associative array with complete lend Information
-		//create an array containig lend_ID
+	function get_loan (){
+		//needs: String loan_ID returns: Associative array with complete loan Information
+		//create an array containig loan_ID
 		$aFields= array();
 		
 		$oUser = new User;
 		$oBook = new Book;
-		$oStuff = new Stuff;	
+		$oMaterial = new Material;	
 		$oBook->r_book_ID = NULL;
-		$oSTUFF->r_stuff_ID = NULL;
+		$oMaterial->r_material_ID = NULL;
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
-		$this->all_stuff = $oStuff->get_stuff_itemized();
+		$this->all_material = $oMaterial->get_material_itemized();
 		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($this->r_lend_ID)) and ($this->r_lend_ID!= "") and ($this->r_lend_ID!=NULL)){$aFields["lend_ID"] = $this->r_lend_ID;}
-		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
+		if((isset($this->r_loan_ID)) and ($this->r_loan_ID!= "") and ($this->r_loan_ID!=NULL)){$aFields["loan_ID"] = $this->r_loan_ID;}
+		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aLend[$aRow['lend_ID']] = $aRow;
+			$aLoan[$aRow['loan_ID']] = $aRow;
 		}
 		
-		return $aLend;
+		return $aLoan;
 	} 
 
 
@@ -726,25 +734,25 @@ class Mail extends Data {
 		$this->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
 
 	}
-	//int $lend_ID + date $date -> void
-	//sets 'last' remminder in TABLE_LEND to the given date
-	function set_last_reminder($lend_ID, $date){
+	//int $loan_ID + date $date -> void
+	//sets 'last' remminder in TABLE_LOAN to the given date
+	function set_last_reminder($loan_ID, $date){
 		$aFields = array(
 				'last_reminder' => $date
 			);
-		$this->store_data(TABLE_LEND, $aFields, 'lend_ID', $lend_ID);
+		$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $loan_ID);
 
 	}
 	//void-> array(ID=loan_ID) of array(all loan  information)
 	//gets all loans from the database that are not returned 
 	function get_unreturned_loans() {
 		$aFields = array('returned' => '0');	
-		$this->p_result = $this->select_rows(TABLE_LEND, $aFields);
+		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
-			$aLend[$aRow['lend_ID']] = $aRow;
+			$aLoan[$aRow['loan_ID']] = $aRow;
 		}
-		return $aLend;
+		return $aLoan;
 	}
 	//string in format date(YYYY-mm-dd) -> bool
 	//checks if the last reminder was send more than 90 days before
@@ -766,11 +774,11 @@ class Mail extends Data {
 		       	'failed' => 0,
 			'total' => 0);
 		$aUnreturnedLoans = $this->get_unreturned_loans();
-		foreach($aUnreturnedLoans as $lend_ID => $aRow){
+		foreach($aUnreturnedLoans as $loan_ID => $aRow){
 			if ($this->reminder_necessary($aRow['last_reminder'])){
 				$stats['total']++;
 				if($this->send_reminder($aRow)){
-					$this->set_last_reminder($aRow['lend_ID'], date("Y-m-d"));
+					$this->set_last_reminder($aRow['loan_ID'], date("Y-m-d"));
 					$stats['successful']++;
 				}
 				else{
@@ -792,39 +800,49 @@ class Mail extends Data {
 			$oBook->r_book_ID = $aRow['ID'];
 			$aBook = $oBook->get_book_itemized()[$aRow['ID']];
 		}
-		if ($aRow['type'] == 'stuff'){
-			$oMaterial = new Stuff;
-			$oMaterial->r_stuff_ID = $aRow['ID'];
-			$aMaterial = $oMaterial->get_stuff_itemized()[$aRow['ID']];
+		if ($aRow['type'] == 'material'){
+			$oMaterial = new Material;
+			$oMaterial->r_material_ID = $aRow['ID'];
+			$aMaterial = $oMaterial->get_material_itemized()[$aRow['ID']];
 		}
 		
-		$subject = '[Ausleihe '.$aRow['lend_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
+		$subject = '[Ausleihe '.$aRow['loan_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
 		$message = 
 			HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
-			YOU_HAVE_LEND."\r\n\r\n";
+			YOU_HAVE_LENT."\r\n\r\n";
 		
 		if ($aRow['type'] == 'book'){
 			$message.=
 				TITLE.': '.$aBook['title']."\r\n".
 				AUTHOR.': '.$aBook['author']."\r\n";
 		}
-		if ($aRow['type'] == 'stuff'){
+		if ($aRow['type'] == 'material'){
 			$message.=
 				NAME.': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
-			LEND_ON.': '.$aRow['pickup_date']."\r\n\r\n".
+			LOAN_ON.': '.$aRow['pickup_date']."\r\n\r\n".
 			CONDITIONS_OF_LOAN.' '.
 			SHOW_LOANS_ONLINE."\r\n\r\n".
 			GREETINGS."\r\n".
 			TEAM."\r\n\r\n".
 			FUTHER_INFORMATION;
+		$issue = "Reminder on loan ".$aRow['loan_ID'];
+		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
 	
 		return mail($to, $subject, $message, MAIL_HEADER);
 
 	}
-}
 
+	function log_mail($email, $user_ID, $issue){
+		$fLog = fopen(__DIR__."/../".$this->settings['path_mail_log'], 'wb');
+		fwrite($fLog, '['.date("Y-m-d H:i:s").']: To: "'.$email.'" with user_ID: "'.$user_ID.'" because of: "'.$issue.'"'."\n");
+		fclose($fLog);
+
+	}
+
+}
+include ("class/presence.php");
 
 	
 	
