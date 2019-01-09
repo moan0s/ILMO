@@ -302,9 +302,8 @@ switch ($oObject->r_ac){
 			$oObject->error.= NO_PERMISSION;
 		}
 		break;
-		
 	case 'loan_new':
-		if ($_SESSION['admin']==1){	
+		if($_SESSION['admin']==1){	
 		$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
@@ -381,6 +380,14 @@ switch ($oObject->r_ac){
 		$status = $oObject->get_status($oObject->r_UID);
 		//var_dump($status);
 		$oObject->output_json($status);
+		break;
+	case 'presence_new':
+		if($_SESSION['admin']==1){	
+		$oObject->output .= $oObject->get_view("views/presence_form.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
 		break;
 	case 'presence_show_all':
 		if ($_SESSION['admin']==1){	

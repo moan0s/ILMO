@@ -55,7 +55,7 @@ echo $table;
 
 $form .='
 	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-	<input type = hidden name="ac" value = "loan_new">
+	<input type = hidden name="ac" value = "presence_new">
 		<input type="submit" value='.NEW_PRESENCE.'>
 	</form>';
 echo $form;
