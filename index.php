@@ -11,10 +11,11 @@ Database: MariaDB
 
 session_start();
 //uncomment to show errors
+/*
 ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
-
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ */
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
@@ -23,16 +24,19 @@ if (isset($_SESSION['language'])){
 	if($_SESSION['language'] == "english"){
 		include ("language/english/texts.php");
 		include ("language/english/library_info.php");
+		include ("language/english/presence.php");
 	}
 	else{
 		include ("language/german/texts.php");
 		include ("language/german/library_info.php");
+		include ("language/german/presence.php");
 	}
 }
 else {
 	$_SESSION['language'] = 'german';
 	include ("language/german/texts.php");
 	include ("language/german/library_info.php");
+	include ("language/german/presence.php");
 }		
 //object: parameter to clear which object
 $sName = "book";
@@ -377,9 +381,12 @@ switch ($oObject->r_ac){
 		$oObject->output_json(TRUE);
 		break;
 	case 'get_UID_status_bot':
-		$status = $oObject->get_status($oObject->r_UID);
-		//var_dump($status);
-		$oObject->output_json($status);
+		$aAnswer = array();
+		$oUser = new User;
+		$aAnswer['registered'] = !empty($oUser->get_user());
+		$aAnswer['present'] = $oObject->get_status($oObject->r_UID);
+		//var_dump($aAnswer);
+		$oObject->output_json($aAnswer);
 		break;
 	case 'presence_new':
 		if($_SESSION['admin']==1){	
