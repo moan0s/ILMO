@@ -5,7 +5,7 @@ A software to manage a library, especially books, other material, users, emails 
 ## Requirements
 This code requires a PHP version higher than 5.6.38 and an SQL-Database (best results with MariaDB). 
 
-For the tracking of workin hours you need an RasperryPi with an RFID-Chip and display (128x64 prefered) with the following software:
+For the tracking of workin hours you can use an RasperryPi with a RFID-Chip and display (128x64 prefered) with the following software:
 Python3
 SPI-Py from: https://github.com/lthiery/SPI-Py
 MFRC522-Python from: https://github.com/mxgxw/MFRC522-python/ (Attention: not maintained, I made manual changes that will be published soon)
@@ -15,9 +15,8 @@ Adafruit from: https://github.com/adafruit/Adafruit_SSD13
 ## Installation
 Clone the repository and make manual adjustments to the following files/directories
 - config/
-- settings.ini
 - images/
-- language/english/mail.php
+- language/ (only mail.php and library_information.php)
 Also create a database. A database stub (only necesary data, for the installation of a production enviroment) and a database example (for testing purposes) is provided.
 
 ## Using the software
