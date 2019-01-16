@@ -195,9 +195,9 @@ switch ($oObject->r_ac){
 	
 	case 'material_change':
 		if ($_SESSION['admin']==1){	
-		$oObject->aRow_all = $oObject->get_material_itemized();
-		$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
-		$oObject->output .= $oObject->get_view('views/material_form.php');
+			$oObject->aRow_all = $oObject->get_material_itemized();
+			$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
+			$oObject->output .= $oObject->get_view('views/material_form.php');
 		}
 		else{
 			$oObject->error .= NO_PERMISSION;
