@@ -4,8 +4,8 @@ $table = "<table border='1'>";
 		'<tr>
 		<th>'.FORENAME.'</th>
 		<th>'.SURNAME.'</th>
-		<th>'.CHECKIN.'</th>
-		<th>'.CHECKOUT.'</th>';
+		<th>'.CHECKIN_AT.'</th>
+		<th>'.CHECKOUT_AT.'</th>';
 if ($_SESSION['admin']==1){
 	$table .= '
 		<th>'.BUTTON_CHANGE.'</th>
@@ -40,7 +40,7 @@ foreach ($this->aPresence as $presence_ID => $aResult){
 
 			else{
 				$table .=' 
-					<td>'.ALREADY_CHECKED_OUT.'</td>';
+					<td>'.$aResult['checkout_time'].ALREADY_CHECKED_OUT.'</td>';
 			}
 
 			$table .=
