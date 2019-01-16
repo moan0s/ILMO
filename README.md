@@ -3,7 +3,7 @@ ifs-library
 A software to manage a library, especially books, other material, users, emails and opening hours. Also the tracking of working hours is possible.
 
 ## Requirements
-This code requires a PHP version higher than 5.6.38 and an SQL-Database (best results with MAriaDB). 
+This code requires a PHP version higher than 5.6.38 and an SQL-Database (best results with MariaDB). 
 
 For the tracking of workin hours you need an RasperryPi with an RFID-Chip and display (128x64 prefered) with the following software:
 Python3
@@ -18,7 +18,11 @@ Clone the repository and make manual adjustments to the following files/director
 - settings.ini
 - images/
 - language/english/mail.php
-Also create a database. A database stub (only necesary data, for the installation of a production enviroment) and a database example (for testing purposes) is provided
+Also create a database. A database stub (only necesary data, for the installation of a production enviroment) and a database example (for testing purposes) is provided.
+
+## Using the software
+This software is Open-Source so you are invited to use it for free. But prehaps you need some help to adjust the software to your library or want some new features? Feel free to contact me!
+
 
 
 ## License
