@@ -2,8 +2,8 @@
 
 /*
 controller for a loaning system
-version 1.1
-date 19.12.18
+version 1.2
+date 16.01.2019
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
