@@ -382,9 +382,9 @@ switch ($oObject->r_ac){
 		break;
 	case 'presence_checkout':
 		if ($_SESSION['admin']==1){	
-			$oObject->aPresence = $oObject->get_presence();
 			$oObject->set_status($oObject->r_UID, 1);
-			$oObject->output .= $oObject_get_view("views/all_present.php");
+			$oObject->aPresence = $oObject->get_presence();
+			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
 			$oObject->error.= NO_PERMISSION;
