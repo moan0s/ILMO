@@ -197,7 +197,7 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 		$oObject->aRow_all = $oObject->get_material_itemized();
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
-		$oObject->output = $oObject->get_view('views/material_form.php');
+		$oObject->output .= $oObject->get_view('views/material_form.php');
 		}
 		else{
 			$oObject->error .= NO_PERMISSION;
@@ -450,7 +450,8 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 			$oObject->save_presence($oObject->r_presence_ID);
 			$oObject->r_presence_ID = NULL;
-			$oObject->aUser = $oObject->get_presence();
+			$oObject->r_UID = NULL;
+			$oObject->aPresence = $oObject->get_presence();
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{

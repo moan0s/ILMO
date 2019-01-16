@@ -2,14 +2,20 @@
 
 class Presence extends Data{
 	//todo ist to check if UID and timstamp is okay
-	function save_presence(){
+	function save_presence($presence_ID = NULL){
 		$aFields = array(
 			'UID' => $this->r_UID,
 			'checkin_time' => $this->r_checkin_time,
 			'checkout_time' => $this->r_checkout_time
 		);
-		$this->store_data(TABLE_PRESENCE, $aFields);
-
+		if (isset($presence_ID)){
+			$aFields['presence_ID'] = $presence_ID;
+			$this->store_data(TABLE_PRESENCE, $aFields, 'presence_ID', $this->r_presence_ID);
+		}
+		else{
+			$this->store_data(TABLE_PRESENCE, $aFields, NULL, NULL);
+		}
+		return;
 	}
 	function set_status($UID, $status){
 		if ($status==0){

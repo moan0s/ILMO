@@ -661,8 +661,8 @@ class Loan extends Data {
 		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
 		
 		$aFields = array(
-		'lent' => 1
-	);
+			'lent' => 1
+		);
 		if($this->r_type=="book"){
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}

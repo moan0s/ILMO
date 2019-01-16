@@ -35,7 +35,7 @@ foreach ($this->aPresence as $presence_ID => $aResult){
 
 			if ($aResult['checkout_time'] == "0000-00-00 00:00:00"){
 				$table .='
-					<td> <a href="index.php?ac=presence_checkout&presence_ID='.$aResult["presence_ID"].'" >'.BUTTON_CHECKOUT.' </<> </td>';
+					<td> <a href="index.php?ac=presence_checkout&UID='.$aResult["UID"].'" >'.BUTTON_CHECKOUT.' </<> </td>';
 			}
 
 			else{
