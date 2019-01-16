@@ -40,7 +40,7 @@ foreach ($this->aPresence as $presence_ID => $aResult){
 
 			else{
 				$table .=' 
-					<td>'.$aResult['checkout_time'].ALREADY_CHECKED_OUT.'</td>';
+					<td>'.ALREADY_CHECKED_OUT.'</td>';
 			}
 
 			$table .=
