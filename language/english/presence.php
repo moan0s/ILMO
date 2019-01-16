@@ -7,5 +7,8 @@ define("OPEN", "Open");
 define("CLOSE", "Close");
 define("CURRTENT_STATUS", "Current Status");
 define("SHOW_PRESENCE", "Show Presences");
+define("CHECKIN_AT", "Checkin at");
+define("CHECKOUT_AT", "Checkout at");
+
 
 ?>

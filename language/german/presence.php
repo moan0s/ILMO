@@ -7,5 +7,7 @@ define("OPEN", "Geöffnet");
 define("CLOSE", "Geschlossen");
 define("CURRENT_STATUS", "Aktueller Status");
 define("SHOW_PRESENCE", "Zeige Anwesenheiten");
+define("CHECKIN_AT", "Eingecheckt um");
+define("CHECKOUT_AT", "Ausgecheckt um");
 
 ?>
