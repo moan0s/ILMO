@@ -380,6 +380,16 @@ switch ($oObject->r_ac){
 		$oObject->set_status($oObject->r_UID, 1);
 		$oObject->output_json(TRUE);
 		break;
+	case 'presence_checkout':
+		if ($_SESSION['admin']==1){	
+			$oObject->aPresence = $oObject->get_presence();
+			$oObject->set_status($oObject->r_UID, 1);
+			$oObject->output .= $oObject_get_view("views/all_present.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
 	case 'get_UID_status_bot':
 		$aAnswer = array();
 		$oUser = new User;
