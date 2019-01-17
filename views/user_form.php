@@ -22,6 +22,11 @@ $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post"
 		$form .= $this->aRow['email'];
 	}
 	$form .= '"> <br>'.
+		UID.': <input type="text" name="UID" value="';
+	if(isset($this->aRow['UID'])){
+		$form .= $this->aRow['UID'];
+	}
+	$form .= '"> <br>'.
 		LANGUAGE.': <input type="radio" id="english" name="language" value="english"';
 	
 	if ($this->aRow['language']== "english"){

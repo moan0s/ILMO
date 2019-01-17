@@ -7,17 +7,18 @@ $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post"
 		$form .= $this->r_presence_ID;
 	} 
 	$form .= '">'.
+
 		UID.': <input type="text" name="UID" value="'; 
 	if(isset($this->aRow['UID'])){
 		$form .= $this->aRow['UID'];
 	} 
 	$form .='"><br>'.
-		CHECKIN_TIME.': <input type="text" name="checkin_time" value="';
+		CHECKIN_AT.': <input type="text" name="checkin_time" value="';
 	if(isset($this->aRow['checkin_time'])){
 		$form .= $this->aRow['checkin_time'];
 	}
 	$form .= '"> <br>'.
-		CHECKOUT_TIME.': <input type="text" name="checkout_time" value="';
+		CHECKOUT_AT.': <input type="text" name="checkout_time" value="';
 	if(isset($this->aRow['checkout_time'])){
 		$form .= $this->aRow['checkout_time'];
 	}

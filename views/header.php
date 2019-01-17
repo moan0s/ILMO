@@ -16,7 +16,7 @@ $header = '
 		else{
 			$header.= CLOSE;
 		}
-	$header.='	
+	$header.='<br><br>	
 		<div class="language">
 			<form action="'.$_SERVER["PHP_SELF"].'" method="post">
 			<input type = hidden name="ac" value = "language_change">'.

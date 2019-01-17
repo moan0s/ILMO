@@ -6,6 +6,7 @@ $table = "<table border='1'>";
 		<th>'.SURNAME.'</th>
 		<th>'.FORENAME.'</th>
 		<th>'.EMAIL.'</th>
+		<th>'.UID.'</th>
 		';
 
 		
@@ -25,7 +26,8 @@ $table .= '</tr>';
 			<td>'.$aResult['user_ID'].'</td>
 			<td>'.$aResult['forename'].'</td>
 			<td>'.$aResult['surname'].'</td>
-			<td>'.$aResult['email'].'</td>';
+			<td>'.$aResult['email'].'</td>
+			<td>'.$aResult['UID'].'</td>';
 			if ($_SESSION['admin']==1){
 				$table .=
 				'<td> <a href="index.php?ac=user_change&user_ID='.$aResult['user_ID'].'" >'.BUTTON_CHANGE.' </<> </td>

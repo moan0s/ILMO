@@ -596,6 +596,7 @@ class User extends Data {
 			'forename' => $this->r_forename,
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
+			'UID' => $this->r_UID,
 			'language' => $this->r_language,
 			'password' => md5(strrev($this->r_password)),
 			'admin' => $this->r_admin
@@ -620,6 +621,7 @@ class User extends Data {
 		if((isset($this->r_forename)) and ($this->r_forename!= "")){$aFields["forename" ]= $this->r_forename;}
 		if((isset($this->r_surname)) and ($this->r_surname != "")){$aFields["surname"] = $this->r_surname;}
 		if((isset($this->r_email)) and ($this->r_email!= "")){$aFields["email"] = $this->r_email;}
+		if((isset($this->r_UID)) and ($this->r_UID!= "")){$aFields["UID"] = $this->r_UID;}
 		if((isset($this->r_language)) and ($this->r_language!= "")){$aFields["language"] = $this->r_email;}
 		
 		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
@@ -659,8 +661,8 @@ class Loan extends Data {
 		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
 		
 		$aFields = array(
-		'lent' => 1
-	);
+			'lent' => 1
+		);
 		if($this->r_type=="book"){
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}

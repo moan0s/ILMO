@@ -2,8 +2,8 @@
 
 /*
 controller for a loaning system
-version 1.1
-date 19.12.18
+version 1.2
+date 16.01.2019
 tested on php 7.2 and php 5.6.38
 Database: MariaDB
  */
@@ -11,10 +11,11 @@ Database: MariaDB
 
 session_start();
 //uncomment to show errors
+/*
 ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
-
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ */
 //start: includes
 include ("config/config.inc.php");
 include ("class/class.php");
@@ -23,16 +24,19 @@ if (isset($_SESSION['language'])){
 	if($_SESSION['language'] == "english"){
 		include ("language/english/texts.php");
 		include ("language/english/library_info.php");
+		include ("language/english/presence.php");
 	}
 	else{
 		include ("language/german/texts.php");
 		include ("language/german/library_info.php");
+		include ("language/german/presence.php");
 	}
 }
 else {
 	$_SESSION['language'] = 'german';
 	include ("language/german/texts.php");
 	include ("language/german/library_info.php");
+	include ("language/german/presence.php");
 }		
 //object: parameter to clear which object
 $sName = "book";
@@ -191,9 +195,9 @@ switch ($oObject->r_ac){
 	
 	case 'material_change':
 		if ($_SESSION['admin']==1){	
-		$oObject->aRow_all = $oObject->get_material_itemized();
-		$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
-		$oObject->output = $oObject->get_view('views/material_form.php');
+			$oObject->aRow_all = $oObject->get_material_itemized();
+			$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
+			$oObject->output .= $oObject->get_view('views/material_form.php');
 		}
 		else{
 			$oObject->error .= NO_PERMISSION;
@@ -302,9 +306,8 @@ switch ($oObject->r_ac){
 			$oObject->error.= NO_PERMISSION;
 		}
 		break;
-		
 	case 'loan_new':
-		if ($_SESSION['admin']==1){	
+		if($_SESSION['admin']==1){	
 		$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
@@ -377,10 +380,31 @@ switch ($oObject->r_ac){
 		$oObject->set_status($oObject->r_UID, 1);
 		$oObject->output_json(TRUE);
 		break;
+	case 'presence_checkout':
+		if ($_SESSION['admin']==1){	
+			$oObject->set_status($oObject->r_UID, 1);
+			$oObject->aPresence = $oObject->get_presence();
+			$oObject->output .= $oObject->get_view("views/all_present.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
+		break;
 	case 'get_UID_status_bot':
-		$status = $oObject->get_status($oObject->r_UID);
-		//var_dump($status);
-		$oObject->output_json($status);
+		$aAnswer = array();
+		$oUser = new User;
+		$aAnswer['registered'] = !empty($oUser->get_user());
+		$aAnswer['present'] = $oObject->get_status($oObject->r_UID);
+		//var_dump($aAnswer);
+		$oObject->output_json($aAnswer);
+		break;
+	case 'presence_new':
+		if($_SESSION['admin']==1){	
+		$oObject->output .= $oObject->get_view("views/presence_form.php");
+		}
+		else{
+			$oObject->error.= NO_PERMISSION;
+		}
 		break;
 	case 'presence_show_all':
 		if ($_SESSION['admin']==1){	
@@ -426,7 +450,8 @@ switch ($oObject->r_ac){
 		if ($_SESSION['admin']==1){	
 			$oObject->save_presence($oObject->r_presence_ID);
 			$oObject->r_presence_ID = NULL;
-			$oObject->aUser = $oObject->get_presence();
+			$oObject->r_UID = NULL;
+			$oObject->aPresence = $oObject->get_presence();
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{

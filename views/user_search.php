@@ -21,6 +21,11 @@ $form .= '"> <br>'.
 if(isset($oObject->aRow['email'])){
 	$form .= $oObject->aRow['email'];
 }
+$form .= '"> <br>'.
+	UID.': <input type="text" name="UID" value="';
+if(isset($oObject->aRow['UID'])){
+	$form .= $oObject->aRow['UID'];
+}
 $form .= '"> <br>
 		<input type="submit" value="'.BUTTON_SEARCH.'">
 		<input type="reset" value="'.BUTTON_RESET.'">	
