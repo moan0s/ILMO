@@ -7,10 +7,10 @@ This code requires a PHP version higher than 5.6.38 and an SQL-Database (best re
 
 For the tracking of workin hours you can use an RasperryPi with a RFID-Chip and display (128x64 prefered) with the following software:
 Python3
-SPI-Py from: https://github.com/lthiery/SPI-Py
-MFRC522-Python from: https://github.com/mxgxw/MFRC522-python/ (Attention: not maintained, I made manual changes that will be published soon)
-Request from http://docs.python-requests.org/en/master/
-Adafruit from: https://github.com/adafruit/Adafruit_SSD13
+SPI-Py from: https://github.com/lthiery/SPI-Py<br/>
+MFRC522-Python from: https://github.com/mxgxw/MFRC522-python/ (Attention: not maintained, I made manual changes that will be published soon)<br/>
+Request from http://docs.python-requests.org/en/master/<br/>
+Adafruit from: https://github.com/adafruit/Adafruit_SSD13<br/>
 
 ## Installation
 Clone the repository and make manual adjustments to the following files/directories
