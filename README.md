@@ -1,6 +1,6 @@
 ifs-library
 ==============
-A software to manage a library, especially books, other material, users, emails and opening hours. Also the tracking of working hours is possible.
+A software to manage a library, especially books, other material, users, emails and opening hours. Also the tracking of working hours is possible. The program is written and maintained by Julian-Samuel Gebühr.
 
 ## Requirements
 This code requires a PHP version higher than 5.6.38 and an SQL-Database (best results with MariaDB). 
@@ -21,6 +21,13 @@ Also create a database. A database stub (only necesary data, for the installatio
 
 ## Using the software
 This software is Open-Source so you are invited to use it for free. But prehaps you need some help to adjust the software to your library or want some new features? Feel free to contact me!
+
+## Bugs and Security
+You found an error in the code, want to suggest an improvement etc..? Just put it on the Issue Tracker, I will read it!
+For security issues please contact me directly, adress see below.
+## Contact
+You have any questions or problems concernig the software? Contact me!
+E-Mail: julian-samuel@gebuehr.net
 
 
 
