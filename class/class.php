@@ -554,8 +554,8 @@ class Book extends Data {
 			'location' => $this->r_location,
 			'lent' => null		
 		);
-		if ((isset($this->r_number)) and ($this->r_number>1)){
-			for ($i=0; $i<=$this->r_number; $i++){
+		if ((isset($this->r_number)) and ($this->r_number>0)){
+			for ($i=0; $i<$this->r_number; $i++){
 				if ($i<26){
 					$aFields['book_ID'] = $this->r_book_ID." ".chr(97+$i);
 				}
