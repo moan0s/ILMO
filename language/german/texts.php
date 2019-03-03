@@ -116,5 +116,4 @@ define ("BUTTON_SEARCH", "Suchen");
 define ("YES", "Ja");
 define ("NO","Nein");
 
-define ("ALL_MATERIAL", "Alle Materialien");
 ?>
