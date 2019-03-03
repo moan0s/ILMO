@@ -1,5 +1,5 @@
 <?php
-$footer .='
+$footer ='
 <div id= footer>
 	<div>
 	<a id=logo class=logo href="https://www.fs-medtech.de/" title="Website der Fachschaft">
