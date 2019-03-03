@@ -4,7 +4,7 @@ class Data {
 		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->read_variables();
-		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
+		if ((isset($this->r_ac)) and (substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
 		}
 		$this->settings = $this->get_settings(); 
