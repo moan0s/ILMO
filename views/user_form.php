@@ -29,13 +29,13 @@ $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post"
 	$form .= '"> <br>'.
 		LANGUAGE.': <input type="radio" id="english" name="language" value="english"';
 	
-	if ($this->aRow['language']== "english"){
+	if (($this->aRow['language']== "english") or ($this->settings['default_language'] == "english")){
 			 $form .= 'checked';
 	}
 	$form .= '>
 			<label for="english">'.ENGLISH.'</label>
 			<input type="radio" id="german" name="language" value="german" '; 
-	if ($this->aRow['language']=="german"){
+	if (($this->aRow['language']=="german") or ($this->settings['default_language'] == "german")){
 			$form .= 'checked';
 	}
 	$form .= '">
