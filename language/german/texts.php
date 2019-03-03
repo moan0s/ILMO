@@ -92,7 +92,6 @@ define ("STATUS_AVAILABLE", "Verfügbar");
 define ("STATUS_LENT", "Verliehen");
 define ("AVAILABILITY", "Verfügbarkeit");
 define ("TOTAL", "Gesamt");
-define ("MATERIAL_ID", "Materialien ID");
 define ("NAME", "Name");
 define ("STATUS", "Status");
 define ("TYPE", "Typ");
