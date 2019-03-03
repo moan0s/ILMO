@@ -1,5 +1,5 @@
 <?php
-$start .= WELCOME;
+$start = WELCOME;
 if ($_SESSION['admin']==0){
 $start .= USER_INSTRUCTION;
 }

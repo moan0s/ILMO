@@ -1,5 +1,5 @@
 <?php
-$navigation .='
+$navigation ='
 <ul>
 	<li><a href="index.php">'.HOME.'</a></li>
 	<li><a href="index.php?ac=book_show">'.ALL_BOOKS.'</a></li>
