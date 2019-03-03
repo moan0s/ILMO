@@ -9,11 +9,12 @@ $header = '
 		<p>'.LIBRARY_DESCRIPTION.'</p>
 	</div>';
 if ($this->settings['enable_status'] == 1){
-
+	$oPresence = new Presence;
+	$status = $oPresence->get_status();
 	$header .=
 		'<div class="status">
 			<h1>'.CURRENT_STATUS.'</h1>';
-			if($this->status){
+			if($status){
 				$header.= OPEN;
 			}
 			else{

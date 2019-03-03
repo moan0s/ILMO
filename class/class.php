@@ -8,33 +8,21 @@ class Data {
 			$this->set_session($this->r_ac);
 		}
 		$this->settings = $this->get_settings(); 
-		if($this->settings['enable_status']==1){	
-			$this->status = $this->get_status();
-		}
 	}
-	#returns true if sombody is checked in in the library
-	if($this->settings['enable_status']==1){	
-		function get_status($UID = NULL){
-			$aFields = array(
-				'checkout_time' => '0000-00-00 00:00:00'
-			);
-			if(isset($UID)){
-				$aFields['UID'] = $UID;	
-			}
-			return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
-		}
-	}
+	
+	#parses settings in an array
+	#returns array
 	function get_settings(){
 		return parse_ini_file(__DIR__."/../config/settings.ini");
 
 	}
-	if($this->settings['enable_presence_API']==1){
-		function output_json($data){
-			header('Content-Type: application/json');
-			echo json_encode($data);
-		}
+
+	#parses given data in json and outputs them
+	function output_json($data){
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
-    
+
    function read_variables() {
       //reads all GET and POST variables into the object, addslashing both
       if (count($_POST)) {
@@ -849,9 +837,8 @@ class Mail extends Data {
 	}
 
 }
-if($this->settings['enable_presence_API']==1){
-	include ("class/presence.php");
-}
+
+include ("class/presence.php");
 	
 	
 ?>
