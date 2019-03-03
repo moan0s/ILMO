@@ -7,15 +7,19 @@ $header = '
 		</a>
 		<h1>'.LIBRARY_NAME.'</h1>
 		<p>'.LIBRARY_DESCRIPTION.'</p>
-	</div>
-	<div class="status">
-		<h1>'.CURRENT_STATUS.'</h1>';
-		if($this->status){
-			$header.= OPEN;
-		}
-		else{
-			$header.= CLOSE;
-		}
+	</div>';
+if ($this->settings['enable_status'] == 1){
+
+	$header .=
+		'<div class="status">
+			<h1>'.CURRENT_STATUS.'</h1>';
+			if($this->status){
+				$header.= OPEN;
+			}
+			else{
+				$header.= CLOSE;
+			}
+}
 	$header.='<br><br>	
 		<div class="language">
 			<form action="'.$_SERVER["PHP_SELF"].'" method="post">

@@ -7,27 +7,32 @@ class Data {
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
 		}
-		$this->status = $this->get_status();
 		$this->settings = $this->get_settings(); 
+		if($this->settings['enable_status']==1){	
+			$this->status = $this->get_status();
+		}
 	}
 	#returns true if sombody is checked in in the library
-	function get_status($UID = NULL){
-		$aFields = array(
-			'checkout_time' => '0000-00-00 00:00:00'
-		);
-		if(isset($UID)){
-			$aFields['UID'] = $UID;	
+	if($this->settings['enable_status']==1){	
+		function get_status($UID = NULL){
+			$aFields = array(
+				'checkout_time' => '0000-00-00 00:00:00'
+			);
+			if(isset($UID)){
+				$aFields['UID'] = $UID;	
+			}
+			return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
 		}
-		return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
 	}
-
 	function get_settings(){
 		return parse_ini_file(__DIR__."/../config/settings.ini");
 
 	}
-	function output_json($data){
-		header('Content-Type: application/json');
-		echo json_encode($data);
+	if($this->settings['enable_presence_API']==1){
+		function output_json($data){
+			header('Content-Type: application/json');
+			echo json_encode($data);
+		}
 	}
     
    function read_variables() {
@@ -844,8 +849,9 @@ class Mail extends Data {
 	}
 
 }
-include ("class/presence.php");
-
+if($this->settings['enable_presence_API']==1){
+	include ("class/presence.php");
+}
 	
 	
 ?>
