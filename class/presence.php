@@ -67,8 +67,6 @@ class Presence extends Data{
 		return $aPresence;
 	}
 
-}
-
 	#returns true if sombody is checked in in the library
 	function get_status($UID = NULL){
 		$aFields = array(
