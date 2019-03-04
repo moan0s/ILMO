@@ -21,7 +21,17 @@ $form .= '>
 	ID.': <input type="text" name="ID" value="';
 if(isset($this->aRow['ID'])){
 	$form .= $this->aRow['ID'];
-} 
+}
+$form .= '"> <br>'.
+	LENT_ON.': <input type="text" name="pickup_date" value="';
+if ((isset($this->aRow['pickup_date']){
+	 $form .= $this->aRow['pickup_date'];
+}
+$form .= '"> <br>'.
+	RETURNED_ON.': <input type="text" name="return_date" value="';
+if ((isset($this->aRow['return_date']){
+	 $form .= $this->aRow['return_date'];
+}
 $form .= '"> <br>
 		<input type="submit" value="'.BUTTON_SEND.'">
 		<input type="reset" value="'.BUTTON_RESET.'">	

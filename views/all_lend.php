@@ -3,7 +3,7 @@ $table = "<table border='1'>";
 		$table .=
 		'<tr>
 		<th>'.LEND_ID.'</th>
-		<th>'.LEND_ON.'</th>
+		<th>'.LENT_ON.'</th>
 		<th>'.RETURNED_ON.'</th>
 		<th>'.TITLE_MATERIAL.'</th>
 		<th>'.ID.'</th>

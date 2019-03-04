@@ -48,6 +48,7 @@ define ("PASSWORD_TO_SHORT", "Your choosen password is to short. Please enter a 
 define ("ENTER_BOOK_TITLE", "Please enter a title for the book.<br>");
 define ("ENTER_BOOK_AUTHOR", "Please enter a author for the book.<br>");
 define ("ENTER_LOCATION", "Please enter a location.<br>");
+define ("ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD", "Please enter a valid date in the format YYYY-MM-DD.<br>");
 
 define ("BOOK_ALREADY_LOAN", "This book is already loan.<br>");
 define ("IS_ALREADY_LENT", "This article is already lent.");
@@ -79,7 +80,7 @@ define ("TITLE", "Titel");
 define ("AUTHOR", "Author");
 define ("TITLE_MATERIAL", "Title/Material");
 define ("LOCATION", "Location");
-define ("LOAN_ON", "Loan on");
+define ("LENT_ON", "Lent on");
 define ("RETURNED_ON", "Returned on");
 define ("ID", "ID");
 define ("SURNAME", "Surname");

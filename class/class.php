@@ -363,6 +363,11 @@ class Data {
 				$error .= ENTER_LOCATION;	
 			}
 		}
+		if(isset($this->r_pickup_date)){
+			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)){
+			$error.= ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD;	
+			}
+		}
 
 		return $error;
    }
@@ -641,16 +646,21 @@ class User extends Data {
 
 class Loan extends Data {
 	function save_loan(){
-			$aFields = array(
+		$aFields = array(
 				'ID' => $this->r_ID,
 				'type' => $this->r_type,
 				'user_ID' => $this->r_user_ID,
-				'pickup_date' => date("Y-m-d H:i:s"),
 				'return_date' => NULL,
 				'returned' => NULL,
 				'last_reminder' => date("Y-m-d"),
 
 			);
+			if(isset($this->r_pickup_date)){
+				$aFields['pickup_date'] = $this->r_pickup_date;
+			}
+			else{
+				$aFields['pickup_date'] = date("Y-m-d H:i:s");
+			}
 		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
 		
 		$aFields = array(
@@ -662,6 +672,7 @@ class Loan extends Data {
 		if($this->r_type=="material"){
 			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
+	
 	}
 	
 	function return_loan(){
