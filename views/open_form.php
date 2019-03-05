@@ -11,10 +11,23 @@ $open_form ='
 	foreach($this->settings['opening_days'] as $day){
 		$open_form .= '<tr>
 			<td>'.constant(strtoupper($day)).'</td>
-			<td><input type="text" name="'.$day.'_s" value="'.$this->aOpen[$day]["start"].'"></td>
-			<td><input type="text" name="'.$day.'_e" value="'.$this->aOpen[$day]["end"].'"></td>
-			<td><input type="text" name="'.$day.'_n" value="'.$this->aOpen[$day]["notice"].'"></td>
-</tr>';
+			<td><input type="text" name="'.$day.'_s" value="';
+		if (isset($this->aOpen[$day]["start"])){
+			$open_form.= $this->aOpen[$day]["start"];
+		}
+		$open_form .= '"></td>
+			<td><input type="text" name="'.$day.'_e" value="';
+		if (isset($this->aOpen[$day]["end"])){
+			$open_form.= $this->aOpen[$day]["end"];
+		}
+		
+		$open_form .= '"></td>
+			<td><input type="text" name="'.$day.'_n" value="';
+		if (isset($this->aOpen[$day]["notice"])){
+			$open_form.= $this->aOpen[$day]["notice"];
+		}
+		$open_form .='"></td>
+		</tr>';
 	}	
 $open_form .= '</table>
 	<input type="submit" value="'.BUTTON_SEND.'">
