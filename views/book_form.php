@@ -1,5 +1,5 @@
 <?php
-$form .= '<form action="'.$_SERVER["PHP_SELF"].'" method="post">
+$form = '<form action="'.$_SERVER["PHP_SELF"].'" method="post">
 	<input type = hidden name="ac" value = "book_save">'.
 	BOOK_ID.': <input type="text" name="book_ID" value="';
 if(isset($this->aRow['book_ID']))
