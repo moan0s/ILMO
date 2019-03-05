@@ -75,6 +75,7 @@ define ("FRIDAY", "Freitag");
 define ("USER_ID", "Benutzer-ID");
 define ("LOAN_ID", "Ausleih-ID");
 define ("BOOK_ID", "Buch-ID");
+define ("UID", "UID");
 define ("NUMBER","Anzahl");
 define ("MATERIAL_ID" , "Material-ID");
 define ("TITLE", "Titel");
