@@ -1,5 +1,5 @@
 <?php
-$login .= '
+$login = '
 <br><h1>'.PLEASE_LOG_IN.' :</h1><br>
 
 	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
