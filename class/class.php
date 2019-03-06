@@ -364,12 +364,12 @@ class Data {
 			}
 		}
 		if((isset($this->r_pickup_date)) and ($this->r_pickup_date !="")){
-			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)){
+			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_pickup_date)){
 			$error.= ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD;	
 			}
 		}
-		if((isset($this->r_pickup_date)) and ($this->r_pickup_date !="")){
-			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)){
+		if((isset($this->r_return_date)) and ($this->r_return_date !="")){
+			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_return_date)){
 			$error.= ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD;	
 			}
 		}
