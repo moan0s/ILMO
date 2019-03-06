@@ -697,14 +697,12 @@ class Loan extends Data {
 		$aFields = array(
 		'lent' => 0
 	);
-		var_dump($aLoan);
 		if ($aLoan['type']=='book'){ 
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}
 		if ($aLoan['type']=='material'){
 			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
-		$this->show_this();
 
 	}
 	
