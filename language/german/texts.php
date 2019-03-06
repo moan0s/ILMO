@@ -84,7 +84,6 @@ define ("TITLE_MATERIAL", "Buchtitel/Gegenstand");
 define ("LOCATION", "Standort");
 define ("LENT_ON", "Ausgeliehen am");
 define ("RETURNED_ON", "Zurückgegeben am");
-define ("LENT_ON", "Ausgeliehen am");
 define ("ALREADY_RETURNED", "Bereits zurückgegeben");
 define ("ID", "ID");
 define ("SURNAME", "Nachname");
