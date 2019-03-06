@@ -659,11 +659,17 @@ class Loan extends Data {
 				'last_reminder' => date("Y-m-d"),
 
 			);
-			if(isset($this->r_pickup_date)){
+			if((isset($this->r_pickup_date)) and ( ""!= $this->r_pickup_date)){
 				$aFields['pickup_date'] = $this->r_pickup_date;
 			}
 			else{
 				$aFields['pickup_date'] = date("Y-m-d H:i:s");
+			}
+			if((isset($this->r_return_date)) and ( ""!= $this->r_return_date)){
+				$aFields['return_date'] = $this->r_return_date;
+			}
+			else{
+				$aFields['return_date'] = "0000-00-00";
 			}
 		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
 		
@@ -680,8 +686,8 @@ class Loan extends Data {
 	}
 	
 	function return_loan(){
-		//einfügen, dass das Buch als verliehen eingetragen  wird
-		$aLoan = $this->get_loan();
+		$aLoans= $this->get_loan();
+		$aLoan = $aLoans[$this->r_loan_ID];
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
 			'returned' => 1
@@ -691,12 +697,14 @@ class Loan extends Data {
 		$aFields = array(
 		'lent' => 0
 	);
+		var_dump($aLoan);
 		if ($aLoan['type']=='book'){ 
 			$this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $this->r_ID);
 		}
 		if ($aLoan['type']=='material'){
 			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
+		$this->show_this();
 
 	}
 	
