@@ -25,12 +25,12 @@ if(isset($this->aRow['ID'])){
 	$form .= $oObject->aRow['ID'];
 } 
 $form .=  '"> <br>'.
-	PICKUP_DATE.': <input type="text" name="pickup_date" value="'; 
+	LENT_ON.': <input type="text" name="pickup_date" value="'; 
 if(isset($this->aRow['pickup_date'])){
 	$form .= $oObject->aRow['pickup_date'];
 } 
 $form .=  '"> <br>'.
-	RETURN_DATE.': <input type="text" name="return_date" value="'; 
+	RETURNED_ON.': <input type="text" name="return_date" value="'; 
 if(isset($this->aRow['return_date'])){
 	$form .= $oObject->aRow['return_date'];
 } 

@@ -82,7 +82,7 @@ define ("TITLE", "Titel");
 define ("AUTHOR", "Autor");
 define ("TITLE_MATERIAL", "Buchtitel/Gegenstand");
 define ("LOCATION", "Standort");
-define ("LOAN_ON", "Ausgeliehen am");
+define ("LENT_ON", "Ausgeliehen am");
 define ("RETURNED_ON", "Zurückgegeben am");
 define ("LENT_ON", "Ausgeliehen am");
 define ("ALREADY_RETURNED", "Bereits zurückgegeben");
