@@ -686,7 +686,7 @@ class Loan extends Data {
 	}
 	
 	function return_loan(){
-		$aLoans= $this->get_loan();
+		$aLoans= $this->get_loan(NULL, NULL, NULL);
 		$aLoan = $aLoans[$this->r_loan_ID];
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
@@ -706,7 +706,7 @@ class Loan extends Data {
 
 	}
 	
-	function get_loan (){
+	function get_loan ($loanID = NULL, $userID = NULL, $bookID = NULL){
 		//needs: String loan_ID returns: Associative array with complete loan Information
 		//create an array containig loan_ID
 		$aFields= array();
@@ -719,8 +719,8 @@ class Loan extends Data {
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
 		$this->all_material = $oMaterial->get_material_itemized();
-		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($this->r_loan_ID)) and ($this->r_loan_ID!= "") and ($this->r_loan_ID!=NULL)){$aFields["loan_ID"] = $this->r_loan_ID;}
+		if((isset($userID)) and ($userID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
+		if((isset($loanID)) and ($loanID!= "")){$aFields["loan_ID"] = $this->r_loan_ID;}
 		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aLoan[$aRow['loan_ID']] = $aRow;

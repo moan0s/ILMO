@@ -323,8 +323,7 @@ switch ($oObject->r_ac){
 			}
 			else{
 				$oObject->save_loan();
-				$oObject->r_loan_ID = NULL;
-				$oObject->aLoan = $oObject->get_loan();
+				$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
 				$oObject->output .= $oObject->get_view("views/all_loans.php");
 			
 			}
@@ -336,9 +335,7 @@ switch ($oObject->r_ac){
 	case 'loan_return':
 		if ($_SESSION['admin']==1){	
 		$oObject->return_loan();
-		$oObject->r_loan_ID = NULL;
-		$oObject->r_book_ID = NULL;
-		$oObject->aLoan = $oObject->get_loan();
+		$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
 		$oObject->output .= $oObject->get_view("views/all_loans.php");
 		}
 		else{
@@ -347,7 +344,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'loan_show':
 		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){	
-		$oObject->aLoan = $oObject->get_loan();
+		$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
 		$oObject->output .= $oObject->get_view("views/all_loans.php");
 		}
 		else{
@@ -356,13 +353,13 @@ switch ($oObject->r_ac){
 		break;
 	case 'loan_self':
 		$oObject->r_user_ID = $_SESSION['user_ID'];
-		$oObject->aLoan = $oObject->get_loan();
+		$oObject->aLoan = $oObject->get_loan(NULL, $_SESSION['user_ID'], NULL);
 		$oObject->output .= $oObject->get_view("views/all_loans.php");
 		break;
 	case 'loan_change':
 		if ($_SESSION['admin']==1){	
-		$oObject->get_loan();
-		$oObject->output .= $oObject->get_view("views/loan_form.php");
+			$oObject->get_loan($this->r_loan_ID, NULL, NULL);
+			$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
 			$oObject->error .= NO_PERMISSION;
