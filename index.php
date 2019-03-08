@@ -358,7 +358,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'loan_change':
 		if ($_SESSION['admin']==1){	
-			$oObject->get_loan($oObject->r_loan_ID, NULL, NULL);
+			$oObject->aLoan = $oObject->get_loan($oObject->r_loan_ID, NULL, NULL)[$oObject->r_loan_ID];
 			$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
