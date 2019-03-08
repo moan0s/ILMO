@@ -3,7 +3,7 @@ ELMO - Easy Library Management Online
 A software to manage a library, especially books, other material, users, emails and opening hours. Also the tracking of working hours is possible. The program is written and maintained by Julian-Samuel Gebühr.
 
 ## Requirements
-This code requires a PHP version higher than 5.6.38 and an SQL-Database (best results with MariaDB). 
+This code requires PHP version 5.6.38 or higher and an SQL-Database (best results with MariaDB). 
 
 For the tracking of workin hours you can use an RasperryPi with a RFID-Chip and display (128x64 prefered) with the following software:
 Python3
