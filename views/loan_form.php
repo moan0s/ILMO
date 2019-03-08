@@ -1,5 +1,4 @@
 <?php
-$this->show_this();
 $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
 	<input type = hidden name="ac" value = "loan_save">
 	';
