@@ -34,11 +34,11 @@ $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post"
 	}
 	$form .= '>
 			<label for="english">'.ENGLISH.'</label>
-			<input type="radio" id="german" name="language" value="german" '; 
+			<input type="radio" id="german" name="language" value="german" ';
 	if (($this->aRow['language']=="german") or ($this->settings['default_language'] == "german")){
 			$form .= 'checked';
 	}
-	$form .= '">
+	$form .= '>
 		<label for="german">'.GERMAN.'</label>
 	       	<br>'.
 		PASSWORD.': <input type="password" name="password">  <br>';
