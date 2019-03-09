@@ -3,6 +3,7 @@ class Data {
 	function __construct(){
 		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
+		$this->em_check_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
@@ -119,6 +120,81 @@ class Data {
 
 	}
    }
+
+    function em_check_database() {
+	$checkforinstallation=0;
+	$aTable=array();
+      	//Alle Tabellen in Array lesen, inklusive aller Eigenschaften
+      	$result=$this->databaselink->query("show tables from ".DB_DATABASE);
+	while($row = $result->fetch_array(MYSQLI_BOTH)){ 
+		$aTable[]=$row[0];
+	}
+      	//alle physisch auf dem Server vorhandenen Module abkopfen, ob die Datenbank stimmt.
+	
+	if(file_exists(MODULE_PATH."/config/config.inc.php")) {
+		
+		require_once(MODULE_PATH."/config/config.inc.php");
+	
+	}  //else {$sE="no config for ".$Modul."<br>";}
+	$aData=array();
+	include(MODULE_PATH."/config/db_array.inc.php");
+	foreach($aData as $table=>$fields) {
+		if(!in_array($table,$aTable)) {
+			//Tabelle neu anlegen
+			$mCounter=0;
+			$sCommand="CREATE TABLE IF NOT EXISTS `".$table."` (";
+			foreach($fields as $fieldname=>$properties) {
+				if($mCounter==0) {
+					$key="KEY `".$fieldname."` (`".$fieldname."`)";
+				}
+				if($properties["size"]!="") { 
+					$size="(".$properties["size"].")";
+				}
+				else {
+					$size="";
+				}
+				if((isset($properties["unique"])) and ($properties['unique']==true)) { 
+					$unique="UNIQUE KEY `".$fieldname."_2` (`".$fieldname."`),";}
+				else {
+					$unique="";
+				}
+				if((isset($properties["extra"])) and ($properties != "")){
+					$extra = $properties['extra'];
+				}
+				$sCommand .= "`".$fieldname."` ".$properties["type"].$size." ".$properties["standard"]." ".$extra.",";
+				$mCounter++;
+			
+			}
+			$sCommand.=$unique.$key.") ENGINE=InnoDB ;";
+			$this->last_query[]=$sCommand;
+			$updateresult=$this->databaselink->query($sCommand);
+		}
+		else {
+			//Felder checken und Tabelle updaten
+			$resultField=$this->databaselink->query("show fields from ".DB_DATABASE.".".$table);
+			while($aRowF = $resultField->fetch_array(MYSQLI_BOTH)){ 
+				$aTableFields[]=$aRowF[0];
+			}
+			foreach($fields as $fieldname=>$properties) {
+				if(!in_array($fieldname,$aTableFields)) {
+					if((isset($properties["size"]) and ($properties['size']!=""))) { 
+						$size="(".$properties["size"].")";
+					}
+					else {
+						$size="";
+					}
+					$sCommand="ALTER TABLE `".$table."` ADD `".$fieldname."` ".$properties["type"].$size." ".$properties["standard"];
+					$this->last_query[]=$sCommand;
+					$updateresult=$this->databaselink->query($sBefehl);
+				}
+			}
+		}
+		unset($aTableFields);
+		unset($aFields);
+		unset($properties);
+	}
+	unset($aData);
+    }
    function em_get_user($sUser, $sPassword) { 
 	   if(isset($sUser)){
 		   if(strpos($sUser,"@")>0) {
