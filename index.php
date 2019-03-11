@@ -9,9 +9,9 @@ version 1.2
 session_start();
 //uncomment to show errors
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 //start: includes
 include ("config/config.inc.php");
@@ -250,10 +250,9 @@ switch ($oObject->r_ac){
 				$oObject->error .= $er;
 			}
 			else{
-			$oObject->save_user();
-			$oObject->r_user_ID = NULL;
-			$oObject->aUser = $oObject->get_user();
-			$oObject->output .= $oObject->get_view("views/all_user.php");
+				$oObject->save_user();
+				$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
+				$oObject->output .= $oObject->get_view("views/all_user.php");
 			}
 		}
 		else{
@@ -262,24 +261,22 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_delete':
 		if ($_SESSION['admin']==1){	
-		$oObject->delete_user();
-		$oObject->r_user_ID = NULL;
-		$oObject->aUser = $oObject->get_user();
-		$oObject->output .= $oObject->get_view("views/all_user.php");
+			$oObject->delete_user();
+			$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
+			$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
 			$oObject->error.= NO_PERMISSION;
 		}
 		break;
 	case 'user_self':
-		$oObject->r_user_ID =$_SESSION['user_ID'];
-		$oObject->aUser = $oObject->get_user();
+		$oObject->aUser = $oObject->get_user($_SESSION['user_ID'], NULL, NULL, NULL, NULL, NULL);
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		break;
 	case 'user_show':
 		if ($_SESSION['admin']==1){	
-		$oObject->aUser = $oObject->get_user();
-		$oObject->output .= $oObject->get_view("views/all_user.php");
+			$oObject->aUser = $oObject->get_user($oObject->r_user_ID, NULL, NULL, NULL, NULL, NULL);
+			$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
 			$oObject->error.= NO_PERMISSION;
@@ -295,7 +292,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_change':
 		if ($_SESSION['admin']==1){	
-		$oObject->aRow_all = $oObject->get_user();
+		$oObject->aRow_all = $oObject->get_user($oObject->r_user_ID, NULL, NULL, NULL, NULL, NULL);
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_user_ID];
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
@@ -387,7 +384,7 @@ switch ($oObject->r_ac){
 	case 'get_UID_status_bot':
 		$aAnswer = array();
 		$oUser = new User;
-		$aAnswer['registered'] = !empty($oUser->get_user());
+		$aAnswer['registered'] = !empty($oUser->get_user(NULL, NULL, NULL, NULL, $oObject->r_UID, NULL));
 		$aAnswer['present'] = $oObject->get_status($oObject->r_UID);
 		//var_dump($aAnswer);
 		$oObject->output_json($aAnswer);
@@ -459,7 +456,7 @@ switch ($oObject->r_ac){
 
 }
 
-//$oObject->show_this();
+//$oObject->show_oObject();
 if (substr($oObject->r_ac, -3) != "bot"){
 	echo $oObject->get_view("views/head.php");
 	echo $oObject->get_view("views/body.php");

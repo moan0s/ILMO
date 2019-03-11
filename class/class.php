@@ -122,10 +122,9 @@ class Data {
    }
 
     function em_check_database() {
-	$checkforinstallation=0;
 	$aTable=array();
       	//Alle Tabellen in Array lesen, inklusive aller Eigenschaften
-      	$result=$this->databaselink->query("show tables from ".DB_DATABASE);
+	$result=$this->databaselink->query("show tables from ".DB_DATABASE);
 	while($row = $result->fetch_array(MYSQLI_BOTH)){ 
 		$aTable[]=$row[0];
 	}
@@ -144,6 +143,7 @@ class Data {
 			$mCounter=0;
 			$sCommand="CREATE TABLE IF NOT EXISTS `".$table."` (";
 			foreach($fields as $fieldname=>$properties) {
+				$extra = "";
 				if($mCounter==0) {
 					$key="KEY `".$fieldname."` (`".$fieldname."`)";
 				}
@@ -185,7 +185,7 @@ class Data {
 					}
 					$sCommand="ALTER TABLE `".$table."` ADD `".$fieldname."` ".$properties["type"].$size." ".$properties["standard"];
 					$this->last_query[]=$sCommand;
-					$updateresult=$this->databaselink->query($sBefehl);
+					$updateresult=$this->databaselink->query($sCommand);
 				}
 			}
 		}
@@ -692,15 +692,27 @@ class User extends Data {
 		);
 		$this->removed=$this->delete_rows(TABLE_USER, $aFields);
 	}
-	function get_user (){
+	function get_user ($user_ID = NULL, $forename = NULL, $surname = NULL, $email = NULL, $UID = NULL, $language = NULL){
 		$aUser= array();
 		$aFields= array();
-		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($this->r_forename)) and ($this->r_forename!= "")){$aFields["forename" ]= $this->r_forename;}
-		if((isset($this->r_surname)) and ($this->r_surname != "")){$aFields["surname"] = $this->r_surname;}
-		if((isset($this->r_email)) and ($this->r_email!= "")){$aFields["email"] = $this->r_email;}
-		if((isset($this->r_UID)) and ($this->r_UID!= "")){$aFields["UID"] = $this->r_UID;}
-		if((isset($this->r_language)) and ($this->r_language!= "")){$aFields["language"] = $this->r_email;}
+		if((isset($user_ID)) and ($user_ID!= "")){
+			$aFields["user_ID"] = $user_ID;
+		}
+		if((isset($forename)) and ($forename!= "")){
+			$aFields["forename" ]= $forename;
+		}
+		if((isset($surname)) and ($surname != "")){
+			$aFields["surname"] = $surname;
+		}
+		if((isset($email)) and ($email!= "")){
+			$aFields["email"] = $email;
+		}
+		if((isset($UID)) and ($UID!= "")){
+			$aFields["UID"] = $UID;
+		}
+		if((isset($language)) and ($language!= "")){
+			$aFields["language"] = $language;
+		}
 		
 		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
