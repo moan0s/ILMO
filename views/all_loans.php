@@ -56,7 +56,7 @@ if ($_SESSION['admin']==1){
 		$table = $table."</table>";
 		echo $table;
 
-$form .='
+$form ='
 	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
 	<input type = hidden name="ac" value = "loan_new">
 		<input type="submit" value='.NEW_LOAN.'>
