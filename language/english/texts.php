@@ -93,7 +93,6 @@ define ("STATUS_LENT", "Lent");
 define ("AVAILABILITY", "Availability");
 define ("ALREADY_RETURNED", "Already returned");
 define ("TOTAL", "Total");
-define ("MATERIAL_ID", "Material ID");
 define ("NAME", "Name");
 define ("STATUS", "Status");
 define ("TYPE", "Type");
@@ -119,5 +118,4 @@ define ("BUTTON_SEARCH", "Search");
 define ("YES", "Yes");
 define ("NO", "No");
 
-define ("ALL_MATERIAL", "All materials");
 ?>

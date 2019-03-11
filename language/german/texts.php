@@ -22,7 +22,7 @@ define ("MY_PROFIL", "Mein Profil");
 define ("MY_LOANS", "Meine Ausleihen");
 define ("LOGOUT", "Ausloggen");
 
-define ("PLEASE_LOG_IN", "Melde dich bitte an:");
+define ("PLEASE_LOG_IN", "Melde dich bitte an");
 define ("USER_ID_OR_EMAIL", "User-ID oder E-Mail");
 define ("USER_INSTRUCTION", "
 	Du hast jetzt die Möglichkeit dir anzusehen welche Bücher verfügbar sind und welche Bücher du ausgeliehen hast. 
