@@ -1,4 +1,4 @@
-ELMO - Easy Library Management Online
+ILMO - Intelligent Library Management Online
 ==============
 A software to manage a library, especially books, other material, users, emails and opening hours. Also the tracking of working hours is possible. The program is written and maintained by Julian-Samuel Gebühr.
 
