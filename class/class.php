@@ -759,7 +759,7 @@ class Loan extends Data {
 			else{
 				$aFields['return_date'] = "0000-00-00";
 			}
-		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
+		$this->ID=$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $this->r_loan_ID);
 		
 		$aFields = array(
 			'lent' => 1

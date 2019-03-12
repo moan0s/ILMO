@@ -1,7 +1,9 @@
 <?php
 $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-	<input type = hidden name="ac" value = "loan_save">
-	';
+	<input type = hidden name="ac" value = "loan_save">';
+if(isset($this->r_loan_ID)){
+	$form .='<input type = hidden name="loan_ID" value = "'.$this->r_loan_ID.'">';
+}
 $form .= 
 	USER_ID.': <input type="text" name="user_ID" value="'; 
 if(isset($this->aLoan['user_ID'])){

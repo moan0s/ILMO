@@ -1,7 +1,7 @@
 <?php
 
 /*
-ELMO - Easy Library Management Online
+ILMO - Intelligent Library Management Online
 version 1.2
  */
 
@@ -275,7 +275,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_show':
 		if ($_SESSION['admin']==1){	
-			$oObject->aUser = $oObject->get_user($oObject->r_user_ID, NULL, NULL, NULL, NULL, NULL);
+			$oObject->aUser = $oObject->get_user($oObject->r_user_ID, $oObject->r_forename, $oObject->r_surname, $oObject->r_email, $oObject->r_UID, $oObject->r_language);
 			$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
@@ -284,7 +284,7 @@ switch ($oObject->r_ac){
 		break;
 	case 'user_search':	
 		if ($_SESSION['admin']==1){	
-		$oObject->output .= $oObject->get_view("views/user_search.php");
+			$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else {
 			$oObject->error .= NO_PERMISSION;
@@ -310,8 +310,8 @@ switch ($oObject->r_ac){
 		break;
 	case 'loan_save':
 		if ($_SESSION['admin']==1){	
-			$error_message .= $oObject->check_ID_loan($oObject->r_ID);
-			$error_message .= $oObject->check_input();
+			//$error_message .= $oObject->check_ID_loan($oObject->r_ID);
+			//$error_message .= $oObject->check_input();
 			$error_message .= $oObject->check_type();
 			$error_message .= $oObject->check_ID_exists($oObject->r_ID);
 			$error_message .= $oObject->check_user_exists($oObject->r_user_ID);
@@ -341,8 +341,8 @@ switch ($oObject->r_ac){
 		break;
 	case 'loan_show':
 		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){	
-		$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
-		$oObject->output .= $oObject->get_view("views/all_loans.php");
+			$oObject->aLoan = $oObject->get_loan(NULL, $oObject->r_user_ID, NULL);
+			$oObject->output .= $oObject->get_view("views/all_loans.php");
 		}
 		else{
 			$oObject->error .= NO_PERMISSION;
