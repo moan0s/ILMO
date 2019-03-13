@@ -72,8 +72,7 @@ $oObject->navigation = $oObject->get_view("views/navigation.php");
 switch ($oObject->r_ac){
 	case 'mail_send':
 		$oMail = new Mail;
-		$oObject->mail_stats = $oMail->send_mail();
-		$oObject->send_mail();		
+		$oObject->mail_stats = $oMail->send_todays_mails();
 		$oObject->output .= $oObject->get_view("views/mail_stats.php");
 		break;
 

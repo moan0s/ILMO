@@ -744,14 +744,15 @@ class Loan extends Data {
 				'user_ID' => $this->r_user_ID,
 				'return_date' => NULL,
 				'returned' => NULL,
-				'last_reminder' => date("Y-m-d"),
 
 			);
 			if((isset($this->r_pickup_date)) and ( ""!= $this->r_pickup_date)){
 				$aFields['pickup_date'] = $this->r_pickup_date;
+				$aFields['last_reminder'] = $this->r_pickup_date;
 			}
 			else{
-				$aFields['pickup_date'] = date("Y-m-d H:i:s");
+				$aFields['pickup_date'] = date("Y-m-d");
+				$aFields['last_reminder'] = date("Y-m-d");
 			}
 			if((isset($this->r_return_date)) and ( ""!= $this->r_return_date)){
 				$aFields['return_date'] = $this->r_return_date;
@@ -890,6 +891,7 @@ class Mail extends Data {
 				}
 			}
 		}
+		$this->set_mails_send();
 		return $stats;
 	}
 	function send_reminder($aRow){
@@ -925,7 +927,7 @@ class Mail extends Data {
 				NAME.': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
-			LOAN_ON.': '.$aRow['pickup_date']."\r\n\r\n".
+			LENT_ON.': '.$aRow['pickup_date']."\r\n\r\n".
 			CONDITIONS_OF_LOAN.' '.
 			SHOW_LOANS_ONLINE."\r\n\r\n".
 			GREETINGS."\r\n".
