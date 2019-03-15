@@ -392,13 +392,24 @@ class Data {
    
    }
    //returns String containing "" or an error message
+   function check_user_ID($user_ID){
+	   if((!isset($user_ID)) and ($user_ID=="")){
+		return ENTER_USER_ID; 
+	   }
+	elseif (!is_numeric($user_ID)){
+		return GIVE_NUMBER_AS_USER_ID;	
+	}
+	else {
+		return "";
+	}
+   }
+
+
+
+	
+
    function check_input(){
 	   $error="";
-		if(isset($this->r_user_ID)){
-			if (($this->r_user_ID != "") and (!is_numeric($this->r_user_ID))){
-				$error .= GIVE_NUMBER_AS_USER_ID;	
-			}
-		}
 			
 		if(isset($this->r_book_ID)){
 			if (trim($this->r_book_ID) == ""){
