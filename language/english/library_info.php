@@ -1,11 +1,16 @@
 <?php
-define ("LIBRARY_NAME", 'Library "Lerninsel"');
-define ("LIBRARY_DESCRIPTION", 'Library of the students of Medical Engineering');
 
-define ("CONTACT_LINK", "https://www.fs-medtech.de/kontakt/");
-define ("PRIVACY_LINK", "https://www.fs-medtech.de/datenschutz");
+$library_info = array(
+'LIBRARY_NAME' => 'Library "Lerninsel"',
+'LIBRARY_DESCRIPTION' => 'Library of the students of Medical Engineering',
 
-define ("ADMIN_MAIL", "hiwi@fs-medtech.de");
+'TIMZONE' => 'Europe/Berlin',
 
-define ('URL', 'https://www.fs-medtech.de/bib/');
+'CONTACT_LINK' => 'https://www.fs-medtech.de/kontakt/',
+'PRIVACY_LINK' => 'https://www.fs-medtech.de/datenschutz',
+
+'ADMIN_MAIL' => 'hiwi@fs-medtech.de',
+
+'URL' => 'https://www.fs-medtech.de/bib/'
+);
 ?>

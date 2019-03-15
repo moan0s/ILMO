@@ -1,14 +1,26 @@
 <?php
-define("STATUS_PRESENT", "Present");
-define("BUTTON_CHECKOUT", "Checkout");
-define("ALREADY_CHECKED_OUT", "Already checked out");
-define("NEW_PRESENCE", "New presence");
-define("OPEN", "Open");
-define("CLOSE", "Close");
-define("CURRENT_STATUS", "Current Status");
-define("SHOW_PRESENCE", "Show Presences");
-define("CHECKIN_AT", "Checkin at");
-define("CHECKOUT_AT", "Checkout at");
 
+
+
+
+if (empty($lang) || !is_array($lang))
+{
+	$lang = array();
+}
+
+//main texts that will be shown
+$lang = array_merge($lang, array(
+
+'STATUS_PRESENT' => 'Present',
+'BUTTON_CHECKOUT' => 'Checkout',
+'ALREADY_CHECKED_OUT' => 'Already checked out',
+'NEW_PRESENCE' => 'New presence',
+'OPEN' => 'Open',
+'CLOSE' => 'Close',
+'CURRENT_STATUS' => 'Current Status',
+'SHOW_PRESENCE' => 'Show Presences',
+'CHECKIN_AT' => 'Checkin at',
+'CHECKOUT_AT' => 'Checkout at'
+);
 
 ?>
