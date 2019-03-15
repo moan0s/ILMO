@@ -1,14 +1,14 @@
 <?php
 class Data {
 	function __construct(){
-		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
 		$this->em_check_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
 		}
-		$this->settings = $this->get_settings(); 
+		$this->settings = $this->get_settings();
+		date_default_timezone_set($this->settings['timezone']);
 	}
 	
 	#parses settings in an array
