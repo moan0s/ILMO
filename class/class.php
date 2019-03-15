@@ -88,7 +88,7 @@ class Data {
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 	      if($action == "strt"){
-	      		$this->error .= ENTER_USER_IDENTIFICATION;
+	      		$this->error .= $lang['ENTER_USER_IDENTIFICATION'];
 	      }
 	      $this->r_ac = "logi";
 		   //logi is short for login
@@ -103,7 +103,7 @@ class Data {
 		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword); //retrieve the user from the database, using pw-hash and username
 			if (!$aUser) {
 		      		session_destroy();
-				$this->error = WRONG_LOGIN;
+				$this->error = $lang['WRONG_LOGIN'];
 				$this->r_ac="logi";
                  		return;
               		}
@@ -113,7 +113,7 @@ class Data {
 			}
 		     }
 		     else{
-		     	$this->error .= ENTER_PASSWORD; 
+		     	$this->error .= $lang['ENTER_PASSWORD']; 
 	      		$this->r_ac = "logi";
 		     	return;
 		     }
@@ -365,7 +365,7 @@ class Data {
 	   	}
 		else
 		{
-			$error_message = '<br>'.IS_ALREADY_LENT;
+			$error_message = '<br>'.$lang['IS_ALREADY_LENT'];
 	   	}
 	   return $error_message;
    }
@@ -375,7 +375,7 @@ class Data {
 		return;
 	}
 	else{
-		return PLEASE_GIVE_TYPE;
+		return $lang['PLEASE_GIVE_TYPE'];
 	}
    }
    //checks if an E-MAil Adress is already used
@@ -394,10 +394,10 @@ class Data {
    //returns String containing "" or an error message
    function check_user_ID($user_ID){
 	   if((!isset($user_ID)) and ($user_ID=="")){
-		return ENTER_USER_ID; 
+		return $lang['ENTER_USER_ID']; 
 	   }
 	elseif (!is_numeric($user_ID)){
-		return GIVE_NUMBER_AS_USER_ID;	
+		return $lang['GIVE_NUMBER_AS_USER_ID'];	
 	}
 	else {
 		return "";
@@ -413,63 +413,63 @@ class Data {
 			
 		if(isset($this->r_book_ID)){
 			if (trim($this->r_book_ID) == ""){
-				$error .= GIVE_BOOK_ID;
+				$error .= $lang['GIVE_BOOK_ID'];
 			}
 		}
 
 		if(isset($this->r_email)){
 			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
-				$error .= GIVE_VALID_E_MAIL_ADRESS;
+				$error .= $lang[GIVE_VALID_E_MAIL_ADRESS];
 			}
 			
 			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
 				if($this->check_email_used()){
-					$error .= E_MAIL_ALREADY_IN_USE;
+					$error .= $lang['E_MAIL_ALREADY_IN_USE'];
 				}
 			}
 
 		}
 		if(isset($this->r_password)){
 			if (strlen($this->r_password)<4) {
-				$error .= PASSWORD_TO_SHORT;	
+				$error .= $lang['PASSWORD_TO_SHORT'];	
 			}
 		}
 		if(isset($this->r_title)){
 			if ("" ==$this->r_title){
-				$error .= ENTER_BOOK_TITLE;
+				$error .= $lang['ENTER_BOOK_TITLE'];
 			}
 		}
 
 		if(isset($this->r_author)){
 			if ("" == $this->r_author){
-				$error .= ENTER_BOOK_AUTHOR;	
+				$error .= $lang['ENTER_BOOK_AUTHOR'];	
 			}
 		}
 		if(isset($this->r_location)){
 			if ($this->location ==""){
-				$error .= ENTER_LOCATION;	
+				$error .= $lang['ENTER_LOCATION'];	
 			}
 		}
 		if((isset($this->r_pickup_date)) and ($this->r_pickup_date !="")){
 			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_pickup_date)){
-			$error.= ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD;	
+			$error.= $lang['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
 			}
 		}
 		if((isset($this->r_return_date)) and ($this->r_return_date !="")){
 			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_return_date)){
-			$error.= ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD;	
+			$error.= $lang['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
 			}
 		}
 		return $error;
    }
 	function check_ID_exists($ID){
 		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID)) == -1)){
-			return ID_DOES_NOT_EXIST;
+			return $lang['ID_DOES_NOT_EXIST'];
 		}
 	}
 	function check_user_exists($user_ID){
 		if ($this->select_row(TABLE_USER, array ('user_ID' => $user_ID)) == -1){
-			return USER_DOES_NOT_EXIST;
+			return $lang['USER_DOES_NOT_EXIST'];
 		}
 	}
 	function get_view($Datei) {
@@ -938,16 +938,16 @@ class Mail extends Data {
 				NAME.': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
-			LENT_ON.': '.$aRow['pickup_date']."\r\n\r\n".
-			CONDITIONS_OF_LOAN.' '.
-			SHOW_LOANS_ONLINE."\r\n\r\n".
-			GREETINGS."\r\n".
-			TEAM."\r\n\r\n".
-			FUTHER_INFORMATION;
+			$lang['LENT_ON'].': '.$aRow['pickup_date']."\r\n\r\n".
+			$lang['CONDITIONS_OF_LOAN'].' '.
+			$lang['SHOW_LOANS_ONLINE']."\r\n\r\n".
+			$lang['GREETINGS']."\r\n".
+			$lang['TEAM']."\r\n\r\n".
+			$lang['FUTHER_INFORMATION'];
 		$issue = "Reminder on loan ".$aRow['loan_ID'];
 		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
 	
-		return mail($to, $subject, $message, MAIL_HEADER);
+		return mail($to, $subject, $message, $library_info['MAIL_HEADER']);
 
 	}
 
