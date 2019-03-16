@@ -6,11 +6,11 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		'<tr>
-		<th>'.TITLE.'</th>
-		<th>'.AUTHOR.'</th>
-		<th>'.LOCATION.'</th>
-		<th>'.STATUS_AVAILABLE.'</th>
-		<th>'.TOTAL.'</th>
+		<th>'.$lang['TITLE'].'</th>
+		<th>'.$lang['AUTHOR'].'</th>
+		<th>'.$lang['LOCATION'].'</th>
+		<th>'.$lang['STATUS_AVAILABLE'].'</th>
+		<th>'.$lang['TOTAL'].'</th>
 		</tr>';
 
 foreach ($this->aBook as $title => $aResult){

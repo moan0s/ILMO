@@ -6,14 +6,14 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		'<tr>
-		<th>'.MATERIAL_ID.'</th>
-		<th>'.NAME.'</th>
-		<th>'.LOCATION.'</th>
-		<th>'.STATUS.'</th>';
+		<th>'.$lang['MATERIAL_ID'].'</th>
+		<th>'.$lang['NAME'].'</th>
+		<th>'.$lang['LOCATION'].'</th>
+		<th>'.$lang['STATUS'].'</th>';
 
 	$table .='
-		<th>'.BUTTON_CHANGE.'</th>
-		<th>'.BUTTON_DELETE.'</th>';
+		<th>'.$lang['BUTTON_CHANGE'].'</th>
+		<th>'.$lang['BUTTON_DELETE'].'</th>';
 	$table .='</tr>';
 
 		
@@ -21,11 +21,11 @@ $table = "<table border='0' cellspacing='0' >";
 		{
 	if($aResult['lent'] == 0){
 		$sClass= "available";
-		$sStatus= STATUS_AVAILABLE;
+		$sStatus= $lang['STATUS_AVAILABLE'];
 	}
 	else{
 		$sClass = "lent";
-		$sStatus = STATUS_LENT;
+		$sStatus = $lang['STATUS_LENT'];
 	}
 			$table .=
 			'<tr class= "'.$sClass.'">
@@ -37,8 +37,8 @@ $table = "<table border='0' cellspacing='0' >";
 		
 			$table .=
 				'</td>
-			<td> <a href="index.php?ac=material_change&material_ID='.$aResult['material_ID'].'" >'.BUTTON_CHANGE.' </a> </td>
-			<td> <a href="index.php?ac=material_delete&material_ID='.$aResult['material_ID'].'" >'.BUTTON_DELETE.'</a> </td>
+			<td> <a href="index.php?ac=material_change&material_ID='.$aResult['material_ID'].'" >'.$lang['BUTTON_CHANGE'].' </a> </td>
+			<td> <a href="index.php?ac=material_delete&material_ID='.$aResult['material_ID'].'" >'.$lang['BUTTON_DELETE'].'</a> </td>
 			</tr>';
 		}	
 		$table .="</table>";
@@ -48,7 +48,7 @@ $table = "<table border='0' cellspacing='0' >";
 	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
 	$form.= '" method="post">
 	<input type = hidden name="ac" value = "material_new">
-		<input type="submit" value="'.NEW_MATERIAL.'">
+		<input type="submit" value="'.$lang['NEW_MATERIAL'].'">
 	</form>';
 	echo $form;
 ?>
