@@ -14,42 +14,42 @@ else{
 	} 
 	$form .= '">';
 }
-$form .=	FORENAME.': <input type="text" name="forename" value="'; 
+$form .=	$lang['FORENAME'].': <input type="text" name="forename" value="'; 
 	if(isset($this->aRow['forename'])){
 		$form .= $this->aRow['forename'];
 	} 
 	$form .='"><br>'.
-		SURNAME.': <input type="text" name="surname" value="';
+		$lang['SURNAME'].': <input type="text" name="surname" value="';
 	if(isset($this->aRow['surname'])){
 		$form .= $this->aRow['surname'];
 	}
 	$form .= '"> <br>'.
-		EMAIL.': <input type="text" name="email" value="';
+		$lang['EMAIL'].': <input type="text" name="email" value="';
 	if(isset($this->aRow['email'])){
 		$form .= $this->aRow['email'];
 	}
 	$form .= '"> <br>'.
-		UID.': <input type="text" name="UID" value="';
+		$lang['UID'].': <input type="text" name="UID" value="';
 	if(isset($this->aRow['UID'])){
 		$form .= $this->aRow['UID'];
 	}
 	$form .= '"> <br>'.
-		LANGUAGE.': <input type="radio" id="english" name="language" value="english"';
+		$lang['LANGUAGE'].': <input type="radio" id="english" name="language" value="english"';
 	
 	if ((($this->aRow['language']== "english") or ($this->settings['default_language'] == "english")) and ($this->r_ac != 'user_search')){
 			 $form .= 'checked';
 	}
 	$form .= '>
-			<label for="english">'.ENGLISH.'</label>
+			<label for="english">'.$lang['ENGLISH'].'</label>
 			<input type="radio" id="german" name="language" value="german" ';
 	if ((($this->aRow['language']=="german") or ($this->settings['default_language'] == "german")) and ($this->r_ac != 'user_search')){
 			$form .= 'checked';
 	}
 	$form .= '>
-		<label for="german">'.GERMAN.'</label>
+		<label for="german">'.$lang['GERMAN'].'</label>
 		<br>';
 	if($this->r_ac != 'user_search'){
-		$form .=PASSWORD.': <input type="password" name="password">  <br>';
+		$form .=$lang['PASSWORD'].': <input type="password" name="password">  <br>';
 	}
 	if (($_SESSION['admin']==1) and ($this->r_ac != 'user_search')){
 		$form .= ADMIN.': <input type="radio" id="yes" name="admin" value="1"';
@@ -57,17 +57,17 @@ $form .=	FORENAME.': <input type="text" name="forename" value="';
 			$form .= 'checked';
 		}
 		$form .='>
-		<label for="yes">'.YES.'</label>
+		<label for="yes">'.$lang['YES'].'</label>
 		<input type="radio" id="no" name="admin" value="0"'; 
 			if ($this->aRow['admin']==0){
 				$form .= 'checked';
 			}
 		$form .= '>
-		<label for id ="no"> '.NO.'</label><br>'; 
+		<label for id ="no"> '.$lang['NO'].'</label><br>'; 
 	}
 	$form .= '
-	<input type="submit" value="'.BUTTON_SEND.'">
-	<input type="reset" value="'.BUTTON_RESET.'";
+	<input type="submit" value="'.$lang['BUTTON_SEND'].'">
+	<input type="reset" value="'.$lang['BUTTON_RESET'].'";
 	</form>';
 echo $form;
 ?>
