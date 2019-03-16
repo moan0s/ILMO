@@ -8,7 +8,7 @@
 	<link rel="SHORTCUT ICON" type="image/x-icon" href="images/favicon.ico">
 <?php
 echo '      <link REL="stylesheet" TYPE="text/css" HREF="css/styles.css">
-      <title>'.LIBRARY_NAME.'</title>
+      <title>'.$library_info['LIBRARY_NAME'].'</title>
       
       ';     
 ?>

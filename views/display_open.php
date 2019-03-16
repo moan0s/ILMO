@@ -1,9 +1,9 @@
 <?php
 	echo '<table>
-	<th>'.W_DAY.'</th>
-	<th>'.W_START.'</th>
-	<th>'.W_END.'</th>
-	<th>'.W_NOTICE.'</th>';
+	<th>'.$lang['W_DAY'].'</th>
+	<th>'.$lang['W_START'].'</th>
+	<th>'.$lang['W_END'].'</th>
+	<th>'.$lang['W_NOTICE'].'</th>';
 	
 	foreach($this->settings['opening_days'] as $day){
 		echo '<tr>
