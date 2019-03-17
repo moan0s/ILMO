@@ -3,6 +3,25 @@ class Data {
 	function __construct(){
 		$this->link_database();
 		global $lang;
+		if (isset($_SESSION['language'])){
+			if($_SESSION['language'] == "english"){
+				include ("language/english/texts.php");
+				include ("language/english/library_info.php");
+				include ("language/english/presence.php");
+			}
+			else{
+				include ("language/german/texts.php");
+				include ("language/german/library_info.php");
+				include ("language/german/presence.php");
+			}
+		}
+		else {
+			$_SESSION['language'] = 'german';
+			include ("language/german/texts.php");
+			include ("language/german/library_info.php");
+			include ("language/german/presence.php");
+		}		
+
 		$this->em_check_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
@@ -92,8 +111,6 @@ class Data {
 	      		$this->error .= $lang['ENTER_USER_IDENTIFICATION'];
 	      }
 	      $this->r_ac = "logi";
-		   //logi is short for login
-         //dont forget to call the action in your controller
          return;
       	}
 
@@ -420,7 +437,7 @@ class Data {
 
 		if(isset($this->r_email)){
 			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
-				$error .= $lang[GIVE_VALID_E_MAIL_ADRESS];
+				$error .= $lang['GIVE_VALID_E_MAIL_ADRESS'];
 			}
 			
 			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
