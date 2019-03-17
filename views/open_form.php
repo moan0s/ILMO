@@ -10,7 +10,7 @@ $open_form ='
 	<th>'.$this->oLang->texts['W_NOTICE'].'</th>';
 	foreach($this->settings['opening_days'] as $day){
 		$open_form .= '<tr>
-			<td>'.$this->aLang->texts[strtoupper($day)].'</td>
+			<td>'.$this->oLang->texts[strtoupper($day)].'</td>
 			<td><input type="text" name="'.$day.'_s" value="';
 		if (isset($this->aOpen[$day]["start"])){
 			$open_form.= $this->aOpen[$day]["start"];
