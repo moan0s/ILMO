@@ -437,14 +437,15 @@ switch ($oObject->r_ac){
 
 
 }
-//function ausgabe ($oObject)
-//erhält das aktuelle Objekt (z.B. oMail) und macht Ausgabe
 
-if (substr($oObject->r_ac, -3) != "bot"){
-	echo $oObject->get_view("views/head.php");
-	echo $oObject->get_view("views/body.php");
-	if (substr($oObject->r_ac, -5) != "plain"){
-		echo $oObject->get_view("views/footer.php");
+function output($oObject){
+	if (substr($oObject->r_ac, -3) != "bot"){
+		echo $oObject->get_view("views/head.php");
+		echo $oObject->get_view("views/body.php");
+		if (substr($oObject->r_ac, -5) != "plain"){
+			echo $oObject->get_view("views/footer.php");
+		}
 	}
 }
+output($oObject);
 ?>
