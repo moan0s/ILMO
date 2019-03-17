@@ -68,13 +68,15 @@ class Presence extends Data{
 	}
 
 	#returns true if sombody is checked in in the library
-	function get_status(){
+	function get_status($UID = NULL){
 		$aFields = array(
 			'checkout_time' => '0000-00-00 00:00:00'
 		);
-		return is_null($this->select_rows(TABLE_PRESENCE, $aFields));
+		if(isset($UID)){
+			$aFields['UID'] = $UID;	
+		}
+		return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
 	}
-
 
 	function delete_presence ($presence_ID){
 		$aFields = array ( 

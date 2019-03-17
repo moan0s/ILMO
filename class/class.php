@@ -1,35 +1,30 @@
 <?php
 class Data {
 	function __construct(){
-		date_default_timezone_set('Europe/Berlin');
 		$this->link_database();
+		global $lang;
+		$this->em_check_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
 		}
-		$this->status = $this->get_status();
-		$this->settings = $this->get_settings(); 
+		$this->settings = $this->get_settings();
+		date_default_timezone_set($this->settings['timezone']);
 	}
-	#returns true if sombody is checked in in the library
-	function get_status($UID = NULL){
-		$aFields = array(
-			'checkout_time' => '0000-00-00 00:00:00'
-		);
-		if(isset($UID)){
-			$aFields['UID'] = $UID;	
-		}
-		return (-1 != $this->select_row(TABLE_PRESENCE, $aFields));
-	}
-
+	
+	#parses settings in an array
+	#returns array
 	function get_settings(){
 		return parse_ini_file(__DIR__."/../config/settings.ini");
 
 	}
+
+	#parses given data in json and outputs them
 	function output_json($data){
 		header('Content-Type: application/json');
 		echo json_encode($data);
 	}
-    
+
    function read_variables() {
       //reads all GET and POST variables into the object, addslashing both
       if (count($_POST)) {
@@ -94,7 +89,7 @@ class Data {
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 	      if($action == "strt"){
-	      		$this->error .= ENTER_USER_IDENTIFICATION;
+	      		$this->error .= $lang['ENTER_USER_IDENTIFICATION'];
 	      }
 	      $this->r_ac = "logi";
 		   //logi is short for login
@@ -109,7 +104,7 @@ class Data {
 		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword); //retrieve the user from the database, using pw-hash and username
 			if (!$aUser) {
 		      		session_destroy();
-				$this->error = WRONG_LOGIN;
+				$this->error = $lang['WRONG_LOGIN'];
 				$this->r_ac="logi";
                  		return;
               		}
@@ -119,13 +114,88 @@ class Data {
 			}
 		     }
 		     else{
-		     	$this->error .= ENTER_PASSWORD; 
+		     	$this->error .= $lang['ENTER_PASSWORD']; 
 	      		$this->r_ac = "logi";
 		     	return;
 		     }
 
 	}
    }
+
+    function em_check_database() {
+	$aTable=array();
+      	//Alle Tabellen in Array lesen, inklusive aller Eigenschaften
+	$result=$this->databaselink->query("show tables from ".DB_DATABASE);
+	while($row = $result->fetch_array(MYSQLI_BOTH)){ 
+		$aTable[]=$row[0];
+	}
+      	//alle physisch auf dem Server vorhandenen Module abkopfen, ob die Datenbank stimmt.
+	
+	if(file_exists(MODULE_PATH."/config/config.inc.php")) {
+		
+		require_once(MODULE_PATH."/config/config.inc.php");
+	
+	}  //else {$sE="no config for ".$Modul."<br>";}
+	$aData=array();
+	include(MODULE_PATH."/config/db_array.inc.php");
+	foreach($aData as $table=>$fields) {
+		if(!in_array($table,$aTable)) {
+			//Tabelle neu anlegen
+			$mCounter=0;
+			$sCommand="CREATE TABLE IF NOT EXISTS `".$table."` (";
+			foreach($fields as $fieldname=>$properties) {
+				$extra = "";
+				if($mCounter==0) {
+					$key="KEY `".$fieldname."` (`".$fieldname."`)";
+				}
+				if($properties["size"]!="") { 
+					$size="(".$properties["size"].")";
+				}
+				else {
+					$size="";
+				}
+				if((isset($properties["unique"])) and ($properties['unique']==true)) { 
+					$unique="UNIQUE KEY `".$fieldname."_2` (`".$fieldname."`),";}
+				else {
+					$unique="";
+				}
+				if((isset($properties["extra"])) and ($properties != "")){
+					$extra = $properties['extra'];
+				}
+				$sCommand .= "`".$fieldname."` ".$properties["type"].$size." ".$properties["standard"]." ".$extra.",";
+				$mCounter++;
+			
+			}
+			$sCommand.=$unique.$key.") ENGINE=InnoDB ;";
+			$this->last_query[]=$sCommand;
+			$updateresult=$this->databaselink->query($sCommand);
+		}
+		else {
+			//Felder checken und Tabelle updaten
+			$resultField=$this->databaselink->query("show fields from ".DB_DATABASE.".".$table);
+			while($aRowF = $resultField->fetch_array(MYSQLI_BOTH)){ 
+				$aTableFields[]=$aRowF[0];
+			}
+			foreach($fields as $fieldname=>$properties) {
+				if(!in_array($fieldname,$aTableFields)) {
+					if((isset($properties["size"]) and ($properties['size']!=""))) { 
+						$size="(".$properties["size"].")";
+					}
+					else {
+						$size="";
+					}
+					$sCommand="ALTER TABLE `".$table."` ADD `".$fieldname."` ".$properties["type"].$size." ".$properties["standard"];
+					$this->last_query[]=$sCommand;
+					$updateresult=$this->databaselink->query($sCommand);
+				}
+			}
+		}
+		unset($aTableFields);
+		unset($aFields);
+		unset($properties);
+	}
+	unset($aData);
+    }
    function em_get_user($sUser, $sPassword) { 
 	   if(isset($sUser)){
 		   if(strpos($sUser,"@")>0) {
@@ -296,7 +366,7 @@ class Data {
 	   	}
 		else
 		{
-			$error_message = '<br>'.IS_ALREADY_LENT;
+			$error_message = '<br>'.$lang['IS_ALREADY_LENT'];
 	   	}
 	   return $error_message;
    }
@@ -306,7 +376,7 @@ class Data {
 		return;
 	}
 	else{
-		return PLEASE_GIVE_TYPE;
+		return $lang['PLEASE_GIVE_TYPE'];
 	}
    }
    //checks if an E-MAil Adress is already used
@@ -323,64 +393,84 @@ class Data {
    
    }
    //returns String containing "" or an error message
+   function check_user_ID($user_ID){
+	   if((!isset($user_ID)) and ($user_ID=="")){
+		return $lang['ENTER_USER_ID']; 
+	   }
+	elseif (!is_numeric($user_ID)){
+		return $lang['GIVE_NUMBER_AS_USER_ID'];	
+	}
+	else {
+		return "";
+	}
+   }
+
+
+
+	
+
    function check_input(){
 	   $error="";
-		if(isset($this->r_user_ID)){
-			if (($this->r_user_ID != "") and (!is_numeric($this->r_user_ID))){
-				$error .= GIVE_NUMBER_AS_USER_ID;	
-			}
-		}
 			
 		if(isset($this->r_book_ID)){
 			if (trim($this->r_book_ID) == ""){
-				$error .= GIVE_BOOK_ID;
+				$error .= $lang['GIVE_BOOK_ID'];
 			}
 		}
 
 		if(isset($this->r_email)){
 			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
-				$error .= GIVE_VALID_E_MAIL_ADRESS;
+				$error .= $lang[GIVE_VALID_E_MAIL_ADRESS];
 			}
 			
 			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
 				if($this->check_email_used()){
-					$error .= E_MAIL_ALREADY_IN_USE;
+					$error .= $lang['E_MAIL_ALREADY_IN_USE'];
 				}
 			}
 
 		}
 		if(isset($this->r_password)){
 			if (strlen($this->r_password)<4) {
-				$error .= PASSWORD_TO_SHORT;	
+				$error .= $lang['PASSWORD_TO_SHORT'];	
 			}
 		}
 		if(isset($this->r_title)){
 			if ("" ==$this->r_title){
-				$error .= ENTER_BOOK_TITLE;
+				$error .= $lang['ENTER_BOOK_TITLE'];
 			}
 		}
 
 		if(isset($this->r_author)){
 			if ("" == $this->r_author){
-				$error .= ENTER_BOOK_AUTHOR;	
+				$error .= $lang['ENTER_BOOK_AUTHOR'];	
 			}
 		}
 		if(isset($this->r_location)){
 			if ($this->location ==""){
-				$error .= ENTER_LOCATION;	
+				$error .= $lang['ENTER_LOCATION'];	
 			}
 		}
-
+		if((isset($this->r_pickup_date)) and ($this->r_pickup_date !="")){
+			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_pickup_date)){
+			$error.= $lang['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
+			}
+		}
+		if((isset($this->r_return_date)) and ($this->r_return_date !="")){
+			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_return_date)){
+			$error.= $lang['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
+			}
+		}
 		return $error;
    }
 	function check_ID_exists($ID){
 		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID)) == -1)){
-			return ID_DOES_NOT_EXIST;
+			return $lang['ID_DOES_NOT_EXIST'];
 		}
 	}
 	function check_user_exists($user_ID){
 		if ($this->select_row(TABLE_USER, array ('user_ID' => $user_ID)) == -1){
-			return USER_DOES_NOT_EXIST;
+			return $lang['USER_DOES_NOT_EXIST'];
 		}
 	}
 	function get_view($Datei) {
@@ -554,8 +644,8 @@ class Book extends Data {
 			'location' => $this->r_location,
 			'lent' => null		
 		);
-		if ((isset($this->r_number)) and ($this->r_number>1)){
-			for ($i=0; $i<=$this->r_number; $i++){
+		if ((isset($this->r_number)) and ($this->r_number>0)){
+			for ($i=0; $i<$this->r_number; $i++){
 				if ($i<26){
 					$aFields['book_ID'] = $this->r_book_ID." ".chr(97+$i);
 				}
@@ -614,15 +704,27 @@ class User extends Data {
 		);
 		$this->removed=$this->delete_rows(TABLE_USER, $aFields);
 	}
-	function get_user (){
+	function get_user ($user_ID = NULL, $forename = NULL, $surname = NULL, $email = NULL, $UID = NULL, $language = NULL){
 		$aUser= array();
 		$aFields= array();
-		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($this->r_forename)) and ($this->r_forename!= "")){$aFields["forename" ]= $this->r_forename;}
-		if((isset($this->r_surname)) and ($this->r_surname != "")){$aFields["surname"] = $this->r_surname;}
-		if((isset($this->r_email)) and ($this->r_email!= "")){$aFields["email"] = $this->r_email;}
-		if((isset($this->r_UID)) and ($this->r_UID!= "")){$aFields["UID"] = $this->r_UID;}
-		if((isset($this->r_language)) and ($this->r_language!= "")){$aFields["language"] = $this->r_email;}
+		if((isset($user_ID)) and ($user_ID!= "")){
+			$aFields["user_ID"] = $user_ID;
+		}
+		if((isset($forename)) and ($forename!= "")){
+			$aFields["forename" ]= $forename;
+		}
+		if((isset($surname)) and ($surname != "")){
+			$aFields["surname"] = $surname;
+		}
+		if((isset($email)) and ($email!= "")){
+			$aFields["email"] = $email;
+		}
+		if((isset($UID)) and ($UID!= "")){
+			$aFields["UID"] = $UID;
+		}
+		if((isset($language)) and ($language!= "")){
+			$aFields["language"] = $language;
+		}
 		
 		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
@@ -648,17 +750,29 @@ class User extends Data {
 
 class Loan extends Data {
 	function save_loan(){
-			$aFields = array(
+		$aFields = array(
 				'ID' => $this->r_ID,
 				'type' => $this->r_type,
 				'user_ID' => $this->r_user_ID,
-				'pickup_date' => date("Y-m-d H:i:s"),
 				'return_date' => NULL,
 				'returned' => NULL,
-				'last_reminder' => date("Y-m-d"),
 
 			);
-		$this->ID=$this->store_data(TABLE_LOAN, $aFields, FALSE, FALSE);
+			if((isset($this->r_pickup_date)) and ( ""!= $this->r_pickup_date)){
+				$aFields['pickup_date'] = $this->r_pickup_date;
+				$aFields['last_reminder'] = $this->r_pickup_date;
+			}
+			else{
+				$aFields['pickup_date'] = date("Y-m-d");
+				$aFields['last_reminder'] = date("Y-m-d");
+			}
+			if((isset($this->r_return_date)) and ( ""!= $this->r_return_date)){
+				$aFields['return_date'] = $this->r_return_date;
+			}
+			else{
+				$aFields['return_date'] = "0000-00-00";
+			}
+		$this->ID=$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $this->r_loan_ID);
 		
 		$aFields = array(
 			'lent' => 1
@@ -669,11 +783,12 @@ class Loan extends Data {
 		if($this->r_type=="material"){
 			$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $this->r_ID);
 		}
+	
 	}
 	
 	function return_loan(){
-		//einfügen, dass das Buch als verliehen eingetragen  wird
-		$aLoan = $this->get_loan();
+		$aLoans= $this->get_loan(NULL, NULL, NULL);
+		$aLoan = $aLoans[$this->r_loan_ID];
 		$aFields = array(
 			'return_date' => date("Y-m-d H:i:s"),
 			'returned' => 1
@@ -692,7 +807,7 @@ class Loan extends Data {
 
 	}
 	
-	function get_loan (){
+	function get_loan ($loanID = NULL, $userID = NULL, $bookID = NULL){
 		//needs: String loan_ID returns: Associative array with complete loan Information
 		//create an array containig loan_ID
 		$aFields= array();
@@ -705,8 +820,8 @@ class Loan extends Data {
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
 		$this->all_material = $oMaterial->get_material_itemized();
-		if((isset($this->r_user_ID)) and ($this->r_user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($this->r_loan_ID)) and ($this->r_loan_ID!= "") and ($this->r_loan_ID!=NULL)){$aFields["loan_ID"] = $this->r_loan_ID;}
+		if((isset($userID)) and ($userID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
+		if((isset($loanID)) and ($loanID!= "")){$aFields["loan_ID"] = $this->r_loan_ID;}
 		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aLoan[$aRow['loan_ID']] = $aRow;
@@ -788,6 +903,7 @@ class Mail extends Data {
 				}
 			}
 		}
+		$this->set_mails_send();
 		return $stats;
 	}
 	function send_reminder($aRow){
@@ -823,16 +939,16 @@ class Mail extends Data {
 				NAME.': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
-			LOAN_ON.': '.$aRow['pickup_date']."\r\n\r\n".
-			CONDITIONS_OF_LOAN.' '.
-			SHOW_LOANS_ONLINE."\r\n\r\n".
-			GREETINGS."\r\n".
-			TEAM."\r\n\r\n".
-			FUTHER_INFORMATION;
+			$lang['LENT_ON'].': '.$aRow['pickup_date']."\r\n\r\n".
+			$lang['CONDITIONS_OF_LOAN'].' '.
+			$lang['SHOW_LOANS_ONLINE']."\r\n\r\n".
+			$lang['GREETINGS']."\r\n".
+			$lang['TEAM']."\r\n\r\n".
+			$lang['FUTHER_INFORMATION'];
 		$issue = "Reminder on loan ".$aRow['loan_ID'];
 		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
 	
-		return mail($to, $subject, $message, MAIL_HEADER);
+		return mail($to, $subject, $message, $library_info['MAIL_HEADER']);
 
 	}
 
@@ -844,8 +960,8 @@ class Mail extends Data {
 	}
 
 }
-include ("class/presence.php");
 
+include ("class/presence.php");
 	
 	
 ?>

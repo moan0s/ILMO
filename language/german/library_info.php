@@ -1,10 +1,16 @@
 <?php
-define ("LIBRARY_NAME", "Lerninselbibliothek");
-define ("LIBRARY_DESCRIPTION", "Bibliothek des Studiengangs Medizintechnik");
 
-define ("CONTACT_LINK", "https://www.fs-medtech.de/kontakt/");
-define ("PRIVACY_LINK", "https://www.fs-medtech.de/datenschutz");
 
-define ("ADMIN_MAIL", "hiwi@fs-medtech.de");
-define ('URL', 'https://www.fs-medtech.de/bib/');  
+
+$library_info = array(
+	'LIBRARY_NAME' => 'Lerninselbibliothek',
+	'LIBRARY_DESCRIPTION' => 'Bibliothek des Studiengangs Medizintechnik',
+
+
+	'CONTACT_LINK' => 'https://www.fs-medtech.de/kontakt/',
+	'PRIVACY_LINK' => 'https://www.fs-medtech.de/datenschutz',
+
+	'ADMIN_MAIL' => 'hiwi@fs-medtech.de',
+	'URL', 'https://www.fs-medtech.de/bib/'
+); 
 ?>

@@ -6,10 +6,10 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
-		<th>".NAME."</th>
-		<th>".LOCATION."</th>
-		<th>".STATUS_AVAILABLE."</th>
-		<th>".TOTAL."</th>";
+		<th>".$lang['NAME']."</th>
+		<th>".$lang['LOCATION']."</th>
+		<th>".$lang['STATUS_AVAILABLE']."</th>
+		<th>".$lang['TOTAL']."</th>";
 
 foreach ($this->aMaterial as $title => $aResult){
 	if($aResult['available']==0){

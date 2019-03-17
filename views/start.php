@@ -1,10 +1,10 @@
 <?php
-$start .= WELCOME;
+$start = $lang['WELCOME'];
 if ($_SESSION['admin']==0){
-$start .= USER_INSTRUCTION;
+$start .= $lang['USER_INSTRUCTION'];
 }
 else{
-$start .= ADMIN_INSTRUCTION;
+$start .= $lang['ADMIN_INSTRUCTION'];
 }
 echo $start;
 ?>
