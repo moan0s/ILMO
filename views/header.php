@@ -24,15 +24,15 @@ if ($this->settings['enable_status'] == 1){
 	$header.='<br><br>	
 		<div class="language">
 			<form action="'.$_SERVER["PHP_SELF"].'" method="post">
-			<input type = hidden name="ac" value = "oLang->textsuage_change">'.
+			<input type = hidden name="ac" value = "language_change">'.
 			$this->oLang->texts['LANGUAGE'].':<input type="radio" id="english" name="language" value="english"';
-				if ($_SESSION['oLang->textsuage']=='english'){
+				if ($_SESSION['language']=='english'){
 					$header .= 'checked';
 				}
 					$header.=  '>
 						<label for="english">'.$this->oLang->texts['ENGLISH'].' </label>
 						<input type="radio" id="german" name="language" value="german"'; 
-				if ($_SESSION['oLang->textsuage']=="german"){
+				if ($_SESSION['language']=="german"){
 					$header .= ' checked';
 				}
 		$header.= '>

@@ -440,7 +440,6 @@ switch ($oObject->r_ac){
 //function ausgabe ($oObject)
 //erhält das aktuelle Objekt (z.B. oMail) und macht Ausgabe
 
-//$oObject->show_oObject();
 if (substr($oObject->r_ac, -3) != "bot"){
 	echo $oObject->get_view("views/head.php");
 	echo $oObject->get_view("views/body.php");

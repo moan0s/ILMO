@@ -9,10 +9,10 @@ $footer ='
 	<span class="forum_logo"></span>
 	</a>
 	<span class="link_list">
-	<h1>'.$this->oLang->library_information['LINKS'].': </h1>
+	<h1>'.$this->oLang->library_info['LINKS'].': </h1>
 	<ul>
-		<li><a  href="'.$this->oLang->library_information['CONTACT_LINK'].'" title="'.$this->oLang->library_information['CONTACT'].'" >'.$this->oLang->library_information['CONTACT'].'</a></li>
-		<li><a href="'.$this->oLang->library_information['PRIVACY_LINK'].'" title="'.$this->oLang->library_information['PRIVACY'].'">'.$this->oLang->library_information['PRIVACY'].'</a></li>
+		<li><a  href="'.$this->oLang->library_info['CONTACT_LINK'].'" title="'.$this->oLang->library_info['CONTACT'].'" >'.$this->oLang->library_info['CONTACT'].'</a></li>
+		<li><a href="'.$this->oLang->library_info['PRIVACY_LINK'].'" title="'.$this->oLang->library_info['PRIVACY'].'">'.$this->oLang->library_info['PRIVACY'].'</a></li>
 	</ul>
 	</span>
 </div>
