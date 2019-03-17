@@ -1,13 +1,22 @@
 <?php
+include ("class/lang.php");
 class Data {
 	function __construct(){
+		$this->settings = $this->get_settings();
 		$this->link_database();
 		$this->em_check_database();
 		$this->read_variables();
+		$oLang = new Lang;
+		if(isset($_SESSION['language'])){
+			$oLang->set_language($_SESSION['language']);
+		}
+		else{
+			$oLang->set_language($this->settings['default_language']);
+
+		}
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
 		}
-		$this->settings = $this->get_settings();
 		date_default_timezone_set($this->settings['timezone']);
 	}
 	
@@ -353,10 +362,6 @@ class Data {
 		  return $this->databaselink->query($sQuery);
    }
 
-   function change_language($language){
-	$_SESSION['language']=$language;
-   }
-   
    function check_ID_loan($ID){
 		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID, 'lent' => 1)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID, 'lent' => 1)) == -1)){
 		   $error_message= "";

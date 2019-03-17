@@ -95,7 +95,8 @@ switch ($oObject->r_ac){
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 	case 'language_change':
-		$oObject->change_language($oObject->r_language);
+		$oLang = new Lang;
+		$oLang->change_language($oObject->r_language);
 		$oObject->output .= $oObject->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
