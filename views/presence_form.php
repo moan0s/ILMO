@@ -8,24 +8,24 @@ $form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post"
 	} 
 	$form .= '">'.
 
-		$lang['UID'].': <input type="text" name="UID" value="'; 
+		$this->oLang->texts['UID'].': <input type="text" name="UID" value="'; 
 	if(isset($this->aRow['UID'])){
 		$form .= $this->aRow['UID'];
 	} 
 	$form .='"><br>'.
-		$lang['CHECKIN_AT'].': <input type="text" name="checkin_time" value="';
+		$this->oLang->texts['CHECKIN_AT'].': <input type="text" name="checkin_time" value="';
 	if(isset($this->aRow['checkin_time'])){
 		$form .= $this->aRow['checkin_time'];
 	}
 	$form .= '"> <br>'.
-		$lang['CHECKOUT_AT'].': <input type="text" name="checkout_time" value="';
+		$this->oLang->texts['CHECKOUT_AT'].': <input type="text" name="checkout_time" value="';
 	if(isset($this->aRow['checkout_time'])){
 		$form .= $this->aRow['checkout_time'];
 	}
 	$form .= '"> <br>';
 	$form .= '
-	<input type="submit" value="'.$lang['BUTTON_SEND'].'">
-	<input type="reset" value="'.$lang['BUTTON_RESET'].'">
+	<input type="submit" value="'.$this->oLang->texts['BUTTON_SEND'].'">
+	<input type="reset" value="'.$this->oLang->texts['BUTTON_RESET'].'">
 	</form>';
 echo $form;
 ?>

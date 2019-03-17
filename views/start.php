@@ -1,10 +1,10 @@
 <?php
-$start = $lang['WELCOME'];
+$start = $this->oLang->texts['WELCOME'];
 if ($_SESSION['admin']==0){
-$start .= $lang['USER_INSTRUCTION'];
+$start .= $this->oLang->texts['USER_INSTRUCTION'];
 }
 else{
-$start .= $lang['ADMIN_INSTRUCTION'];
+$start .= $this->oLang->texts['ADMIN_INSTRUCTION'];
 }
 echo $start;
 ?>

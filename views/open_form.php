@@ -4,10 +4,10 @@ $open_form ='
 	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
 	<input type = hidden name="ac" value = "open_save">
  	<table>
-	<th>'.$lang['W_DAY'].'</th>
-	<th>'.$lang['W_START'].'</th>
-	<th>'.$lang['W_END'].'</th>
-	<th>'.$lang['W_NOTICE'].'</th>';
+	<th>'.$this->oLang->texts['W_DAY'].'</th>
+	<th>'.$this->oLang->texts['W_START'].'</th>
+	<th>'.$this->oLang->texts['W_END'].'</th>
+	<th>'.$this->oLang->texts['W_NOTICE'].'</th>';
 	foreach($this->settings['opening_days'] as $day){
 		$open_form .= '<tr>
 			<td>'.constant(strtoupper($day)).'</td>
@@ -30,7 +30,7 @@ $open_form ='
 		</tr>';
 	}	
 $open_form .= '</table>
-	<input type="submit" value="'.$lang['BUTTON_SEND'].'">
+	<input type="submit" value="'.$this->oLang->texts['BUTTON_SEND'].'">
 </form>';
 echo $open_form;
 ?>
