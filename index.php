@@ -17,24 +17,6 @@ error_reporting(E_ALL);
 include ("config/config.inc.php");
 include ("class/class.php");
 
-if (isset($_SESSION['language'])){
-	if($_SESSION['language'] == "english"){
-		include ("language/english/texts.php");
-		include ("language/english/library_info.php");
-		include ("language/english/presence.php");
-	}
-	else{
-		include ("language/german/texts.php");
-		include ("language/german/library_info.php");
-		include ("language/german/presence.php");
-	}
-}
-else {
-	$_SESSION['language'] = 'german';
-	include ("language/german/texts.php");
-	include ("language/german/library_info.php");
-	include ("language/german/presence.php");
-}		
 //object: parameter to clear which object
 $sName = "book";
 if (isset ($_REQUEST['ac'])){
@@ -455,6 +437,8 @@ switch ($oObject->r_ac){
 
 
 }
+//function ausgabe ($oObject)
+//erhält das aktuelle Objekt (z.B. oMail) und macht Ausgabe
 
 //$oObject->show_oObject();
 if (substr($oObject->r_ac, -3) != "bot"){

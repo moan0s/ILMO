@@ -6,12 +6,12 @@ class Data {
 		$this->link_database();
 		$this->em_check_database();
 		$this->read_variables();
-		$oLang = new Lang;
+		$this->oLang = new Lang;
 		if(isset($_SESSION['language'])){
-			$oLang->set_language($_SESSION['language']);
+			$this->oLang->set_language($_SESSION['language']);
 		}
 		else{
-			$oLang->set_language($this->settings['default_language']);
+			$this->oLang->set_language($this->settings['default_language']);
 
 		}
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
@@ -97,7 +97,7 @@ class Data {
 	   }
       if((!isset($_SESSION['user_ID'])) and ((!isset($this->r_login_user_info)) or ($this->r_login_user_info==""))){
 	      if($action == "strt"){
-	      		$this->error .= $lang['ENTER_USER_IDENTIFICATION'];
+	      		$this->error .= $this->oLang->texts['ENTER_USER_IDENTIFICATION'];
 	      }
 	      $this->r_ac = "logi";
          return;
@@ -110,7 +110,7 @@ class Data {
 		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword); //retrieve the user from the database, using pw-hash and username
 			if (!$aUser) {
 		      		session_destroy();
-				$this->error = $lang['WRONG_LOGIN'];
+				$this->error = $this->oLang->texts['WRONG_LOGIN'];
 				$this->r_ac="logi";
                  		return;
               		}
@@ -120,7 +120,7 @@ class Data {
 			}
 		     }
 		     else{
-		     	$this->error .= $lang['ENTER_PASSWORD']; 
+		     	$this->error .= $this->oLang->texts['ENTER_PASSWORD']; 
 	      		$this->r_ac = "logi";
 		     	return;
 		     }
@@ -368,7 +368,7 @@ class Data {
 	   	}
 		else
 		{
-			$error_message = '<br>'.$lang['IS_ALREADY_LENT'];
+			$error_message = '<br>'.$this->oLang->texts['IS_ALREADY_LENT'];
 	   	}
 	   return $error_message;
    }
@@ -378,7 +378,7 @@ class Data {
 		return;
 	}
 	else{
-		return $lang['PLEASE_GIVE_TYPE'];
+		return $this->oLang->texts['PLEASE_GIVE_TYPE'];
 	}
    }
    //checks if an E-MAil Adress is already used
@@ -397,10 +397,10 @@ class Data {
    //returns String containing "" or an error message
    function check_user_ID($user_ID){
 	   if((!isset($user_ID)) and ($user_ID=="")){
-		return $lang['ENTER_USER_ID']; 
+		return $this->oLang->texts['ENTER_USER_ID']; 
 	   }
 	elseif (!is_numeric($user_ID)){
-		return $lang['GIVE_NUMBER_AS_USER_ID'];	
+		return $this->oLang->texts['GIVE_NUMBER_AS_USER_ID'];	
 	}
 	else {
 		return "";
@@ -416,63 +416,63 @@ class Data {
 			
 		if(isset($this->r_book_ID)){
 			if (trim($this->r_book_ID) == ""){
-				$error .= $lang['GIVE_BOOK_ID'];
+				$error .= $this->oLang->texts['GIVE_BOOK_ID'];
 			}
 		}
 
 		if(isset($this->r_email)){
 			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
-				$error .= $lang['GIVE_VALID_E_MAIL_ADRESS'];
+				$error .= $this->oLang->texts['GIVE_VALID_E_MAIL_ADRESS'];
 			}
 			
 			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
 				if($this->check_email_used()){
-					$error .= $lang['E_MAIL_ALREADY_IN_USE'];
+					$error .= $this->oLang->texts['E_MAIL_ALREADY_IN_USE'];
 				}
 			}
 
 		}
 		if(isset($this->r_password)){
 			if (strlen($this->r_password)<4) {
-				$error .= $lang['PASSWORD_TO_SHORT'];	
+				$error .= $this->oLang->texts['PASSWORD_TO_SHORT'];	
 			}
 		}
 		if(isset($this->r_title)){
 			if ("" ==$this->r_title){
-				$error .= $lang['ENTER_BOOK_TITLE'];
+				$error .= $this->oLang->texts['ENTER_BOOK_TITLE'];
 			}
 		}
 
 		if(isset($this->r_author)){
 			if ("" == $this->r_author){
-				$error .= $lang['ENTER_BOOK_AUTHOR'];	
+				$error .= $this->oLang->texts['ENTER_BOOK_AUTHOR'];	
 			}
 		}
 		if(isset($this->r_location)){
 			if ($this->location ==""){
-				$error .= $lang['ENTER_LOCATION'];	
+				$error .= $this->oLang->texts['ENTER_LOCATION'];	
 			}
 		}
 		if((isset($this->r_pickup_date)) and ($this->r_pickup_date !="")){
 			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_pickup_date)){
-			$error.= $lang['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
+			$error.= $this->oLang->texts['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
 			}
 		}
 		if((isset($this->r_return_date)) and ($this->r_return_date !="")){
 			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_return_date)){
-			$error.= $lang['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
+			$error.= $this->oLang->texts['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
 			}
 		}
 		return $error;
    }
 	function check_ID_exists($ID){
 		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID)) == -1)){
-			return $lang['ID_DOES_NOT_EXIST'];
+			return $this->oLang->texts['ID_DOES_NOT_EXIST'];
 		}
 	}
 	function check_user_exists($user_ID){
 		if ($this->select_row(TABLE_USER, array ('user_ID' => $user_ID)) == -1){
-			return $lang['USER_DOES_NOT_EXIST'];
+			return $this->oLang->texts['USER_DOES_NOT_EXIST'];
 		}
 	}
 	function get_view($Datei) {
@@ -689,7 +689,7 @@ class User extends Data {
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
 			'UID' => $this->r_UID,
-			'language' => $this->r_language,
+			'oLang->textsuage' => $this->r_oLang->textsuage,
 			'password' => md5(strrev($this->r_password)),
 			'admin' => $this->r_admin
 		);
@@ -724,7 +724,7 @@ class User extends Data {
 		if((isset($UID)) and ($UID!= "")){
 			$aFields["UID"] = $UID;
 		}
-		if((isset($language)) and ($language!= "")){
+		if((isset($this->oLang->language)) and ($language!= "")){
 			$aFields["language"] = $language;
 		}
 		
@@ -914,7 +914,7 @@ class Mail extends Data {
 		$oUser->r_user_ID= $aRow['user_ID'];
 		$aUser = $oUser->get_user()[$aRow['user_ID']];
 		$to = $aUser['email'];
-		include ('language/'.$aUser["language"].'/mail.php');
+		include ('oLang->textsuage/'.$aUser["oLang->textsuage"].'/mail.php');
 		if ($aRow['type'] == 'book'){
 			$oBook = new Book;
 			$oBook->r_book_ID = $aRow['ID'];
@@ -941,16 +941,16 @@ class Mail extends Data {
 				NAME.': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
-			$lang['LENT_ON'].': '.$aRow['pickup_date']."\r\n\r\n".
-			$lang['CONDITIONS_OF_LOAN'].' '.
-			$lang['SHOW_LOANS_ONLINE']."\r\n\r\n".
-			$lang['GREETINGS']."\r\n".
-			$lang['TEAM']."\r\n\r\n".
-			$lang['FUTHER_INFORMATION'];
+			$this->oLang->texts['LENT_ON'].': '.$aRow['pickup_date']."\r\n\r\n".
+			$this->oLang->texts['CONDITIONS_OF_LOAN'].' '.
+			$this->oLang->texts['SHOW_LOANS_ONLINE']."\r\n\r\n".
+			$this->oLang->texts['GREETINGS']."\r\n".
+			$this->oLang->texts['TEAM']."\r\n\r\n".
+			$this->oLang->texts['FUTHER_INFORMATION'];
 		$issue = "Reminder on loan ".$aRow['loan_ID'];
 		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
 	
-		return mail($to, $subject, $message, $library_info['MAIL_HEADER']);
+		return mail($to, $subject, $message, $this->oLang->library_info['MAIL_HEADER']);
 
 	}
 
