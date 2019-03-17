@@ -17,5 +17,5 @@ $lang = array_merge($lang, array(
 	'SHOW_PRESENCE' => "Zeige Anwesenheiten",
 	'CHECKIN_AT' => "Eingecheckt um",
 	'CHECKOUT_AT' => "Ausgecheckt um"
-);
+));
 ?>

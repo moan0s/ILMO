@@ -21,6 +21,6 @@ $lang = array_merge($lang, array(
 'SHOW_PRESENCE' => 'Show Presences',
 'CHECKIN_AT' => 'Checkin at',
 'CHECKOUT_AT' => 'Checkout at'
-);
+));
 
 ?>

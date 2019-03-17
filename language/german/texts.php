@@ -4,7 +4,6 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-
 //main texts that will be shown
 $lang = array_merge($lang, array(
 
@@ -47,7 +46,6 @@ $lang = array_merge($lang, array(
 	'LINKS' => 'Links',
 	'HOME' => 'Startseite',
 
-	//error messages
 	'GIVE_NUMBER_AS_USER_ID' => 'Bitte gib eine Zahl als User-ID ein.<br>',
 	'GIVE_BOOK_ID' => 'Bitte gib eine Bücher-ID ein',
 	'GIVE_VALID_E_MAIL_ADRESS' => 'Bitte gib eine gültige E-Mail Adresse ein',

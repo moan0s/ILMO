@@ -2,6 +2,7 @@
 class Data {
 	function __construct(){
 		$this->link_database();
+		global $lang;
 		$this->em_check_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
