@@ -46,7 +46,7 @@ echo $table;
 
 
 if ($_SESSION['admin']==1){
-	$form .='
+	$form ='
 		<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
 		<input type = hidden name="ac" value = "user_new">
 		<input type="submit" value="'.$this->oLang->texts['BUTTON_ADD_USER'].'">
