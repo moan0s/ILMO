@@ -2,26 +2,6 @@
 class Data {
 	function __construct(){
 		$this->link_database();
-		global $lang;
-		if (isset($_SESSION['language'])){
-			if($_SESSION['language'] == "english"){
-				include ("language/english/texts.php");
-				include ("language/english/library_info.php");
-				include ("language/english/presence.php");
-			}
-			else{
-				include ("language/german/texts.php");
-				include ("language/german/library_info.php");
-				include ("language/german/presence.php");
-			}
-		}
-		else {
-			$_SESSION['language'] = 'german';
-			include ("language/german/texts.php");
-			include ("language/german/library_info.php");
-			include ("language/german/presence.php");
-		}		
-
 		$this->em_check_database();
 		$this->read_variables();
 		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
