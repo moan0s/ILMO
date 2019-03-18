@@ -2,10 +2,10 @@
 $footer ='
 <div id= footer>
 	<div>
-	<a id=logo class=logo href="https://www.fs-medtech.de/" title="Website der Fachschaft">
+	<a id=logo class=logo href="'.$this->oLang->library_info['FOOTER_LINK_1'].'" title="'.$this->oLang->library_info['FOOTER_LINK_1_TITLE'].'">
 	<span class="fs_logo"></span>
 	</a>
-	<a href="https://www.medtechs.de/" title="Forum Medizintechnik" >
+	<a href="'.$this->oLang->library_info['FOOTER_LINK_2'].'" title="'.$this->oLang->library_info['FOOTER_LINK_2_TITLE'].'" >
 	<span class="forum_logo"></span>
 	</a>
 	<span class="link_list">
