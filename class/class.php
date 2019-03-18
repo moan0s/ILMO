@@ -689,7 +689,7 @@ class User extends Data {
 			'surname' => $this->r_surname,
 			'email' => $this->r_email,
 			'UID' => $this->r_UID,
-			'oLang->textsuage' => $this->r_oLang->textsuage,
+			'language' => $this->r_language,
 			'password' => md5(strrev($this->r_password)),
 			'admin' => $this->r_admin
 		);
@@ -914,7 +914,7 @@ class Mail extends Data {
 		$oUser->r_user_ID= $aRow['user_ID'];
 		$aUser = $oUser->get_user()[$aRow['user_ID']];
 		$to = $aUser['email'];
-		include ('oLang->textsuage/'.$aUser["oLang->textsuage"].'/mail.php');
+		$this->oLang->set_language($aUser['language']);
 		if ($aRow['type'] == 'book'){
 			$oBook = new Book;
 			$oBook->r_book_ID = $aRow['ID'];
@@ -926,19 +926,19 @@ class Mail extends Data {
 			$aMaterial = $oMaterial->get_material_itemized()[$aRow['ID']];
 		}
 		
-		$subject = '[Ausleihe '.$aRow['loan_ID'].']'.YOUR_LOANS_AT_THE.' '.LIBRARY_NAME;
+		$subject = '['.$this->oLang->texts['LOAN'].' '.$aRow['loan_ID'].']'.$this->oLang->texts['YOUR_LOANS_AT_THE'].' '.$this->oLang->library_info['LIBRARY_NAME'];
 		$message = 
-			HELLO." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
-			YOU_HAVE_LENT."\r\n\r\n";
+			$this->oLang->texts['HELLO']." ".$aUser['forename']." ".$aUser['surname'].",\r\n".
+			$this->oLang->texts['YOU_HAVE_LENT']."\r\n\r\n";
 		
 		if ($aRow['type'] == 'book'){
 			$message.=
-				TITLE.': '.$aBook['title']."\r\n".
-				AUTHOR.': '.$aBook['author']."\r\n";
+				$this->oLang->texts['TITLE'].': '.$aBook['title']."\r\n".
+				$this->oLang->texts['AUTHOR'].': '.$aBook['author']."\r\n";
 		}
 		if ($aRow['type'] == 'material'){
 			$message.=
-				NAME.': '.$aMaterial['name']."\r\n";
+				$this->oLang->texts['NAME'].': '.$aMaterial['name']."\r\n";
 		}
 		$message .=
 			$this->oLang->texts['LENT_ON'].': '.$aRow['pickup_date']."\r\n\r\n".
@@ -949,13 +949,20 @@ class Mail extends Data {
 			$this->oLang->texts['FUTHER_INFORMATION'];
 		$issue = "Reminder on loan ".$aRow['loan_ID'];
 		$this->log_mail($aUser['email'], $aRow['user_ID'], $issue);
-	
-		return mail($to, $subject, $message, $this->oLang->library_info['MAIL_HEADER']);
+		
+		
+		$header[] = 'MIME-Version: 1.0';
+		$header[] = 'Content-type: text/plain; charset=utf-8';
+		$header[] = 'X-Mailer: PHP/'.phpversion();
+		
+		$header[] = 'To: '.$aUser['forename'].' '.$aUser['surname'].'<'.$aUser['email'].'>';
+		$header[] = 'From: '.$this->oLang->library_info['ADMIN_NAME'].' <'.$this->oLang->library_info['ADMIN_MAIL'].'>';
+		return mail($to, $subject, $message, implode("\r\n", $header));
 
 	}
 
 	function log_mail($email, $user_ID, $issue){
-		$fLog = fopen(__DIR__."/../".$this->settings['path_mail_log'], 'wb');
+		$fLog = fopen(__DIR__."/../".$this->settings['path_mail_log'], 'a+');
 		fwrite($fLog, '['.date("Y-m-d H:i:s").']: To: "'.$email.'" with user_ID: "'.$user_ID.'" because of: "'.$issue.'"'."\n");
 		fclose($fLog);
 

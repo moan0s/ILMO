@@ -16,10 +16,10 @@ $table = "<table border='0' cellspacing='0' >";
 foreach ($this->aBook as $title => $aResult){
 	//var_dump($aResult);
 	if($aResult['available']==0){
-		$sClass = 'lend';
+		$sClass = 'lent';
 	}
 	else{
-	$sClass = 'available';
+		$sClass = 'available';
 	}
 		$table .=
 			'<tr class= "'.$sClass.'">

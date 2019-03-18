@@ -35,14 +35,17 @@ $form .=	$this->oLang->texts['FORENAME'].': <input type="text" name="forename" v
 	}
 	$form .= '"> <br>'.
 		$this->oLang->texts['LANGUAGE'].': <input type="radio" id="english" name="language" value="english"';
-	
-	if ((($this->aRow['language']== "english") or ($this->settings['default_language'] == "english")) and ($this->r_ac != 'user_search')){
+
+	if(!isset($this->aRow['language'])){
+		$this->aRow['language'] = $this->settings['default_language'];
+	}
+	if (($this->aRow['language']== "english") and ($this->r_ac != 'user_search')){
 			 $form .= 'checked';
 	}
 	$form .= '>
 			<label for="english">'.$this->oLang->texts['ENGLISH'].'</label>
 			<input type="radio" id="german" name="language" value="german" ';
-	if ((($this->aRow['language']=="german") or ($this->settings['default_language'] == "german")) and ($this->r_ac != 'user_search')){
+	if (($this->aRow['language']=="german") and ($this->r_ac != 'user_search')){
 			$form .= 'checked';
 	}
 	$form .= '>

@@ -32,7 +32,7 @@ if ($this->settings['enable_status'] == 1){
 					$header.=  '>
 						<label for="english">'.$this->oLang->texts['ENGLISH'].' </label>
 						<input type="radio" id="german" name="language" value="german"'; 
-				if ($_SESSION['language']=="german"){
+				if (($_SESSION['language']=="german") or (!isset($_SESSION['language']))){
 					$header .= ' checked';
 				}
 		$header.= '>

@@ -11,6 +11,7 @@ $library_info = array(
 	'PRIVACY_LINK' => 'https://www.fs-medtech.de/datenschutz',
 
 	'ADMIN_MAIL' => 'hiwi@fs-medtech.de',
-	'URL', 'https://www.fs-medtech.de/bib/'
+	'ADMIN_NAME' => 'Lerninsel Hiwis',
+	'URL' => 'https://www.fs-medtech.de/bib/'
 ); 
 ?>

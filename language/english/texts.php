@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 'LINKS' => 'Links',
 'HOME' => 'Home', 
 
+'LOAN' => 'Loan',
 //error messages
 'GIVE_NUMBER_AS_USER_ID' => 'Please give a number as user-ID.<br>',
 'GIVE_BOOK_ID' => 'Please enter a book-ID.<br>',
