@@ -45,6 +45,7 @@ $lang = array_merge($lang, array(
 	'PRIVACY' => 'Datenschutz',
 	'LINKS' => 'Links',
 	'HOME' => 'Startseite',
+	'LOAN' => 'Ausleihe',
 
 	'GIVE_NUMBER_AS_USER_ID' => 'Bitte gib eine Zahl als User-ID ein.<br>',
 	'GIVE_BOOK_ID' => 'Bitte gib eine Bücher-ID ein',

@@ -6,15 +6,15 @@
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
-		<th>".$lang['BOOK_ID']."</th>
-		<th>".$lang['TITLE']."</th>
-		<th>".$lang['AUTHOR']."</th>
-		<th>".$lang['LOCATION']."</th>
-		<th>".$lang['STATUS']."</th>";
+		<th>".$this->oLang->texts['BOOK_ID']."</th>
+		<th>".$this->oLang->texts['TITLE']."</th>
+		<th>".$this->oLang->texts['AUTHOR']."</th>
+		<th>".$this->oLang->texts['LOCATION']."</th>
+		<th>".$this->oLang->texts['STATUS']."</th>";
 
 	$table .='
-		<th>'.$lang['BUTTON_CHANGE'].'</th>
-		<th>'.$lang['BUTTON_DELETE'].'</th>
+		<th>'.$this->oLang->texts['BUTTON_CHANGE'].'</th>
+		<th>'.$this->oLang->texts['BUTTON_DELETE'].'</th>
 		</tr>';
 
 		
@@ -22,11 +22,11 @@ $table = "<table border='0' cellspacing='0' >";
 		{
 		if($aResult['lent'] == 0){
 			$sClass= "available";
-			$sStatus= $lang['STATUS_AVAILABLE'];
+			$sStatus= $this->oLang->texts['STATUS_AVAILABLE'];
 		}
 		else{
 			$sClass = "lent";
-			$sStatus = $lang['STATUS_LENT'];
+			$sStatus = $this->oLang->texts['STATUS_LENT'];
 		}
 	
 		$table .=
@@ -36,8 +36,8 @@ $table = "<table border='0' cellspacing='0' >";
 			<td>'.$aResult['author'].'</td>
 			<td>'.$aResult['location'].'</td>
 			<td>'.$sStatus.'</td>
-			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > '.$lang['BUTTON_CHANGE'].' </a> </td>
-			<td> <a href="index.php?ac=book_delete&book_ID='.$aResult['book_ID'].'" > '.$lang['BUTTON_DELETE'].' </a> </td>
+			<td> <a href="index.php?ac=book_change&book_ID='.$aResult['book_ID'].'" > '.$this->oLang->texts['BUTTON_CHANGE'].' </a> </td>
+			<td> <a href="index.php?ac=book_delete&book_ID='.$aResult['book_ID'].'" > '.$this->oLang->texts['BUTTON_DELETE'].' </a> </td>
 			</tr>';
 		}	
 		
@@ -48,7 +48,7 @@ $table = "<table border='0' cellspacing='0' >";
 	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
 	$form.= '" method="post">
 	<input type = hidden name="ac" value = "book_new">
-		<input type="submit" value="'.$lang['NEW_BOOK'].'">
+		<input type="submit" value="'.$this->oLang->texts['NEW_BOOK'].'">
 	</form>';
 	echo $form;
 ?>

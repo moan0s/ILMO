@@ -17,24 +17,6 @@ error_reporting(E_ALL);
 include ("config/config.inc.php");
 include ("class/class.php");
 
-if (isset($_SESSION['language'])){
-	if($_SESSION['language'] == "english"){
-		include ("language/english/texts.php");
-		include ("language/english/library_info.php");
-		include ("language/english/presence.php");
-	}
-	else{
-		include ("language/german/texts.php");
-		include ("language/german/library_info.php");
-		include ("language/german/presence.php");
-	}
-}
-else {
-	$_SESSION['language'] = 'german';
-	include ("language/german/texts.php");
-	include ("language/german/library_info.php");
-	include ("language/german/presence.php");
-}		
 //object: parameter to clear which object
 $sName = "book";
 if (isset ($_REQUEST['ac'])){
@@ -95,7 +77,8 @@ switch ($oObject->r_ac){
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 	case 'language_change':
-		$oObject->change_language($oObject->r_language);
+		$oLang = new Lang;
+		$oLang->change_language($oObject->r_language);
 		$oObject->output .= $oObject->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
@@ -104,7 +87,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/open_form.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'open_save':
@@ -114,7 +97,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/display_open.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'open_show':
@@ -130,7 +113,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	
@@ -141,7 +124,7 @@ switch ($oObject->r_ac){
 		$oObject->output = $oObject->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;	
 	case 'book_save':
@@ -152,7 +135,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'book_show':
@@ -176,7 +159,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
@@ -185,7 +168,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view('views/material_form.php');
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	
@@ -196,7 +179,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view('views/material_form.php');
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;	
 	case 'material_save':
@@ -207,7 +190,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_material_itemized.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'material_show':
@@ -231,7 +214,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_material_itemized.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_new':
@@ -239,7 +222,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_save':
@@ -255,7 +238,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_delete':
@@ -265,7 +248,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_self':
@@ -278,7 +261,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_search':	
@@ -286,7 +269,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else {
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_change':
@@ -296,7 +279,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_new':
@@ -304,7 +287,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_save':
@@ -325,7 +308,7 @@ switch ($oObject->r_ac){
 			}
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_return':
@@ -335,7 +318,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/all_loans.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_show':
@@ -344,7 +327,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_loans.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_self':
@@ -358,7 +341,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
-			$oObject->error .= $lang['NO_PERMISSION'];
+			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
@@ -377,7 +360,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'get_UID_status_bot':
@@ -393,7 +376,7 @@ switch ($oObject->r_ac){
 		$oObject->output .= $oObject->get_view("views/presence_form.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'presence_show_all':
@@ -402,7 +385,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'presence_show_status':
@@ -411,7 +394,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'presence_delete':
@@ -422,7 +405,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'presence_change':
@@ -432,7 +415,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/presence_form.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
@@ -445,7 +428,7 @@ switch ($oObject->r_ac){
 			$oObject->output .= $oObject->get_view("views/all_present.php");
 		}
 		else{
-			$oObject->error.= $lang['NO_PERMISSION'];
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	default: 
@@ -455,12 +438,14 @@ switch ($oObject->r_ac){
 
 }
 
-//$oObject->show_oObject();
-if (substr($oObject->r_ac, -3) != "bot"){
-	echo $oObject->get_view("views/head.php");
-	echo $oObject->get_view("views/body.php");
-	if (substr($oObject->r_ac, -5) != "plain"){
-		echo $oObject->get_view("views/footer.php");
+function output($oObject){
+	if (substr($oObject->r_ac, -3) != "bot"){
+		echo $oObject->get_view("views/head.php");
+		echo $oObject->get_view("views/body.php");
+		if (substr($oObject->r_ac, -5) != "plain"){
+			echo $oObject->get_view("views/footer.php");
+		}
 	}
 }
+output($oObject);
 ?>
