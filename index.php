@@ -236,7 +236,32 @@ switch ($oObject->r_ac){
 				$oObject->error .= $er;
 			}
 			else{
-				$oObject->save_user();
+				$aUser = array();
+				if(isset($oObject->r_user_ID)){
+					$aUser['user_ID'] = $oObject->r_user_ID;
+				}
+				if(isset($oObject->r_forename)){
+					$aUser['forename'] = $oObject->r_forename;
+				}
+				if(isset($oObject->r_surname)){
+					$aUser['surname'] = $oObject->r_surname;
+				}
+				if(isset($oObject->r_email)){
+					$aUser['email'] = $oObject->r_email;
+				}
+				if(isset($oObject->r_UID)){
+					$aUser['UID'] = $oObject->r_UID;
+				}
+				if(isset($oObject->r_language)){
+					$aUser['language'] = $oObject->r_language;
+				}
+				if(isset($oObject->r_admin)){
+					$aUser['admin'] = $oObject->r_admin;
+				}
+				if(isset($oObject->r_password)){
+					$aUser['password_hash'] = password_hash($oObject->r_password, PASSWORD_DEFAULT);
+				}
+				$oObject->save_user($aUser);
 				$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
 				$oObject->output .= $oObject->get_view("views/all_user.php");
 			}

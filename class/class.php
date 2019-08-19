@@ -662,16 +662,28 @@ class Book extends Data {
 	}
 }
 class User extends Data {
-	function save_user(){
-		$aFields = array(
-			'forename' => $this->r_forename,
-			'surname' => $this->r_surname,
-			'email' => $this->r_email,
-			'UID' => $this->r_UID,
-			'language' => $this->r_language,
-			'password' => md5(strrev($this->r_password)),
-			'admin' => $this->r_admin
-		);
+	function save_user($aUser){
+		/*
+		args:
+			Array $aUser
+				Array of user information which will be saved.
+				e.g.	array(
+						'forename' => String $forname,
+						'surname' => String $surname,
+						'email' => String $email,
+						'UID' => String $UID,
+						'language' => String $language,
+						'admin' => Bool $admin,
+						'password' => String md5(str_rev($password)), #deprecated, do not use!
+						'password_hash' => password_hash(String $password, PASSWORD_DEFAULT)
+					);
+
+		returns:
+			None
+		Function will save user Information given in $aUser. If user exists it will
+		overwrite existing data but not delete not-specified data
+		*/
+		$aFields = $aUser;
 		if ((isset($this->r_user_ID))and ($this->r_user_ID != "")){
 			$this->ID=$this->store_data(TABLE_USER, $aFields, 'user_ID' , $this->r_user_ID);
 		}

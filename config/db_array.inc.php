@@ -174,6 +174,11 @@ $aData[TABLE_USER] = array(
 			'size' => 255,
 			'standard' => 'NOT NULL'
 		),
+		'password_hash' => array(
+			'type' => 'VARCHAR',
+			'size' => 255,
+			'standard' => 'NOT NULL'
+		),
 		'surname' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
