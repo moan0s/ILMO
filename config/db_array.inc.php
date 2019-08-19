@@ -1,6 +1,7 @@
 
 <?php
-$aData['lib_books'] = array(
+require_once(__dir__."/config.inc.php");
+$aData[TABLE_BOOKS] = array(
 		'book_ID' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
@@ -30,7 +31,7 @@ $aData['lib_books'] = array(
 		)
 	);
 
-$aData['lib_loan'] = array(
+$aData[TABLE_LOAN] = array(
 		'loan_ID' => array(
 			'type' => 'INT',
 			'size' => 11,
@@ -72,7 +73,7 @@ $aData['lib_loan'] = array(
 		)
 	);
 
-$aData['lib_log'] = array(
+$aData[TABLE_LOG] = array(
 		'issue' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
@@ -86,7 +87,7 @@ $aData['lib_log'] = array(
 		)
 	);
 
-$aData['lib_material'] = array(
+$aData[TABLE_MATERIAL] = array(
 		'material_ID' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
@@ -109,7 +110,7 @@ $aData['lib_material'] = array(
 			'standard' => 'NOT NULL'
 		)
 	);
-$aData['lib_open'] = array(
+$aData[TABLE_OPEN] = array(
 		'day' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
@@ -131,7 +132,7 @@ $aData['lib_open'] = array(
 			'size' => 255,
 		)
 	);
-$aData['lib_presence'] = array(
+$aData[TABLE_PRESENCE] = array(
 		'presence_ID' => array(
 			'type' => 'INT',
 			'size' => 11,
@@ -159,7 +160,7 @@ $aData['lib_presence'] = array(
 
 
 
-$aData['lib_user'] = array(
+$aData[TABLE_USER] = array(
 		'user_ID' => array(
 			'type' => 'INT',
 			'size' => 11,
@@ -205,8 +206,3 @@ $aData['lib_user'] = array(
 			'extra' => 'DEFAULT 0'
 		)
 	);
-
-
-
-
-
