@@ -722,7 +722,7 @@ class User extends Data {
 		if((isset($this->oLang->language)) and ($language!= "")){
 			$aFields["language"] = $language;
 		}
-		$aOrder(array("-user_ID"));
+		$aOrder = array("-user_ID");
 		$this->p_result = $this->select_rows(TABLE_USER, $aFields, $aOrder);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aUser[$aRow['user_ID']] = $aRow;
