@@ -329,38 +329,57 @@ class Data {
          return -1; 
       }
    }
-   function select_rows($sTable,$aFields = array(),$aOrder = array()) {
-      //selects multiple rows from the database 
-      //returns resultset 
-      $i = 0; $sConditions=""; $sOrder = "";
-      if($aOrder==false) {unset($aOrder);}
-      if($aFields==false) {unset($aFields);}
-      if(isset($aFields)) {
-         foreach($aFields as $key=>$value) {
-            if($i>0) {
-               $sConditions.=" and ";
-            }
-            else {
-               $sConditions=" WHERE";
-            }      
-            $sConditions.=" ".$key."='".$value."'";
-            $i++;
-         }   
-      }   
-      $i = 0;
-      if(isset($aOrder)){
-         $sOrder=" order by";
-         foreach($aOrder as $value) {
-            if($i>0) {
-               $sOrder.=",";
-            }   
-            $sOrder.=" ".$value;
-            $i++;
-         }
-      }      
-		  $sQuery="SELECT * FROM ".$sTable.$sConditions.$sOrder;
-		  $this->last_query[]=$sQuery;
-		  return $this->databaselink->query($sQuery);
+   function select_rows(String $sTable, Array $aFields = array(), Array $aOrder = array()) {
+	/*
+	params:
+		String $sTable:
+			Table from which to select the rows
+		Array $aFields:
+			Array of filters that allow to select only some rows
+			e.g. $aFields = array("user" => "AnyUsername")
+		Array $aOrder:
+			Array where the values determins the colums for which to sort
+			An minus in the colum string indicates a descending order
+        returns:
+		resultset
+	Selects multiple rows from the database
+	*/
+	$i = 0; $sConditions=""; $sOrder = "";
+	if($aOrder==false) {unset($aOrder);}
+	if($aFields==false) {unset($aFields);}
+	if(isset($aFields)) {
+		foreach($aFields as $key=>$value) {
+			if($i>0) {
+				$sConditions.=" and ";
+			}
+			else {
+				$sConditions=" WHERE";
+			}
+		$sConditions.=" ".$key."='".$value."'";
+		$i++;
+		}
+	}
+	$i = 0;
+	if(isset($aOrder)){
+		$sOrder=" ORDER BY ";
+		foreach($aOrder as $value) {
+			if($i>0) {
+				$sOrder.=",";
+			}
+			$minuspos = strpos($value, "-");
+			if(is_int($minuspos)){
+				$sOrder.= " ".str_replace("-", "", $value)." DESC ";
+				$i++;
+			}
+			else{
+				$sOrder.=" ".$value;
+				$i++;
+			}
+		}
+	}
+	$sQuery = "SELECT * FROM ".$sTable.$sConditions.$sOrder;
+	$this->last_query[] = $sQuery;
+	return $this->databaselink->query($sQuery);
    }
 
    function check_ID_loan($ID){
