@@ -382,17 +382,15 @@ class Data {
 	}
    }
    //checks if an E-MAil Adress is already used
-   function check_email_used(){
-		$aFields = array('email' => $this->r_email);
+   function check_email_used($email){
+		$aFields = array('email' => $email);
 		$aResult = $this->select_row(TABLE_USER, $aFields); 
 		if($aResult == -1){
 			return FALSE;
 		}
 		else{
 			return TRUE;
-			//return $aResult['user_ID'];
 		}
-   
    }
    //returns String containing "" or an error message
    function check_user_ID($user_ID){
@@ -406,65 +404,50 @@ class Data {
 		return "";
 	}
    }
-
-
-
-	
-
-   function check_input(){
-	   $error="";
-			
-		if(isset($this->r_book_ID)){
-			if (trim($this->r_book_ID) == ""){
-				$error .= $this->oLang->texts['GIVE_BOOK_ID'];
-			}
-		}
-
-		if(isset($this->r_email)){
-			if (!is_string(filter_var($this->r_email, FILTER_VALIDATE_EMAIL))){
-				$error .= $this->oLang->texts['GIVE_VALID_E_MAIL_ADRESS'];
-			}
-			
-			if ((!isset($this->r_user_ID)) or ($this->r_user_ID =="")){
-				if($this->check_email_used()){
-					$error .= $this->oLang->texts['E_MAIL_ALREADY_IN_USE'];
-				}
-			}
-
-		}
-		if(isset($this->r_password)){
-			if (strlen($this->r_password)<4) {
-				$error .= $this->oLang->texts['PASSWORD_TO_SHORT'];	
-			}
-		}
-		if(isset($this->r_title)){
-			if ("" ==$this->r_title){
-				$error .= $this->oLang->texts['ENTER_BOOK_TITLE'];
-			}
-		}
-
-		if(isset($this->r_author)){
-			if ("" == $this->r_author){
-				$error .= $this->oLang->texts['ENTER_BOOK_AUTHOR'];	
-			}
-		}
-		if(isset($this->r_location)){
-			if ($this->location ==""){
-				$error .= $this->oLang->texts['ENTER_LOCATION'];	
-			}
-		}
-		if((isset($this->r_pickup_date)) and ($this->r_pickup_date !="")){
-			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_pickup_date)){
-			$error.= $this->oLang->texts['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
-			}
-		}
-		if((isset($this->r_return_date)) and ($this->r_return_date !="")){
-			if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$this->r_return_date)){
-			$error.= $this->oLang->texts['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
-			}
-		}
-		return $error;
+   
+   function check_user_ID($book_ID){
+	   if(trim($book_ID) == ""){
+		return $this->oLang->texts['GIVE_BOOK_ID'];
+	   }
+	   else{
+		return "";
+	   }
    }
+   function check_email($email){
+	if (!is_string(filter_var($email, FILTER_VALIDATE_EMAIL))){
+		$error .= $this->oLang->texts['GIVE_VALID_E_MAIL_ADRESS'];
+	}
+	if($this->check_email_used()){
+		return $this->oLang->texts['E_MAIL_ALREADY_IN_USE'];
+	}
+   }
+   function check_password($password){
+    	if (strlen($password)<4) {
+		return $this->oLang->texts['PASSWORD_TO_SHORT'];	
+	}
+
+   }
+   function check_book_title($title){
+	if ("" == $title){
+		return $this->oLang->texts['ENTER_BOOK_TITLE'];
+	}
+   }	   
+   function check_author($author){
+	   if("" == $author){
+		   return $this->oLang->texts['ENTER_BOOK_AUTHOR'];
+	   }
+   }
+   function check_location($location){
+	   if ("" == $location){
+		   return $this->oLang->texts['ENTER_LOCATION'];
+	   }
+   }  
+   function check_date($date){
+	if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date)){
+		return $this->oLang->texts['ENTER_VALID_DATE_IN_FORMAT_YYYY_MM_DD'];	
+	}
+   }
+
 	function check_ID_exists($ID){
 		if (($this->select_row(TABLE_BOOKS, array ('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array ('material_ID' => $ID)) == -1)){
 			return $this->oLang->texts['ID_DOES_NOT_EXIST'];
