@@ -395,7 +395,7 @@ class Data {
    }
    //returns String containing "" or an error message
    function check_user_ID($user_ID){
-	   if((!isset($user_ID)) and ($user_ID=="")){
+   	if((!isset($user_ID)) and ($user_ID=="")){
 		return $this->oLang->texts['ENTER_USER_ID']; 
 	   }
 	elseif (!is_numeric($user_ID)){
@@ -406,14 +406,6 @@ class Data {
 	}
    }
    
-   function check_user_ID($book_ID){
-	   if(trim($book_ID) == ""){
-		return $this->oLang->texts['GIVE_BOOK_ID'];
-	   }
-	   else{
-		return "";
-	   }
-   }
    function check_email($email){
 	if (!is_string(filter_var($email, FILTER_VALIDATE_EMAIL))){
 		$error .= $this->oLang->texts['GIVE_VALID_E_MAIL_ADRESS'];
