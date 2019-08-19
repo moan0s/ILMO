@@ -551,16 +551,11 @@ function get_material_itemized (){
 	      ) as available 
 	     FROM `".TABLE_MATERIAL."` B1
 	     group by name";
-	
 	$this->p_result = $this->sql_statement($sQuery);
 	while($aRow=mysqli_fetch_assoc($this->p_result)){
 		$aMaterial[$aRow['name']] = $aRow;
-		
 	}
-		
 	return $aMaterial;
-
-
 	}	
 	function save_material(){
 		$aFields = array(
@@ -573,7 +568,6 @@ function get_material_itemized (){
 				$aFields['material_ID'] = $this->r_material_ID." ".$i;
 				$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, FALSE, FALSE);
 			}
-			
 		}
 		else{
 			$aFields['material_ID'] = $this->r_material_ID;
@@ -594,9 +588,7 @@ function get_material_itemized (){
 
 		$this->id = $this->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$material_ID);
 	return $ID;
-	
 	}
-
 }
 
 class Book extends Data {
@@ -610,9 +602,7 @@ class Book extends Data {
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aBook[$aRow['book_ID']] = $aRow;
 		}
-		
 		return $aBook;
-
 	}
 	function get_book(){
 	$sQuery="SELECT 
@@ -629,10 +619,7 @@ class Book extends Data {
 	while($aRow=mysqli_fetch_assoc($this->p_result)){
 		$aBook[$aRow['title']] = $aRow;
 	}
-		
 	return $aBook;
-
-
 	}	
 	function save_book(){
 		$aFields = array(
@@ -672,10 +659,7 @@ class Book extends Data {
 
 		$this->id = $this->store_data(TABLE_BOOKS, $aFields, 'book_ID',$book_ID);
 	return $ID;
-	
 	}
-
-
 }
 class User extends Data {
 	function save_user(){
@@ -727,7 +711,6 @@ class User extends Data {
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aUser[$aRow['user_ID']] = $aRow;
 		}
-		
 		return $aUser;
 	}
 	function get_user_by_UID (){
@@ -740,8 +723,6 @@ class User extends Data {
 		}
 		return $aUser;
 	}
-
-
 }
 
 class Loan extends Data {
