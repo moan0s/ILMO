@@ -323,7 +323,7 @@ class Data {
 		  $this->last_query[]=$sQuery;
 		  $mNumber=$pResult->num_rows;
 		  if($mNumber>0) {
-		     return $pResult->fetch_array(MYSQLI_BOTH);
+		     return $pResult->fetch_assoc();
 		  }
       else {
          return -1; 
