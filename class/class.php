@@ -105,8 +105,9 @@ class Data {
 	if((isset($this->r_login_user_info)) and ($this->r_login_user_info!="")) {
 		    $sUser=str_replace("%","",$this->r_login_user_info); //never allow the wildcard in the username
 		    if((isset($this->r_login_password)) and ($this->r_login_password!="")) {
-		     	$sPassword=md5(strrev(trim($this->r_login_password)));
-		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword); //retrieve the user from the database, using pw-hash and username
+			$sPassword = $this->r_login_password;
+			$sPasswordMD5=md5(strrev(trim($this->r_login_password)));
+		        $aUser=$this->em_get_user($this->r_login_user_info, $sPassword, $sPasswordMD5); //retrieve the user from the database, using pw-hash and username
 			if (!$aUser) {
 		      		session_destroy();
 				$this->error = $this->oLang->texts['WRONG_LOGIN'];
@@ -203,20 +204,53 @@ class Data {
 	}
 	unset($aData);
     }
-   function em_get_user($sUser, $sPassword) { 
-	   if(isset($sUser)){
-		   if(strpos($sUser,"@")>0) {
-			   $aFields=array("email"=>$sUser,"password"=>$sPassword);
-		   }
-		   else{
-			$aFields=array("user_ID"=>$sUser,"password"=>$sPassword);
-		   }	  
-		   $aResult=$this->select_row(TABLE_USER,$aFields);
-		   if($aResult["user_ID"]>0) {
-			   return $aResult;
-		   }
-	   }              
-	   return False;   
+   function em_get_user(String $sUser, String $sPassword, String $sPasswordMD5) {
+	/*
+	params:
+		String $sUser:
+			String of userinformation, either ID or E-mail is vaild
+		String $sPassword:
+			Plaintext password
+		String $sPasswordMD5
+			Password reversed and md5-hashed (old password storing technique
+			still in productive use, therefore needed	
+	*/
+	if(isset($sUser)){
+		if(strpos($sUser,"@")>0) {
+			$aFields=array("email"=>$sUser);
+		}
+		else{
+			$aFields=array("user_ID"=>$sUser);
+		}
+		$aResult=$this->select_row(TABLE_USER,$aFields);
+		//The following if checks if the user already set an properly hashed password
+		//if not it uses the old technique once but deletes the old hash
+		//and saves only properly hashed password
+		if(isset($aResult['password_hash']) and $aResult['password_hash'] != ""){
+			echo "<br>Password hash is set <br>";
+			if (password_verify($sPassword, $aResult['password_hash'])){
+				return $aResult;
+			}
+		}
+		else{
+			if($aResult["password"] = $sPasswordMD5) {
+				//Deletes old md5(str_rev(password)) with properly hashed
+			#	$oUser = new User();
+			#	$aUser= $aResult;
+			#	$aUser['password'] = '';
+			#	$aUser['password_hash'] = password_hash($sPassword, PASSWORD_DEFAULT);
+			#	$oUser->save_user($aUser);
+				return $aResult;
+			}
+			else{
+				return False;
+			}
+		}
+		var_dump($aResult);
+		echo "<br>Password hash".$aResult['password_hash'];	
+		echo isset($aResult['password_hash']);
+	}
+	return False;
    }
 
    function store_data($sTable,$aFields,$sKey_ID,$mID) {
