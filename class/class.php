@@ -24,7 +24,6 @@ class Data {
 	#returns array
 	function get_settings(){
 		return parse_ini_file(__DIR__."/../config/settings.ini");
-
 	}
 
 	#parses given data in json and outputs them
@@ -129,27 +128,30 @@ class Data {
    }
 
     function em_check_database() {
+	/*
+	params:
+		None
+	returns:
+		None
+	This function compares the database structure to a predefined structure which is saved in db_array_config.php
+	and adds missing structures. Makes installation+updates easy
+	*/
+
 	$aTable=array();
       	//Alle Tabellen in Array lesen, inklusive aller Eigenschaften
 	$result=$this->databaselink->query("show tables from ".DB_DATABASE);
 	while($row = $result->fetch_array(MYSQLI_BOTH)){ 
 		$aTable[]=$row[0];
 	}
-      	//alle physisch auf dem Server vorhandenen Module abkopfen, ob die Datenbank stimmt.
-	
-	if(file_exists(MODULE_PATH."/config/config.inc.php")) {
-		
-		require_once(MODULE_PATH."/config/config.inc.php");
-	
-	}  //else {$sE="no config for ".$Modul."<br>";}
+	$database_structure_path = __DIR__."/../config/db_array.inc.php";
+	include($database_structure_path);
 	$aData=array();
-	include(MODULE_PATH."/config/db_array.inc.php");
-	foreach($aData as $table=>$fields) {
+	foreach($aData as $table=>$fields){
 		if(!in_array($table,$aTable)) {
 			//Tabelle neu anlegen
 			$mCounter=0;
 			$sCommand="CREATE TABLE IF NOT EXISTS `".$table."` (";
-			foreach($fields as $fieldname=>$properties) {
+			foreach($fields as $fieldname=>$properties){
 				$extra = "";
 				if($mCounter==0) {
 					$key="KEY `".$fieldname."` (`".$fieldname."`)";
