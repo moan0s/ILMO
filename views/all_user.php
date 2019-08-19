@@ -1,4 +1,19 @@
 <?php 
+
+/*
+Outputs button that redirects to the "Add User" Page
+*/
+if ($_SESSION['admin']==1){
+	$form ='
+		<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+		<input type = hidden name="ac" value = "user_new">
+		<input type="submit" value="'.$this->oLang->texts['BUTTON_ADD_USER'].'">
+		</form>';
+	echo $form;
+}
+/*
+Creates Table that shows all lends
+*/
 $table = "<table border='1'>";
 		$table .=
 		'<tr>
@@ -43,16 +58,5 @@ $table .= '</tr>';
 		
 $table = $table."</table>";
 echo $table;
-
-
-if ($_SESSION['admin']==1){
-	$form ='
-		<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-		<input type = hidden name="ac" value = "user_new">
-		<input type="submit" value="'.$this->oLang->texts['BUTTON_ADD_USER'].'">
-		</form>';
-	echo $form;
-}
-
 ?>
 

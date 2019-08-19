@@ -1,4 +1,11 @@
 <?php 
+$form ='
+	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+	<input type = hidden name="ac" value = "presence_new">
+		<input type="submit" value='.$this->oLang->texts['NEW_PRESENCE'].'>
+	</form>';
+echo $form;
+
 $table = "<table border='1'>";
 		$table .=
 		'<tr>
@@ -53,11 +60,5 @@ $table = $table."</table>";
 
 echo $table;
 
-$form ='
-	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-	<input type = hidden name="ac" value = "presence_new">
-		<input type="submit" value='.$this->oLang->texts['NEW_PRESENCE'].'>
-	</form>';
-echo $form;
 ?>
 

@@ -3,6 +3,21 @@
 
 
 <?php
+/*
+Adds Button to add book
+*/
+
+$form = '<form action="'; 
+$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
+$form.= '" method="post">
+	<input type = hidden name="ac" value = "book_new">
+	<input type="submit" value="'.$this->oLang->texts['NEW_BOOK'].'">
+	</form>';
+echo $form;
+
+/*
+Adds a table of all itemized books
+*/
 $table = "<table border='0' cellspacing='0' >";
 		$table .= 
 		"<tr>
@@ -44,11 +59,4 @@ $table = "<table border='0' cellspacing='0' >";
 		$table .="</table>";
 		echo $table;
 
-	$form = '<form action="'; 
-	$form .= htmlspecialchars($_SERVER["PHP_SELF"]); 
-	$form.= '" method="post">
-	<input type = hidden name="ac" value = "book_new">
-		<input type="submit" value="'.$this->oLang->texts['NEW_BOOK'].'">
-	</form>';
-	echo $form;
 ?>
