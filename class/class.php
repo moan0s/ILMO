@@ -722,8 +722,8 @@ class User extends Data {
 		if((isset($this->oLang->language)) and ($language!= "")){
 			$aFields["language"] = $language;
 		}
-		
-		$this->p_result = $this->select_rows(TABLE_USER, $aFields);
+		$aOrder(array("-user_ID"));
+		$this->p_result = $this->select_rows(TABLE_USER, $aFields, $aOrder);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aUser[$aRow['user_ID']] = $aRow;
 		}
@@ -738,7 +738,6 @@ class User extends Data {
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aUser[$aRow['UID']] = $aRow;
 		}
-		
 		return $aUser;
 	}
 
@@ -804,11 +803,18 @@ class Loan extends Data {
 
 	}
 	
-	function get_loan ($loanID = NULL, $userID = NULL, $bookID = NULL){
-		//needs: String loan_ID returns: Associative array with complete loan Information
-		//create an array containig loan_ID
+	function get_loan (int $loan_ID = NULL, int $user_ID = NULL, int $book_ID = NULL){
+		/*
+		params:
+			int $loan_ID:
+				Filters loans by ID of loan (unique therfor will return only one)
+			int $user_ID:
+				Filters loans by ID of user
+			int $book_ID:
+				Filters loans by ID of book
+		returns: Associative array with complete loan Information (loan_ID as keys)
+		*/
 		$aFields= array();
-		
 		$oUser = new User;
 		$oBook = new Book;
 		$oMaterial = new Material;	
@@ -817,13 +823,14 @@ class Loan extends Data {
 		$this->all_user = $oUser->get_user();
 		$this->all_book = $oBook->get_book_itemized();
 		$this->all_material = $oMaterial->get_material_itemized();
-		if((isset($userID)) and ($userID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
-		if((isset($loanID)) and ($loanID!= "")){$aFields["loan_ID"] = $this->r_loan_ID;}
+		if((isset($user_ID)) and ($user_ID!= "")){$aFields["user_ID"] = $this->r_user_ID;}
+		if((isset($loan_ID)) and ($loan_ID!= "")){$aFields["loan_ID"] = $this->r_loan_ID;}
+		if((isset($book_ID)) and ($book_ID!= "")){$aFields["book_ID"] = $this->r_book_ID;}
+		$aOrder = array("-user_ID");
 		$this->p_result = $this->select_rows(TABLE_LOAN, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aLoan[$aRow['loan_ID']] = $aRow;
 		}
-		
 		return $aLoan;
 	} 
 
