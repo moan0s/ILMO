@@ -226,8 +226,12 @@ switch ($oObject->r_ac){
 		}
 		break;
 	case 'user_save':
-		if ($_SESSION['admin']==1){	
-			$er = $oObject->check_input();
+		$oObject->error = "";
+		if ($_SESSION['admin']==1){
+			if(isset($oObject->r_user_ID)){
+				$oObject->r_user_ID = (int)$oObject->r_user_ID;
+				$er = $oObject->check_user_ID($oObject->r_user_ID);
+			}
 			if ($er != ""){
 				$oObject->error .= $er;
 			}
