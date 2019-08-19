@@ -136,19 +136,18 @@ class Data {
 	This function compares the database structure to a predefined structure which is saved in db_array_config.php
 	and adds missing structures. Makes installation+updates easy
 	*/
-
 	$aTable=array();
       	//Alle Tabellen in Array lesen, inklusive aller Eigenschaften
 	$result=$this->databaselink->query("show tables from ".DB_DATABASE);
 	while($row = $result->fetch_array(MYSQLI_BOTH)){ 
 		$aTable[]=$row[0];
 	}
+	$aData=array();
 	$database_structure_path = __DIR__."/../config/db_array.inc.php";
 	include($database_structure_path);
-	$aData=array();
 	foreach($aData as $table=>$fields){
 		if(!in_array($table,$aTable)) {
-			//Tabelle neu anlegen
+			//Add table to database
 			$mCounter=0;
 			$sCommand="CREATE TABLE IF NOT EXISTS `".$table."` (";
 			foreach($fields as $fieldname=>$properties){
