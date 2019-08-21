@@ -32,4 +32,4 @@ E-Mail: julian-samuel@gebuehr.net
 
 
 ## License
-This code and examples are licensed under the GNU Lesser General Public License 3.0.
+This code and examples are licensed under the GNU General Public License 3.0.
