@@ -32,6 +32,9 @@ class Data {
 		echo json_encode($data);
 	}
 
+	function hash_password($password){
+		return password_hash($password, PASSWORD_DEFAULT);
+	}
    function read_variables() {
       //reads all GET and POST variables into the object, addslashing both
       if (count($_POST)) {
@@ -246,7 +249,7 @@ class Data {
 			#	$oUser = new User();
 			#	$aUser= $aResult;
 			#	$aUser['password'] = '';
-			#	$aUser['password_hash'] = password_hash($sPassword, PASSWORD_DEFAULT);
+			#	$aUser['password_hash'] = hash_password($sPassword);
 			#	$oUser->save_user($aUser);
 				return $aResult;
 			}

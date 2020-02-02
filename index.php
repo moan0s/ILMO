@@ -259,7 +259,7 @@ switch ($oObject->r_ac){
 					$aUser['admin'] = $oObject->r_admin;
 				}
 				if(isset($oObject->r_password)){
-					$aUser['password_hash'] = password_hash($oObject->r_password, PASSWORD_DEFAULT);
+					$aUser['password_hash'] = $oObject->hash_password($oObject->r_password);
 				}
 				$oObject->save_user($aUser);
 				$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
