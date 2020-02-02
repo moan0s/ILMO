@@ -703,6 +703,34 @@ class Book extends Data {
 	}
 }
 class User extends Data {
+	function create_user_array(){
+		$aUser = array();
+		if(isset($this->r_user_ID)){
+			$aUser['user_ID'] = $this->r_user_ID;
+		}
+		if(isset($this->r_forename)){
+			$aUser['forename'] = $this->r_forename;
+		}
+		if(isset($this->r_surname)){
+			$aUser['surname'] = $this->r_surname;
+		}
+		if(isset($this->r_email)){
+			$aUser['email'] = $this->r_email;
+		}
+		if(isset($this->r_UID)){
+			$aUser['UID'] = $this->r_UID;
+		}
+		if(isset($this->r_language)){
+			$aUser['language'] = $this->r_language;
+		}
+		if(isset($this->r_admin)){
+			$aUser['admin'] = $this->r_admin;
+		}
+		if(isset($this->r_password)){
+			$aUser['password_hash'] = $this->hash_password($this->r_password);
+		}
+		return $aUser;
+	}
 	function save_user($aUser){
 		/*
 		args:
