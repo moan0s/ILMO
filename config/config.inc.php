@@ -1,5 +1,8 @@
 <?php
 
+define ("INSTALLATION", True);
+define ("DEBUG", True);
+
 //database settings
 define ("DB_USER", "sampleuser");
 define ("DB_HOST", "localhost");
