@@ -9,8 +9,8 @@ version 1.2
 session_start();
 //uncomment to show errors
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', DEBUG);
+ini_set('display_startup_errors', DEBUG);
 error_reporting(E_ALL);
 
 //start: includes
