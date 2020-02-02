@@ -7,14 +7,14 @@ version 1.2
 
 
 session_start();
-//uncomment to show errors
+
+//start: includes
+include ("config/config.inc.php");
 
 ini_set('display_errors', DEBUG);
 ini_set('display_startup_errors', DEBUG);
 error_reporting(E_ALL);
 
-//start: includes
-include ("config/config.inc.php");
 include ("class/class.php");
 
 //object: parameter to clear which object
