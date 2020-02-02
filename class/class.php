@@ -66,17 +66,25 @@ class Data {
    }//end of function read variables
    
 
-	function link_database() {  
-      $this->databaselink = new mysqli(DB_HOST,DB_USER,DB_PW,DB_DATABASE);
-      $this->databaselink->set_charset('utf8');
-      if ($this->databaselink->connect_errno) {
-         	return "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
-      }
-      	else{
-      		$this->databasename=DB_DATABASE;
-      		$this->databaselink->query("SET SQL_MODE = '';");
-		return True;
-	}
+	function link_database() {
+		//links the database. If the database does not exist, creates it
+		$this->databaselink = new mysqli(DB_HOST,DB_USER,DB_PW);
+		$this->databaselink->set_charset('utf8');
+		if ($this->databaselink->connect_errno) {
+			return "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
+		}
+		else{
+			// Create database if it does not exist
+			$database_exists = $this->databaselink->query('SHOW DATABASES LIKE "'.DB_DATABASE.'";')->num_rows !=0;
+			if(!$database_exists){
+				$query_create_database = "CREATE DATABASE ".DB_DATABASE;
+				$this->databaselink->query($query_create_database);
+			}
+			$this->databaselink->select_db(DB_DATABASE);
+			$this->databasename=DB_DATABASE;
+			$this->databaselink->query("SET SQL_MODE = '';");
+			return True;
+		}
 	}
 	//Stores the Database on a distant SFTP-Server
 	//returns true if successful
