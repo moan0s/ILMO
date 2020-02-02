@@ -238,7 +238,6 @@ class Data {
 		//if not it uses the old technique once but deletes the old hash
 		//and saves only properly hashed password
 		if(isset($aResult['password_hash']) and $aResult['password_hash'] != ""){
-			echo "<br>Password hash is set <br>";
 			if (password_verify($sPassword, $aResult['password_hash'])){
 				return $aResult;
 			}
@@ -246,20 +245,17 @@ class Data {
 		else{
 			if($aResult["password"] = $sPasswordMD5) {
 				//Deletes old md5(str_rev(password)) with properly hashed
-			#	$oUser = new User();
-			#	$aUser= $aResult;
-			#	$aUser['password'] = '';
-			#	$aUser['password_hash'] = hash_password($sPassword);
-			#	$oUser->save_user($aUser);
+				$oUser = new User();
+				$aUser= $aResult;
+				$aUser['password'] = '';
+				$aUser['password_hash'] = hash_password($sPassword);
+				$oUser->save_user($aUser);
 				return $aResult;
 			}
 			else{
 				return False;
 			}
 		}
-		var_dump($aResult);
-		echo "<br>Password hash".$aResult['password_hash'];	
-		echo isset($aResult['password_hash']);
 	}
 	return False;
    }
