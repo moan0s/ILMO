@@ -1,5 +1,5 @@
 <?php
-include ("class/lang.php");
+include (MODULE_PATH."/class/lang.php");
 class Data {
 	function __construct(){
 		$this->settings = $this->get_settings();
@@ -1002,7 +1002,7 @@ class Mail extends Data {
 	}
 
 	function log_mail($email, $user_ID, $issue){
-		$fLog = fopen(__DIR__."/../".$this->settings['path_mail_log'], 'a+');
+		$fLog = fopen(MODULE_Path.$this->settings['path_mail_log'], 'a+');
 		fwrite($fLog, '['.date("Y-m-d H:i:s").']: To: "'.$email.'" with user_ID: "'.$user_ID.'" because of: "'.$issue.'"'."\n");
 		fclose($fLog);
 
@@ -1010,7 +1010,7 @@ class Mail extends Data {
 
 }
 
-include ("class/presence.php");
+include (MODULE_PATH."class/presence.php");
 	
 	
 ?>

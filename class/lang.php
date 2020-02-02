@@ -16,16 +16,16 @@ class Lang {
 
 	function set_language($language = NULL){
 		if(isset($language)){
-			include ("language/".$language."/library_info.php");
-			include ("language/".$language."/texts.php");
-			include ("language/".$language."/presence.php");
-			include ("language/".$language."/mail.php");
+			include (MODULE_PATH."language/".$language."/library_info.php");
+			include (MODULE_PATH."language/".$language."/texts.php");
+			include (MODULE_PATH."language/".$language."/presence.php");
+			include (MODULE_PATH."language/".$language."/mail.php");
 		}
 		else{
-			include ("language/".$this->settings['default_language']."/library_info.php");
-			include ("language/".$this->settings['default_language']."/texts.php");
-			include ("language/".$this->settings['default_language']."/presence.php");
-			include ("language/".$this->settings['default_language']."/mail.php");
+			include (MODULE_PATH."language/".$this->settings['default_language']."/library_info.php");
+			include (MODULE_PATH."language/".$this->settings['default_language']."/texts.php");
+			include (MODULE_PATH."language/".$this->settings['default_language']."/presence.php");
+			include (MODULE_PATH."language/".$this->settings['default_language']."/mail.php");
 		}
 	      	$this->library_info = $library_info;	
 		$this->texts = $lang;

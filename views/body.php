@@ -1,7 +1,7 @@
 <body>
 <?php
 if (substr($this->r_ac, -5) != "plain"){
-include ("header.php");
+include (MODULE_PATH."views/header.php");
 echo '<div id="navi">';
 echo $this->navigation;
 echo "</div>";
