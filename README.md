@@ -13,11 +13,19 @@ Request from http://docs.python-requests.org/en/master/<br/>
 Adafruit from: https://github.com/adafruit/Adafruit_SSD13<br/>
 
 ## Installation
-Clone the repository and make manual adjustments to the following files/directories
-- config/
+1. Download the newest release
+2. Move the files to your server's document root
+3. Open your browser and visit your domain
+4. You should now see a form where you insert your database credentials and some more information.
+If your installation shall be in a subfolder, add this in module path. E.g. if your installation is on https://example.com/ILMO type in "/ILMO".
+5. Add your first user (has to be an admin to add more users later!)
+6. Delete the folder "install/" from your server.
+7. Have fun! Add user and books etc..
+
+You will also want to make manual adjustments to the following files/directories
+- config/settings.ini
 - images/
 - language/ (only mail.php and library_information.php)
-Also create a database. A database stub (only necesary data, for the installation of a production enviroment) and a database example (for testing purposes) is provided.
 
 ## Using the software
 This software is Open-Source so you are invited to use it for free. But prehaps you need some help to adjust the software to your library or want some new features? Feel free to contact me!
