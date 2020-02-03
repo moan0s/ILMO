@@ -24,7 +24,7 @@ $oObject = new Data;
 
 //view header
 $oObject->output = "";
-$oObject->navigation = $oObject->get_view(MODULE_PATH."install/create_user/views/navigation.php");
+$oObject->navigation = $oObject->get_view(MODULE_PATH."install/views/navigation.php");
 //methods
 switch ($oObject->r_ac){
 	case 'create_standard_user':
