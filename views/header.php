@@ -3,7 +3,7 @@ $header = '
 <div id="header">
 	<div class="side-description">				
 		<a class="logo" href="./index.php" title="'.$this->oLang->texts['HOME'].'">
-			<img src="'.MODULE_PATH.'images/logo_library.png" border=0 />
+			<img src="'.BASE_URL.'images/logo_library.png" border=0 />
 		</a>
 		<h1>'.$this->oLang->library_info['LIBRARY_NAME'].'</h1>
 		<p>'.$this->oLang->library_info['LIBRARY_DESCRIPTION'].'</p>

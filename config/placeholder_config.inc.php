@@ -18,6 +18,19 @@ define ("TABLE_MATERIAL", "%table_prefix%material");
 define ("TABLE_LOG", "%table_prefix%log");
 define ("TABLE_PRESENCE", "%table_prefix%presence");
 
+
 define("MODULE_PATH", $_SERVER['DOCUMENT_ROOT']."%module_path%/");
+
+function url(){
+    if(isset($_SERVER['HTTPS'])){
+        $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+    }
+    else{
+        $protocol = 'http';
+    }
+    return $protocol . "://" . $_SERVER['HTTP_HOST'];
+}
+
+define("BASE_URL", url()."%module_path%/");
 
 ?>
