@@ -1,4 +1,8 @@
 <?php
+$install_folder = "install/";
+if (is_dir($install_folder) and !strpos($_SERVER['PHP_SELF'], "install/")){
+	header('Location: install/');
+}
 include (MODULE_PATH."/class/lang.php");
 class Data {
 	function __construct(){
