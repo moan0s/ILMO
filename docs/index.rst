@@ -7,3 +7,4 @@ Welcome to ILMO's documentation!
    :caption: Contents:
    
    user/index.rst
+   admin/index.rst
