@@ -9,3 +9,4 @@ Welcome to ILMO's documentation!
    user/index.rst
    admin/index.rst
    dev/index.rst
+   API/index.rst
