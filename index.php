@@ -2,7 +2,6 @@
 
 /*
 ILMO - Intelligent Library Management Online
-version 1.2
  */
 
 
@@ -220,6 +219,23 @@ switch ($oObject->r_ac){
 	case 'user_new':
 		if ($_SESSION['admin']==1){	
 		$oObject->output .= $oObject->get_view("views/user_form.php");
+		}
+		else{
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+		}
+		break;
+	case 'settings_change':
+		if ($_SESSION['admin']==1){
+			$oObject->output .= $oObject->get_view("views/settings.php");
+		}
+		else{
+			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+		}
+		break;
+	case 'settings_save':
+		if ($_SESSION['admin']==1){
+			//Saving routine here
+			$oObject->output .= $oObject->get_view("views/settings.php");
 		}
 		else{
 			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];

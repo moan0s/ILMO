@@ -16,6 +16,7 @@ $navigation .= '
 	<li><a href="index.php?ac=book_show_itemized">'.$this->oLang->texts['SHOW_BOOKS_ITEMIZED'].'</a></li>
 	<li><a href="index.php?ac=material_show_itemized">'.$this->oLang->texts['SHOW_MATERIAL_ITEMIZED'].'</a></li>
 	<li><a href="index.php?ac=presence_show_all">'.$this->oLang->texts['SHOW_PRESENCE'].'</a></li>
+	<li><a href="index.php?ac=user_settings">Navigation</a></li>
 ';
 }
 $navigation .=	'
