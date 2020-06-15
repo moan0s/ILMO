@@ -84,8 +84,14 @@ class Data {
 			// Create database if it does not exist
 			$database_exists = $this->databaselink->query('SHOW DATABASES LIKE "'.DB_DATABASE.'";')->num_rows !=0;
 			if(!$database_exists){
-				$query_create_database = "CREATE DATABASE ".DB_DATABASE;
-				$this->databaselink->query($query_create_database);
+				echo "Creating database ".DB_DATABASE."<br>";
+				$query_create_database = "CREATE DATABASE ".DB_DATABASE.";";
+				echo $query_create_database."<br>";
+				if (False == $this->databaselink->query($query_create_database)){
+					echo "Error creating the database. Please check the user priviliges!<br>";
+					printf("Error: %s\n", $this->databaselink->error);
+					exit;
+				}
 			}
 			$this->databaselink->select_db(DB_DATABASE);
 			$this->databasename=DB_DATABASE;
