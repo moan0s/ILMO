@@ -18,6 +18,7 @@ Adafruit from: https://github.com/adafruit/Adafruit_SSD13<br/>
 3. Open your browser and visit your domain
 4. You should now see a form where you insert your database credentials and some more information.
 If your installation shall be in a subfolder, add this in module path. E.g. if your installation is on https://example.com/ILMO type in "/ILMO".
+Make sure that the database user is allowed to create a database or has priviliges to work with the given database.
 5. Add your first user (has to be an admin to add more users later!)
 6. Delete the folder "install/" from your server.
 7. Have fun! Add user and books etc..
