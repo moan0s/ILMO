@@ -2,12 +2,19 @@
 <?php
 require_once(__dir__."/config.inc.php");
 $aData[TABLE_BOOKS] = array(
+		'book_idx' => array(
+			'type' => 'INT',
+			'size' => 1,
+			'unique' => 'TRUE',
+			'standard' => 'NOT NULL',
+			'extra' => 'AUTO_INCREMENT PRIMARY KEY'
+		),
+
 		'book_ID' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
 			'unique' => 'TRUE',
-			'standard' => 'NOT NULL',
-			'extra' => 'PRIMARY KEY'
+			'standard' => 'NOT NULL'
 		),
 		'title' => array(
 			'type' => 'VARCHAR',
@@ -32,7 +39,7 @@ $aData[TABLE_BOOKS] = array(
 	);
 
 $aData[TABLE_LOAN] = array(
-		'loan_ID' => array(
+		'loan_idx' => array(
 			'type' => 'INT',
 			'size' => 11,
 			'unique' => 'TRUE',
@@ -74,12 +81,18 @@ $aData[TABLE_LOAN] = array(
 	);
 
 $aData[TABLE_LOG] = array(
+		'log_idx' => array(
+			'type' => 'INT',
+			'size' => 1,
+			'unique' => 'TRUE',
+			'standard' => 'NOT NULL',
+			'extra' => 'AUTO_INCREMENT PRIMARY KEY'
+		),
 		'issue' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
 			'standard' => 'NOT NULL',
-			'unique' => 'TRUE',
-			'extra' => 'PRIMARY KEY'
+			'unique' => 'TRUE'
 		),
 		'date' => array(
 			'type' => 'DATE',
@@ -88,12 +101,18 @@ $aData[TABLE_LOG] = array(
 	);
 
 $aData[TABLE_MATERIAL] = array(
+		'material_idx' => array(
+			'type' => 'INT',
+			'size' => 1,
+			'unique' => 'TRUE',
+			'standard' => 'NOT NULL',
+			'extra' => 'AUTO_INCREMENT PRIMARY KEY'
+		),
 		'material_ID' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
 			'unique' => 'TRUE',
-			'standard' => 'NOT NULL',
-			'extra' => 'PRIMARY KEY'
+			'standard' => 'NOT NULL'
 		),
 		'name' => array(
 			'type' => 'VARCHAR',
@@ -111,12 +130,18 @@ $aData[TABLE_MATERIAL] = array(
 		)
 	);
 $aData[TABLE_OPEN] = array(
+		'open_idx' => array(
+			'type' => 'INT',
+			'size' => 1,
+			'unique' => 'TRUE',
+			'standard' => 'NOT NULL',
+			'extra' => 'AUTO_INCREMENT PRIMARY KEY'
+		),
 		'day' => array(
 			'type' => 'VARCHAR',
 			'size' => 255,
 			'unique' => 'TRUE',
-			'standard' => 'NOT NULL',
-			'extra' => 'PRIMARY KEY'
+			'standard' => 'NOT NULL'
 		),
 		'start' => array(
 			'type' => 'VARCHAR',
