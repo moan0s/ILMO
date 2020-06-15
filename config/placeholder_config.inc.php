@@ -31,6 +31,6 @@ function url(){
     return $protocol . "://" . $_SERVER['HTTP_HOST'];
 }
 
-define("BASE_URL", url()."%module_path%/");
+define("BASE_URL", url()."/%module_path%/");
 
 ?>
