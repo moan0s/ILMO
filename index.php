@@ -235,7 +235,9 @@ switch ($oObject->r_ac){
 	case 'settings_save':
 		if ($_SESSION['admin']==1){
 			//Saving routine here
-			$oObject->output .= $oObject->get_view("views/settings.php");
+			$config = new Setting;
+			$config->load_config("config/config.inc.php");
+			//$oObject->output .= $oObject->get_view("views/settings.php");
 		}
 		else{
 			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
