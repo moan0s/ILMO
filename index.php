@@ -227,7 +227,6 @@ switch ($oObject->r_ac){
 	case 'settings_change':
 		if ($_SESSION['admin']==1){
 			$settings = new Setting;
-			$oObject->loaded_settings = $settings->load_config(MODULE_PATH."config/settings.ini");
 			$oObject->output .= $oObject->get_view("views/settings.php");
 		}
 		else{

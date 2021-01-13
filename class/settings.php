@@ -40,8 +40,6 @@ class Setting {
 			return False;
 		}
 		$settings = parse_ini_file($path);
-		$this->print_setting_array($settings);
-		//var_dump($settings);
 		return $settings;
 	}
 
