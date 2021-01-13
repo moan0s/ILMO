@@ -27,7 +27,7 @@ class Data {
 	#parses settings in an array
 	#returns array
 	function get_settings(){
-		return parse_ini_file(__DIR__."/../config/settings.ini");
+		return parse_ini_file(MODULE_PATH."config/settings.ini");
 	}
 
 	#parses given data in json and outputs them
