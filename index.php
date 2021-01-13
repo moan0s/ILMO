@@ -239,7 +239,7 @@ switch ($oObject->r_ac){
 			//Saving routine here
 			$settings = new Setting;
 			$settings_to_change = $settings->request_to_array($oObject);
-			$settings->set(MODULE_PATH."config/settings.ini", $settings_to_change);
+			$oObject->settings = $settings->set(MODULE_PATH."config/settings.ini", $settings_to_change);
 			$oObject->output .= $oObject->get_view("views/settings.php");
 		}
 		else{

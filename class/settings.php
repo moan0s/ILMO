@@ -19,6 +19,7 @@ class Setting {
 			$settings[$key] = $value;
         	}
 		$this->save_settings($path, $settings);
+		return $settings;
 	}
 
 	function request_to_array($oObject) {
