@@ -4,66 +4,87 @@
 ILMO - Intelligent Library Management Online
 */
 class Setting {
+	function set($path, $settings_to_change) {
+	/* Replace settings with new setting_array
+	*  
+	* Parameters:
+	* 	$path:String
+	* 		Path to settings file
+	* 	$settings_to_change:array
+	* 		Array of settings that are to be updated
+	*
+	*/
+		$settings = $this->load_config($path);
+		foreach($settings_to_change as $key=>$value){
+			$settings[$key] = $value;
+        	}
+		$this->save_settings($path, $settings);
+	}
 
-	function config_form_to_array(){
-		/*
-		reads data submitted by a config form and joins it together in array
+	function request_to_array($oObject) {
+		$arr['enable_status'] = $oObject->r_enable_status;
+		return $arr;
 		
-		returns:array
-		*/
-		$config = array();
-		$config['db_user'] 			= $_POST['db_user'];
-		$config['db_password'] 		= $_POST['db_password'];
-		$config['db_databasename'] 	= $_POST['db_databasename'];
-		$config['debug_mode'] 		= $_POST['debug_mode'];
-		$config['table_prefix'] 	= $_POST['table_prefix'];
-		$config['module_path'] 		= $_POST['module_path'];
-		
-		return $config;
 	}
 
 	function load_config($path) {
-		$handler = fopen($path, "rb");
-		$config_text = fread($handler, 20000);
-		$line_array = preg_split ('/$\R?^/m', $config_text);
-		foreach ($line_array as $line){
-			echo $line;
+		/*
+		Load settings and return as array
+
+		*/
+		if(!is_readable($path)){
+			$error_message = sprintf('File %s does not exist or is not readable',$path);
+			error_log($error_message);
+			echo($error_message);
+			return False;
 		}
+		$settings = parse_ini_file($path);
+		$this->print_setting_array($settings);
+		//var_dump($settings);
+		return $settings;
 	}
 
-	function save_config($config) {
+	function print_setting_array($data) {
+		$content = "";
+		foreach($data as $key=>$value){
+			$content .= $key."=".$value."<br>";
+        	}
+		echo($content);
+	}
+
+	function save_settings($path, $settings) {
+	/* Write settings to a file
+	*  
+	* Parameters:
+	* 	$path:String
+	* 		Path to settings file
+	* 	$settings:array
+	* 		Array of settings that are to be updated
+	*
+	* Returns:
+	* 	bool: True if successful
+	*/
 		/*
-		writes configuration in config file
-		$config:array
+		$settings:array
+
 		returns: 
 			successfull:bool
 			Is true if write was sucessfull
 		*/
-		$placeholder_config_file = fopen( "../../config/placeholder_config.inc.php", "rb");
-		$config_text = fread($placeholder_config_file, 20000);
-		foreach ($config as $key => $value){
-			$key_exists = strpos($config_text, "%".$key."%");
-			if ($key_existis != False) {
-				$config_text = str_replace("%".$key."%",$value, $config_text);
+		foreach($settings as $key=>$value){
+			if(is_array($value)) {
+				foreach($data as $key=>$value){
+					$setting_text.= $key."[] = ".$value."\n";
+				}
+			}
+			else {
+				$setting_text.= $key." = ".$value."\n";
 			}
 		}
-		$fConfig = fopen("../../config/config.inc.php", 'w');
-		fwrite($fConfig, $config_text);
+		$fConfig = fopen($path, 'w');
+		fwrite($fConfig, $setting_text);
 		fclose($fConfig);
 		return True;
-	}
-
-	switch ($_POST['ac']){
-		case 'config_save':
-			$config = config_form_to_array();
-			save_config($config);
-			header('Location: ../create_user');
-			break;
-		default: 
-			include("views/settings_form.php");
-			break;
-
-
 	}
 }
 

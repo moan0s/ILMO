@@ -226,6 +226,8 @@ switch ($oObject->r_ac){
 		break;
 	case 'settings_change':
 		if ($_SESSION['admin']==1){
+			$settings = new Setting;
+			$oObject->loaded_settings = $settings->load_config(MODULE_PATH."config/settings.ini");
 			$oObject->output .= $oObject->get_view("views/settings.php");
 		}
 		else{
@@ -235,9 +237,10 @@ switch ($oObject->r_ac){
 	case 'settings_save':
 		if ($_SESSION['admin']==1){
 			//Saving routine here
-			$config = new Setting;
-			$config->load_config("config/config.inc.php");
-			//$oObject->output .= $oObject->get_view("views/settings.php");
+			$settings = new Setting;
+			$settings_to_change = $settings->request_to_array($oObject);
+			$settings->set(MODULE_PATH."config/settings.ini", $settings_to_change);
+			$oObject->output .= $oObject->get_view("views/settings.php");
 		}
 		else{
 			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
