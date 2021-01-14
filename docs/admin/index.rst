@@ -9,3 +9,4 @@ Administration
    returning.rst
    opening_hours.rst
    add_items.rst
+   monitoring.rst
