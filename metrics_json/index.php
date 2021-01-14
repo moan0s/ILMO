@@ -4,12 +4,12 @@
 ILMO - Intelligent Library Management Online
  */
 
-
 session_start();
 header("Content-Type: application/json; charset=UTF-8");
 
 //start: includes
 include ("../config/config.inc.php");
+ini_set("display_errors", 0);
 
 include (MODULE_PATH."class/class.php");
 
@@ -22,7 +22,7 @@ foreach ($counts as &$key) {
 	$q_num = "SELECT COUNT(*) FROM ".$key.";";
 	$result = $oObject->sql_statement($q_num);
 	while($row = mysqli_fetch_all($result)) {
-		$metrics[$key] = $row[0];
+		$metrics[$key] = (int) $row[0][0];
 	}
 }
 //var_dump($metrics);
