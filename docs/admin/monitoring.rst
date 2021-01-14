@@ -1,7 +1,7 @@
 Monitoring
 ==========
 
-ILMO should be easy to monitor. Therefore a basic metrics are exposed to `https://example.com/metrics_json/`.
+ILMO should, like every other software, be easy to monitor. Therefore a basic metrics are exposed to `https://example.com/metrics_json/`.
 The data is encoded in JSON format and is therefore suitable to bea read by humans and it is easy to use it as data source for further processing.
 
 
@@ -28,6 +28,7 @@ InfluxDB and Telegraf
 First we install InfluxDB (e.g. with docker, be aware of the security risks!).
 
 .. code::
+
    # Pull the image
    $ sudo docker pull influxdb
 
@@ -50,3 +51,11 @@ Now install telegraf and configure `etc/telegraf/telegraf.conf`. Modify the doma
 .. literalinclude:: example.telegraf.conf
     :linenos:
     :language: python
+
+Graphana
+^^^^^^^^
+
+Now we can simply use the InfluxDB as data source in Grafana and configure until you have
+beautiful plots!
+
+.. image:: moitoring_grafana.png
