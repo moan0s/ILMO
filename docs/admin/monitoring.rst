@@ -10,10 +10,14 @@ Exposed Metrics
 
 .. code::
 
-   users: number of users
-   books: number of books 
-   material: number of other matrials
+   users: number of users (all roles combined)
    loan: number of loans 
+   loan_length_mean: Mean loan length in days
+   admin_num: Number of admins
+   lent_books_num: number of books that are lent
+   avail_books_num: number of books that are available
+   lent_material_num: number of materials are lent
+   avail_material_num: number of materials are available
 
 Example workflow
 ----------------
