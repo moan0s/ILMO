@@ -25,6 +25,21 @@ foreach ($counts as &$key) {
 		$metrics[$key] = (int) $row[0][0];
 	}
 }
+$q_loan_length = "SELECT DATEDIFF(return_date, pickup_date) FROM `loan` WHERE `returned` = 1";
+$result = $oObject->sql_statement($q_loan_length);
+$loan_lengths = array();
+while ($row = mysqli_fetch_assoc($result)) {
+	$loan_lengths[] = (int) $row["DATEDIFF(return_date, pickup_date)"];
+}
+$metrics['loan_length_mean'] = array_sum($loan_lengths)/count($loan_lengths);
+
+$q_admins = "SELECT COUNT(*) FROM `user` WHERE `admin` = 1";
+$result = $oObject->sql_statement($q_admins);
+while ($row = mysqli_fetch_assoc($result)) {
+	$admins = (int) $row["COUNT(*)"];
+}
+
+$metrics['admin_num'] = $admins;
 //var_dump($metrics);
 $metrics_as_json = json_encode($metrics);
 echo($metrics_as_json);
