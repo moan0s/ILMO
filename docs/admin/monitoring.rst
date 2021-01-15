@@ -62,4 +62,4 @@ Graphana
 Now we can simply use the InfluxDB as data source in Grafana and configure until you have
 beautiful plots!
 
-.. image:: moitoring_grafana.png
+.. image:: monitoring_grafana.png

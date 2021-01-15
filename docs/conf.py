@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'ILMO'
-copyright = '2020, Julian-Samuel Gebühr'
+copyright = 'Julian-Samuel Gebühr'
 author = 'Julian-Samuel Gebühr'
 
 # The short X.Y version
