@@ -77,8 +77,8 @@ class Setting {
 		$settings_text = "";
 		foreach($settings as $key=>$value){
 			if(is_array($value)) {
-				foreach($data as $key=>$value){
-					$setting_text.= $key."[] = ".$value."\n";
+				foreach($value as $k=>$val){
+					$settings_text.= $key."[] = ".$val."\n";
 				}
 			}
 			else {
