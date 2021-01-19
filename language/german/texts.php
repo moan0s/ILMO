@@ -79,6 +79,14 @@ $lang = array_merge($lang, array(
 	'FRIDAY' => 'Freitag',
 	'SATURDAY' => 'Samstag',
 	'SUNDAY' => 'Sonntag',
+	
+	'MONDAY_SHORT' => 'Mo',
+	'TUESDAY_SHORT' => 'Di',
+	'WEDNESDAY_SHORT' => 'Mi',
+	'THURSDAY_SHORT' => 'Do',
+	'FRIDAY_SHORT' => 'Fr',
+	'SATURDAY_SHORT' => 'Sa',
+	'SUNDAY_SHORT' => 'So',
 
 	'USER_ID' => 'Benutzer-ID',
 	'LOAN_ID' => 'Ausleih-ID',
