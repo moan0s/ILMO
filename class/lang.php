@@ -19,19 +19,18 @@ class Lang {
 
 	function set_language($language = NULL){
 		if(isset($language)){
-			include (MODULE_PATH."language/".$language."/library_info.php");
-			include (MODULE_PATH."language/".$language."/texts.php");
-			include (MODULE_PATH."language/".$language."/presence.php");
-			include (MODULE_PATH."language/".$language."/mail.php");
+			$lang_to_use = $language;
 		}
 		else{
-			include (MODULE_PATH."language/".$this->settings['default_language']."/library_info.php");
-			include (MODULE_PATH."language/".$this->settings['default_language']."/texts.php");
-			include (MODULE_PATH."language/".$this->settings['default_language']."/presence.php");
-			include (MODULE_PATH."language/".$this->settings['default_language']."/mail.php");
+			$lang_to_use = $this->settings['default_language'];
 		}
+		include (MODULE_PATH."language/".$lang_to_use."/library_info.php");
+		include (MODULE_PATH."language/".$lang_to_use."/texts.php");
+		include (MODULE_PATH."language/".$lang_to_use."/presence.php");
+		include (MODULE_PATH."language/".$lang_to_use."/mail.php");
 	      	$this->library_info = $library_info;	
-		$this->texts = $lang;
+		$this->texts = array_merge($lang, $this->settings['lang']);
+		$_SESSION['language'] = $lang_to_use;
 	}
 	function change_language($language){
 		$this->set_language($language);
