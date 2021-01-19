@@ -106,7 +106,15 @@ switch ($oObject->r_ac){
 	case 'open_show_plain':
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/display_open.php");
-		break;	
+		break;
+	case 'open_show_small':
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/display_open_small.php");
+		break;
+		case 'open_show_small_plain':
+		$oObject->aOpen = $oObject->get_open();
+		$oObject->output .= $oObject->get_view("views/display_open_small.php");
+		break;
 	case 'book_new':
 		if ($_SESSION['admin']==1){	
 		$oObject->output .= $oObject->get_view('views/book_form.php');
