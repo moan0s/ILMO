@@ -17,9 +17,7 @@ class Setting {
 	*
 	*/
 		$settings = $this->load_settings($path);
-		foreach($settings_to_change as $key=>$value){
-			$settings[$key] = $value;
-        	}
+		$settings = array_merge($settings, $settings_to_change);
 		$this->save_settings($path, $settings, $dry_run);
 		return $settings;
 	}
@@ -34,15 +32,12 @@ class Setting {
 		/*
 		Load settings and return as array
 
-		*/
-		if(!is_readable($path)){
-			$error_message = sprintf('File %s does not exist or is not readable',$path);
-			error_log($error_message);
-			echo($error_message);
-			return False;
-		}
-		$settings = json_decode($path);
-		return $settings;
+		 */
+		$fSettings= fopen($path, "r") or die("Unable to open ".$path."!");
+		$sSettings =  fread($fSettings,filesize($path));
+		fclose($fSettings);
+		$aSettings = json_decode($sSettings, True);
+		return $aSettings;
 	}
 
 	function save_settings($path, $settings, $dry_run = False) {
