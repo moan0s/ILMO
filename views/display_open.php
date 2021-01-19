@@ -14,7 +14,7 @@
 			</tr>';
 	}	
 echo '</table>';			
-
+$this->oLang->settings['OPEN_INFO']
 	?>
 
 
