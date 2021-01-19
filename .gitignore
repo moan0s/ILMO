@@ -1,2 +1,4 @@
 config/config.inc.php
 log/
+install/
+config/settings.ini
