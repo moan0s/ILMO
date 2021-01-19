@@ -23,11 +23,17 @@ class Data {
 		}
 		date_default_timezone_set($this->settings['timezone']);
 	}
-	
+
 	#parses settings in an array
 	#returns array
 	function get_settings(){
-		return parse_ini_file(MODULE_PATH."config/settings.ini");
+		$path = MODULE_PATH."config/settings.json";
+		$fSettings= fopen($path, "r") or die("Unable to open ".$path."!");
+		$sSettings =  fread($fSettings,filesize($path));
+		fclose($fSettings);
+		$aSettings = json_decode($sSettings, True);
+		return $aSettings;
+
 	}
 
 	#parses given data in json and outputs them

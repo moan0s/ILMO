@@ -41,20 +41,12 @@ class Setting {
 			echo($error_message);
 			return False;
 		}
-		$settings = parse_ini_file($path);
+		$settings = json_decode($path);
 		return $settings;
 	}
 
-	function print_setting_array($data) {
-		$content = "";
-		foreach($data as $key=>$value){
-			$content .= $key."=".$value."<br>";
-        	}
-		echo($content);
-	}
-
 	function save_settings($path, $settings, $dry_run = False) {
-	/* Write settings to a file
+	/* Write settings as JSON to pathe
 	*  
 	* Parameters:
 	* 	$path:String
@@ -74,19 +66,9 @@ class Setting {
 			successfull:bool
 			Is true if write was sucessfull
 		*/
-		$settings_text = "";
-		foreach($settings as $key=>$value){
-			if(is_array($value)) {
-				foreach($value as $k=>$val){
-					$settings_text.= $key."[] = ".$val."\n";
-				}
-			}
-			else {
-				$settings_text.= $key." = ".$value."\n";
-			}
-		}
+		$settings_text = json_encode($settings);
 		if ($dry_run) {
-			$settings_text_html = str_replace("\n","<br>", $settings_text);
+			$settings_text_html = str_replace("}","}<br>", $settings_text);
 			echo $settings_text_html;
 		}
 		else {
