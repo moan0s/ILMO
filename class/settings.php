@@ -17,13 +17,15 @@ class Setting {
 	*
 	*/
 		$settings = $this->load_settings($path);
-		$settings = array_merge($settings, $settings_to_change);
+		$settings = array_replace_recursive($settings, $settings_to_change);
 		$this->save_settings($path, $settings, $dry_run);
 		return $settings;
 	}
 
 	function request_to_array($oObject) {
 		$arr['enable_status'] = $oObject->r_enable_status;
+		$arr['lang']['german']['OPENING_TIMES_INFO'] = $oObject->r_german_OPENING_TIMES_INFO;
+		$arr['lang']['english']['OPENING_TIMES_INFO'] = $oObject->r_english_OPENING_TIMES_INFO;
 		return $arr;
 		
 	}

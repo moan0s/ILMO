@@ -17,7 +17,7 @@
 echo '</table>
 	<br>
 	<br>
-	<strong>'.$this->oLang->texts['HINT'].'</strong>'		
+	<strong>'.$this->oLang->texts['OPENING_TIMES_INFO'].'</strong>'		
 
 	?>
 

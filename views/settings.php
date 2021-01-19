@@ -15,6 +15,15 @@ if ($this->settings['enable_status']==0){
 $form .= '>
 <label for id ="no"> '.$this->oLang->texts['NO'].'</label><br>';
 
+foreach($this->settings['lang'] as $lang=>$aTexts) {
+	$form.="<p><strong>".$lang."</strong><br>";
+	foreach($aTexts as $key=>$val) {
+		$form .= $key.': <input type=text name="'.$lang."_".$key.'" value="'.$val.'"><br>';
+	}
+	echo"</p>";
+}
+
+
 $form .= '
 <input type="submit" value="'.$this->oLang->texts['BUTTON_SEND'].'">
 </form>';

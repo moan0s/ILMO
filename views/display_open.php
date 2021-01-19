@@ -7,14 +7,14 @@
 	
 	foreach($this->settings['opening_days'] as $day){
 		echo '<tr>
-			<td>'.<td>'.$this->oLang->texts[strtoupper($day)].'</td>.'</td>
+			<td>'.$this->oLang->texts[strtoupper($day)].'</td>
 			<td>'.$this->aOpen[$day]["start"].'</td>
 			<td>'.$this->aOpen[$day]["end"].'</td>
 			<td>'.$this->aOpen[$day]["notice"].'</td>
 			</tr>';
 	}	
 echo '</table>';			
-$this->oLang->settings['OPEN_INFO']
+echo "<br><strong>".$this->oLang->texts['OPENING_TIMES_INFO']."</strong>";
 	?>
 
 
