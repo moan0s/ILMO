@@ -4,7 +4,7 @@
 ILMO - Intelligent Library Management Online
 */
 class Setting {
-	function set($path, $settings_to_change) {
+	function set($path, $settings_to_change, $dry_run = False) {
 	/* Replace settings with new setting_array
 	*  
 	* Parameters:
@@ -12,13 +12,15 @@ class Setting {
 	* 		Path to settings file
 	* 	$settings_to_change:array
 	* 		Array of settings that are to be updated
+	* 	$dry_run:bool
+	* 		If true prints settings text, does not write to file
 	*
 	*/
 		$settings = $this->load_settings($path);
 		foreach($settings_to_change as $key=>$value){
 			$settings[$key] = $value;
         	}
-		$this->save_settings($path, $settings);
+		$this->save_settings($path, $settings, $dry_run);
 		return $settings;
 	}
 
@@ -51,7 +53,7 @@ class Setting {
 		echo($content);
 	}
 
-	function save_settings($path, $settings) {
+	function save_settings($path, $settings, $dry_run = False) {
 	/* Write settings to a file
 	*  
 	* Parameters:
@@ -59,6 +61,8 @@ class Setting {
 	* 		Path to settings file
 	* 	$settings:array
 	* 		Array of settings that are to be updated
+	* 	$dry_run:bool
+	* 		If true prints settings text, does not write to file
 	*
 	* Returns:
 	* 	bool: True if successful
@@ -70,20 +74,26 @@ class Setting {
 			successfull:bool
 			Is true if write was sucessfull
 		*/
+		$settings_text = "";
 		foreach($settings as $key=>$value){
-			echo($value);
 			if(is_array($value)) {
 				foreach($data as $key=>$value){
 					$setting_text.= $key."[] = ".$value."\n";
 				}
 			}
 			else {
-				$setting_text.= $key." = ".$value."\n";
+				$settings_text.= $key." = ".$value."\n";
 			}
 		}
-		$fConfig = fopen($path, 'w');
-		fwrite($fConfig, $setting_text);
-		fclose($fConfig);
+		if ($dry_run) {
+			$settings_text_html = str_replace("\n","<br>", $settings_text);
+			echo $settings_text_html;
+		}
+		else {
+			$fConfig = fopen($path, 'w');
+			fwrite($fConfig, $settings_text);
+			fclose($fConfig);
+		}
 		return True;
 	}
 }
