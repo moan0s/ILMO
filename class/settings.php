@@ -14,7 +14,7 @@ class Setting {
 	* 		Array of settings that are to be updated
 	*
 	*/
-		$settings = $this->load_config($path);
+		$settings = $this->load_settings($path);
 		foreach($settings_to_change as $key=>$value){
 			$settings[$key] = $value;
         	}
@@ -28,7 +28,7 @@ class Setting {
 		
 	}
 
-	function load_config($path) {
+	function load_settings($path) {
 		/*
 		Load settings and return as array
 
@@ -71,6 +71,7 @@ class Setting {
 			Is true if write was sucessfull
 		*/
 		foreach($settings as $key=>$value){
+			echo($value);
 			if(is_array($value)) {
 				foreach($data as $key=>$value){
 					$setting_text.= $key."[] = ".$value."\n";
