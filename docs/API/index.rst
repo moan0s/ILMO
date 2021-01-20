@@ -17,6 +17,7 @@ One line of plain html code is enough to do what you want!
 
 Simply include
 .. code::
+
         <iframe src="https://example.com/index.php?ac=open_show_small_plain" width="100%" height="270"></iframe>
 
 Show all books
