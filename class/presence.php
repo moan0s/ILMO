@@ -37,6 +37,7 @@ class Presence extends Data{
 	}
 	//returns all past and present attendences
 	function get_presence($UID = null, $presence_ID = null){
+		$aFields = array();
 		if(isset($UID)){
 			$aFields['UID'] = $UID;
 		}
