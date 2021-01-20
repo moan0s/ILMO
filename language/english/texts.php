@@ -27,6 +27,7 @@ $lang = array_merge($lang, array(
 	'SEARCH_USER' => 'Search user',
 	'SHOW_BOOKS_ITEMIZED' => 'Show books itemized',
 	'SHOW_MATERIAL_ITEMIZED' => 'Show material itemized',
+	'SETTINGS' => 'Settings',
 	'MY_PROFIL' => 'My profil',
 	'MY_LOANS' => 'My loans',
 	'LOGOUT' => 'Logout',
