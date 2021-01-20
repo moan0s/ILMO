@@ -1,10 +1,11 @@
 <body>
 <?php
-if (substr($this->r_ac, -5) != "plain"){
-include (MODULE_PATH."views/header.php");
-echo '<div id="navi">';
-echo $this->navigation;
-echo "</div>";
+if (isset($this->r_ac) and substr($this->r_ac, -5) == "plain") {
+} else {
+	include (MODULE_PATH."views/header.php");
+	echo '<div id="navi">';
+	echo $this->navigation;
+	echo "</div>";
 }
 ?>
 

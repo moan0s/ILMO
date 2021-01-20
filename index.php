@@ -19,7 +19,10 @@ include ("class/class.php");
 //object: parameter to clear which object
 $sName = "book";
 if (isset ($_REQUEST['ac'])){
-	$sName = substr($_REQUEST['ac'],0,4);
+	$action = $_REQUEST['ac'];
+	$sName = substr($action, 0, 4);
+} else {
+	$action = "";
 }
 if($sName == 'user'){
 	$oObject = new User;
@@ -50,7 +53,7 @@ else{
 $oObject->output = "";
 $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
-switch ($oObject->r_ac){
+switch ($action){
 	case 'mail_send':
 		$oMail = new Mail;
 		$oObject->mail_stats = $oMail->send_todays_mails();
@@ -471,14 +474,14 @@ switch ($oObject->r_ac){
 
 }
 
-function output($oObject){
-	if (substr($oObject->r_ac, -3) != "bot"){
+function output($oObject, $action){
+	if (substr($action, -3) != "bot"){
 		echo $oObject->get_view("views/head.php");
 		echo $oObject->get_view("views/body.php");
-		if (substr($oObject->r_ac, -5) != "plain"){
+		if (substr($action, -5) != "plain"){
 			echo $oObject->get_view("views/footer.php");
 		}
 	}
 }
-output($oObject);
+output($oObject, $action);
 ?>

@@ -18,7 +18,7 @@ class Data {
 			$this->oLang->set_language($this->settings['default_language']);
 
 		}
-		if ((substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
+		if (isset($this->r_ac) and (substr($this->r_ac, -5) != 'plain') and (substr($this->r_ac, -3) != 'bot')){
 			$this->set_session($this->r_ac);
 		}
 		date_default_timezone_set($this->settings['timezone']);
@@ -84,7 +84,9 @@ class Data {
 		$this->databaselink = new mysqli(DB_HOST,DB_USER,DB_PW);
 		$this->databaselink->set_charset('utf8');
 		if ($this->databaselink->connect_errno) {
-			return "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
+			$error_message = "Datenbank nicht erreichbar: (" . $this->databaselink->connect_errno . ") " . $this->databaselink->connect_error;
+			echo $error_message;
+			return $error_message;
 		}
 		else{
 			// Create database if it does not exist
