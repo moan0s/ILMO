@@ -21,6 +21,29 @@ th {
 	background-color: #ECECEC;
 }
 
+table.display_open_small {
+	border : none;
+	border-collapse: collapse;
+	width: 180px;
+}
+
+td.display_open_small {
+	border: 2px solid black;
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+th.display_open_small {
+	border: 3px solid black;
+	border-collapse: collapse;
+	padding-right: 2px;
+	padding-left: 2px;
+	padding-top: 8px;
+	padding-down: 8px;
+	background-color: #ECECEC;
+	min-width: 20px;
+}
+
 tr.lent {
  background-color: #CE2C2C;
 }
