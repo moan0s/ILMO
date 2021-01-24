@@ -225,7 +225,7 @@ class Data {
 				return $aResult;
 			}
 			else {
-				if (password_verify_legacy($sPassword, $aResult('password'])) {
+				if (password_verify_legacy($sPassword, $aResult['password'])) {
 					//TODO: Rehash and store password, delete all hash
 					return $aResult;
 				}
