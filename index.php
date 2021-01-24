@@ -55,14 +55,14 @@ $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
 switch ($action){
 	case 'mail_send':
-		$oMail = new Mail;
+		$oMail = new Mail($oObject->databaselink);
 		$oObject->mail_stats = $oMail->send_todays_mails();
 		$oObject->output .= $oObject->get_view("views/mail_stats.php");
 		break;
 
 	case 'strt':
 		if ($_SESSION['admin'] == 1){
-			$oMail = new Mail;
+			$oMail = new Mail($oObject->databaselink);
 			if (!$oMail->check_if_mail_send()){
 				$oObject->mail_stats = $oMail->send_todays_mails();
 				$oMail->set_mails_send();

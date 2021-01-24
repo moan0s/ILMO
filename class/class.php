@@ -5,10 +5,14 @@ if (is_dir($install_folder) and !strpos($_SERVER['PHP_SELF'], "install/")){
 }
 include (MODULE_PATH."/class/lang.php");
 class Data {
-	function __construct(){
+	function __construct($database_link= NULL){
 		$this->settings = $this->get_settings();
-		$this->link_database();
-		$this->em_check_database();
+		if(isset($database_link)) {
+			$this->databaselink = $database_link;
+		} else {
+			$this->link_database();
+			$this->em_check_database();
+		}
 		$this->read_variables();
 		$this->oLang = new Lang;
 		if(isset($_SESSION['language'])){
