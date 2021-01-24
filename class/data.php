@@ -3,8 +3,6 @@ class Data {
 	function __construct(){
 		include (MODULE_PATH."config/permissions.php");
 		$this->roles = $roles;
-		include(MODULE_PATH."actions.php");
-		$this->actions= $actions;
 		$this->permissions = $permissions;
 		$this->settings = $this->get_settings();
 		$this->link_database();
@@ -27,7 +25,12 @@ class Data {
 	#parses settings in an array
 	#returns array
 	function get_settings(){
-		return parse_ini_file(__DIR__."/../config/settings.ini");
+		$path = MODULE_PATH."config/settings.json";
+		$fSettings= fopen($path, "r") or die("Unable to open ".$path."!");
+		$sSettings =  fread($fSettings,filesize($path));
+		fclose($fSettings);
+		$aSettings = json_decode($sSettings, True);
+		return $aSettings;
 	}
 
 	#parses given data in json and outputs them
@@ -229,7 +232,6 @@ class Data {
 					//TODO: Rehash and store password, delete all hash
 					return $aResult;
 				}
-				
 			}
 		}
 	}
