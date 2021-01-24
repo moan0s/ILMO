@@ -1,10 +1,10 @@
 <?php
 $start = $this->oLang->texts['WELCOME'];
-if ($_SESSION['admin']==0){
-$start .= $this->oLang->texts['USER_INSTRUCTION'];
+if ($_SESSION['role']==1){
+	$start .= $this->oLang->texts['USER_INSTRUCTION'];
 }
-else{
-$start .= $this->oLang->texts['ADMIN_INSTRUCTION'];
+elseif ($_SESSION['role'] == 2) {
+	$start .= $this->oLang->texts['ADMIN_INSTRUCTION'];
 }
 echo $start;
 ?>

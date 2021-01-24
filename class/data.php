@@ -1,14 +1,14 @@
 <?php
 class Data {
-	function __construct(){
+	function __construct($oLang){
 		include (MODULE_PATH."config/permissions.php");
+		$this->oLang = $oLang;
 		$this->roles = $roles;
 		$this->permissions = $permissions;
 		$this->settings = $this->get_settings();
 		$this->link_database();
 		$this->em_check_database();
 		$this->read_variables();
-		$this->oLang = new Lang;
 		if(isset($_SESSION['language'])){
 			$this->oLang->set_language($_SESSION['language']);
 		}
@@ -99,7 +99,7 @@ class Data {
     }
 
     function logout() {
-	$_SESSION['username'] = "";
+	$_SESSION['user_ID'] = "";
 	$_SESSION['role'] = 0;
 	session_destroy();
 	return;

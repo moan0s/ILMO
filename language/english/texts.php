@@ -47,7 +47,7 @@ $lang = array_merge($lang, array(
 	'CONTACT' => 'Contact',
 	'PRIVACY' => 'Privacy',
 	'LINKS' => 'Links',
-	'HOME' => 'Home', 
+	'HOME' => 'Home',
 
 	'LOAN' => 'Loan',
 	//error messages
@@ -67,7 +67,7 @@ $lang = array_merge($lang, array(
 	'USER_DOES_NOT_EXIST' => 'This user does not exist.<br>',
 	'WRONG_PASSWORD' => 'Wrong Password.<br>',
 	'ENTER_USER_IDENTIFICATION' => 'Please enter your user-ID or e-mail-adress',
-	'ENTER_PASSWORD' => 'Pleas enter a password',
+	'ENTER_PASSWORD' => 'Please enter a password',
 	'WRONG_LOGIN' => 'The user-ID/e-mail or your password is wrong.',
 	'PLEASE_GIVE_TYPE' => 'Please give a type',
 

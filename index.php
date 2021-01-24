@@ -13,46 +13,23 @@ include ("config/config.inc.php");
 ini_set('display_errors', DEBUG);
 ini_set('display_startup_errors', DEBUG);
 error_reporting(E_ALL);
-
+var_dump($_SESSION);
 include ("class/class.php");
 
-//object: parameter to clear which object
-$sName = "book";
-if (isset ($_REQUEST['ac'])){
-	$action = $_REQUEST['ac'];
-	$sName = substr($action, 0, 4);
-} else {
-	$action = "";
-}
-if($sName == 'user'){
-	$oObject = new User;
+$oLang = new Lang;
+$oObject = new Data($oLang);
 
+if (isset($oObject->payload['ac'])) {
+    $action = $oObject->payload['ac'];
 }
-elseif ($sName == 'book') {
-	$oObject = new Book;
+else {
+    $action = "";
 }
-elseif ($sName == 'mate') {
-	$oObject = new Material;
-}
-elseif ($sName == 'loan') {
-	$oObject = new Loan;
-}
-elseif ($sName == 'open') {
-	$oObject = new Open;
-}
-elseif ($sName == 'mail') {
-	$oObject = new Mail;
-}
-elseif ($sName == 'pres') {
-	$oObject = new Presence;
-}
-else{
-	$oObject = new Data;
-}
-//view header
+
 $oObject->output = "";
 $oObject->navigation = $oObject->get_view("views/navigation.php");
 //methods
+echo("Action ".$action."<br>");
 switch ($action){
 	case 'mail_send':
 		$oMail = new Mail($oObject->databaselink);
@@ -60,22 +37,28 @@ switch ($action){
 		$oObject->output .= $oObject->get_view("views/mail_stats.php");
 		break;
 
-	case 'strt':
-		if ($_SESSION['admin'] == 1){
-			$oMail = new Mail($oObject->databaselink);
-			if (!$oMail->check_if_mail_send()){
-				$oObject->mail_stats = $oMail->send_todays_mails();
-				$oMail->set_mails_send();
-				$oObject->output .= $oObject->get_view("views/mail_stats.php");
-			}
+	case 'login':
+		if ($oObject->login($oObject->payload['login_user_info'],$oObject->payload['login_password'])) {
+			if ($_SESSION['admin'] == 1){
+				//send mails
+				$oMail = new Mail($oObject->databaselink);
+				if (!$oMail->check_if_mail_send()){
+					$oObject->mail_stats = $oMail->send_todays_mails();
+					$oMail->set_mails_send();
+					$oObject->output .= $oObject->get_view("views/mail_stats.php");
+				}
 
+			}
+			$oObject->output .=  $oObject->get_view("views/start.php");
+		} else{
+			$oObject->error .= $oObject->oLang->texts['WRONG_PASSWORD'];
 		}
-		$oObject->output .=  $oObject->get_view("views/start.php");
 		break;
 	case 'logi':
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
-	case 'logo':
+	case 'logout':
+		$oObject->logout();
 		$oObject->output .=  $oObject->get_view('views/login_form.php');
 		break;
 	case 'language_change':
@@ -84,7 +67,7 @@ switch ($action){
 		$oObject->output .= $oObject->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/open_form.php");
 		}
@@ -93,7 +76,7 @@ switch ($action){
 		}
 		break;
 	case 'open_save':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->save_open();
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/display_open.php");
@@ -105,7 +88,7 @@ switch ($action){
 	case 'open_show':
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/display_open.php");
-		break;	
+		break;
 	case 'open_show_plain':
 		$oObject->aOpen = $oObject->get_open();
 		$oObject->output .= $oObject->get_view("views/display_open.php");
@@ -119,16 +102,16 @@ switch ($action){
 		$oObject->output .= $oObject->get_view("views/display_open_small.php");
 		break;
 	case 'book_new':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->output .= $oObject->get_view('views/book_form.php');
 		}
 		else{
 			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
-	
+
 	case 'book_change':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->aRow_all = $oObject->get_book_itemized();
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_book_ID];
 		$oObject->output = $oObject->get_view('views/book_form.php');
@@ -136,9 +119,9 @@ switch ($action){
 		else{
 			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
-		break;	
+		break;
 	case 'book_save':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->save_book();
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book_itemized();
@@ -162,7 +145,7 @@ switch ($action){
 		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
 		break;
 	case 'book_delete':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->delete_book();
 		$oObject->r_book_ID = NULL;
 		$oObject->aBook = $oObject->get_book_itemized();
@@ -174,16 +157,16 @@ switch ($action){
 		break;
 
 	case 'material_new':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->output .= $oObject->get_view('views/material_form.php');
 		}
 		else{
 			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
-	
+
 	case 'material_change':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 			$oObject->aRow_all = $oObject->get_material_itemized();
 			$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
 			$oObject->output .= $oObject->get_view('views/material_form.php');
@@ -191,9 +174,9 @@ switch ($action){
 		else{
 			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
 		}
-		break;	
+		break;
 	case 'material_save':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->save_material();
 		$oObject->r_material_ID = NULL;
 		$oObject->aMaterial = $oObject->get_material_itemized();
@@ -217,7 +200,7 @@ switch ($action){
 		$oObject->output .= $oObject->get_view("views/all_material_itemized.php");
 		break;
 	case 'material_delete':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->delete_material();
 		$oObject->r_material_ID = NULL;
 		$oObject->aMaterial = $oObject->get_material_itemized();
@@ -228,7 +211,7 @@ switch ($action){
 		}
 		break;
 	case 'user_new':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else{
@@ -278,7 +261,7 @@ switch ($action){
 		}
 		break;
 	case 'user_delete':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 			$oObject->delete_user();
 			$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
 			$oObject->output .= $oObject->get_view("views/all_user.php");
@@ -292,7 +275,7 @@ switch ($action){
 		$oObject->output .= $oObject->get_view("views/all_user.php");
 		break;
 	case 'user_show':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 			$oObject->aUser = $oObject->get_user($oObject->r_user_ID, $oObject->r_forename, $oObject->r_surname, $oObject->r_email, $oObject->r_UID, $oObject->r_language);
 			$oObject->output .= $oObject->get_view("views/all_user.php");
 		}
@@ -300,8 +283,8 @@ switch ($action){
 			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
 		}
 		break;
-	case 'user_search':	
-		if ($_SESSION['admin']==1){	
+	case 'user_search':
+		if ($_SESSION['admin']==1){
 			$oObject->output .= $oObject->get_view("views/user_form.php");
 		}
 		else {
@@ -309,7 +292,7 @@ switch ($action){
 		}
 		break;
 	case 'user_change':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->aRow_all = $oObject->get_user($oObject->r_user_ID, NULL, NULL, NULL, NULL, NULL);
 		$oObject->aRow = $oObject->aRow_all[$oObject->r_user_ID];
 		$oObject->output .= $oObject->get_view("views/user_form.php");
@@ -319,7 +302,7 @@ switch ($action){
 		}
 		break;
 	case 'loan_new':
-		if($_SESSION['admin']==1){	
+		if($_SESSION['admin']==1){
 		$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
 		else{
@@ -327,7 +310,7 @@ switch ($action){
 		}
 		break;
 	case 'loan_save':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 			//$error_message .= $oObject->check_ID_loan($oObject->r_ID);
 			//$error_message .= $oObject->check_input();
 			$error_message .= $oObject->check_type();
@@ -340,7 +323,6 @@ switch ($action){
 				$oObject->save_loan();
 				$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
 				$oObject->output .= $oObject->get_view("views/all_loans.php");
-			
 			}
 		}
 		else{
@@ -348,7 +330,7 @@ switch ($action){
 		}
 		break;
 	case 'loan_return':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 		$oObject->return_loan();
 		$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
 		$oObject->output .= $oObject->get_view("views/all_loans.php");
@@ -358,7 +340,7 @@ switch ($action){
 		}
 		break;
 	case 'loan_show':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){	
+		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){
 			$oObject->aLoan = $oObject->get_loan(NULL, $oObject->r_user_ID, NULL);
 			$oObject->output .= $oObject->get_view("views/all_loans.php");
 		}
@@ -372,7 +354,7 @@ switch ($action){
 		$oObject->output .= $oObject->get_view("views/all_loans.php");
 		break;
 	case 'loan_change':
-		if ($_SESSION['admin']==1){	
+		if ($_SESSION['admin']==1){
 			$oObject->aLoan = $oObject->get_loan($oObject->r_loan_ID, NULL, NULL)[$oObject->r_loan_ID];
 			$oObject->output .= $oObject->get_view("views/loan_form.php");
 		}
@@ -381,8 +363,12 @@ switch ($action){
 		}
 		break;
 
-	default: 
-		$oObject->output .= $oObject->get_view("views/start.php");
+	default:
+		if ($_SESSION['role'] > 0) {
+			$oObject->output .= $oObject->get_view("views/start.php");
+		} else {
+			$oObject->output .= $oObject->get_view("views/login_form.php");
+		}
 		break;
 
 
