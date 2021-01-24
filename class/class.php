@@ -1056,7 +1056,6 @@ class Mail extends Data {
 
 }
 
-include (MODULE_PATH."class/presence.php");
 include (MODULE_PATH."class/settings.php");
 
 ?>

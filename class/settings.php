@@ -23,7 +23,6 @@ class Setting {
 	}
 
 	function request_to_array($oObject) {
-		$arr['enable_status'] = $oObject->r_enable_status;
 		$arr['lang']['german']['OPENING_TIMES_INFO'] = $oObject->r_german_OPENING_TIMES_INFO;
 		$arr['lang']['english']['OPENING_TIMES_INFO'] = $oObject->r_english_OPENING_TIMES_INFO;
 		return $arr;

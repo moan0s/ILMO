@@ -1,7 +1,5 @@
 {
     "default_language": "german",
-    "enable_presence_API": "1",
-    "enable_status": "1",
     "lang": {
         "english": {
             "OPENING_TIMES_INFO": "Closed on official holidays."
