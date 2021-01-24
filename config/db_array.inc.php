@@ -229,9 +229,15 @@ $aData[TABLE_USER] = array(
 			'size' => 255,
 			'standard' => 'NOT NULL'
 		),
+		//deprecated -> use role
 		'admin' => array(
 			'type' => 'TINYINT',
 			'size' => 1,
+			'standard' => 'NOT NULL',
+			'extra' => 'DEFAULT 0'
+		),
+		'role' => array(
+			'type' => 'INT',
 			'standard' => 'NOT NULL',
 			'extra' => 'DEFAULT 0'
 		)

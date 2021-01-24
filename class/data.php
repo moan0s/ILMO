@@ -119,6 +119,17 @@ class Data {
 	}
     }
 
+    function convert_admin_to_roles() {
+	/* Converts leagacy admin property of user to role
+	 *
+	 */
+	    $query = 'UPDATE '.TABLE_USER.' SET role = 2 WHERE admin=1;';
+	    $this->databaselink->query($query);
+	    $query = 'UPDATE '.TABLE_USER.' SET role = 2 WHERE admin=1;';
+	    $this->databaselink->query($query);
+
+    }
+
     function em_check_database() {
 	/*
 	params:
@@ -193,6 +204,7 @@ class Data {
 		unset($properties);
 	}
 	unset($aData);
+	$this->convert_admin_to_roles();
     }
 
     function password_verify_legacy($sPassword, $legacy_password_hash) {
