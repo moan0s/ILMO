@@ -269,12 +269,12 @@ class Data {
 			if($i<count($aFields)) {
 				$sQuery.=",";
 			}
-		}      
+		}
 		$sQuery.=" where ".$sKey_ID."='".$mID."'";
 		$mDataset_ID=$returnID;
 	}
-	else {   
-		$sKeys = "";  $sValues = "";   
+	else {
+		$sKeys = "";  $sValues = "";
 		$sQuery="insert into ".$sTable." (";
 		foreach($aFields as $sKey=>$value) {
 			$sKeys.=$sKey;
@@ -287,7 +287,7 @@ class Data {
 		}
 		$sQuery.=$sKeys.") values (".$sValues.")";
 	}
-	$this->last_query[]=$sQuery; 
+	$this->last_query[]=$sQuery;
 	if ($pResult = $this->databaselink->query($sQuery)) {
 		if(($returnID>0) or ($returnID!="")) {
 			return $returnID;
@@ -306,7 +306,7 @@ class Data {
 		//returns 1 or -2 if fails, -1 if no id is given
 		if($mID>0) {
 			$sQuery="delete from ".$sTable." where ".$sKey_ID." = '".$mID."'";
-			$this->last_query[]=$sQuery; 
+			$this->last_query[]=$sQuery;
 			if ($pResult = $this->databaselink->query($sQuery)) {
 				return 1;
 			}
@@ -320,8 +320,8 @@ class Data {
 	}
 
 	function delete_rows($sTable,$aFields) {
-		//deletes multiple rows from the database 
-		//returns 1 if ok, -1 if fails 
+		//deletes multiple rows from the database
+		//returns 1 if ok, -1 if fails
 		$i = 0;
 		if($aFields==false) {
 			unset($aFields);
@@ -333,7 +333,7 @@ class Data {
 				}
 				else {
 					$sConditions=" WHERE";
-				}      
+				}
 				$sConditions.=" ".$key."='".$value."'";
 				$i++;
 			}
@@ -344,16 +344,16 @@ class Data {
 	}
 
 	function select_row($sTable,$aFields) {
-		//selects a single row from the database 
+		//selects a single row from the database
 		//returns array or -1
 		$i = 0; $sConditions="";
 		foreach($aFields as $key=>$value) {
 			if($i>0) {
 				$sConditions.=" and ";
-			}   
+			}
 			$sConditions.=" ".$key."='".$value."'";
 			$i++;
-		}   
+		}
 		$sQuery="SELECT * FROM ".$sTable." WHERE".$sConditions;
 		$pResult=$this->databaselink->query($sQuery);
 		$this->last_query[]=$sQuery;
@@ -362,7 +362,7 @@ class Data {
 			return $pResult->fetch_assoc();
 		}
 		else {
-			return -1; 
+			return -1;
 		}
 	}
 
