@@ -1,12 +1,16 @@
 <?php
 
-class Book extends Data {
+class Book {
+	function __construct($oData){
+		$this->oData = $oData;
+		return;
+	}
 	function get_book_itemized (){
 		$aBook= array();
 		$aFields= array();
 		if((isset($this->r_book_ID)) and ($this->r_book_ID!= "")){$aFields["book_ID"] = $this->r_book_ID;}
 		if((isset($this->r_title)) and ($this->r_title= "")){$aFields["title" ]= $this->r_title;}
-		$this->p_result = $this->select_rows(TABLE_BOOKS, $aFields);
+		$this->p_result = $this->oData->select_rows(TABLE_BOOKS, $aFields);
 		while($aRow=mysqli_fetch_assoc($this->p_result)){
 			$aBook[$aRow['book_ID']] = $aRow;
 		}
@@ -23,7 +27,7 @@ class Book extends Data {
 	      ) as available 
 	     FROM `".TABLE_BOOKS."` B1
 	     group by title";
-	$this->p_result = $this->sql_statement($sQuery);
+	$this->p_result = $this->oData->sql_statement($sQuery);
 	while($aRow=mysqli_fetch_assoc($this->p_result)){
 		$aBook[$aRow['title']] = $aRow;
 	}

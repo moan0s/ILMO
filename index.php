@@ -17,371 +17,376 @@ var_dump($_SESSION);
 include ("class/class.php");
 
 $oLang = new Lang;
-$oObject = new Data($oLang);
+$oData = new Data($oLang);
 
-if (isset($oObject->payload['ac'])) {
-    $action = $oObject->payload['ac'];
+if (isset($oData->payload['ac'])) {
+    $action = $oData->payload['ac'];
 }
 else {
     $action = "";
 }
 
-$oObject->output = "";
-$oObject->navigation = $oObject->get_view("views/navigation.php");
+$oData->output = "";
+$oData->navigation = $oData->get_view("views/navigation.php");
 //methods
 echo("Action ".$action."<br>");
 switch ($action){
 	case 'mail_send':
-		$oMail = new Mail($oObject->databaselink);
-		$oObject->mail_stats = $oMail->send_todays_mails();
-		$oObject->output .= $oObject->get_view("views/mail_stats.php");
+		$oMail = new Mail($oData->databaselink);
+		$oData->mail_stats = $oMail->send_todays_mails();
+		$oData->output .= $oData->get_view("views/mail_stats.php");
 		break;
 
 	case 'login':
-		if ($oObject->login($oObject->payload['login_user_info'],$oObject->payload['login_password'])) {
+		if ($oData->login($oData->payload['login_user_info'],$oData->payload['login_password'])) {
 			if ($_SESSION['admin'] == 1){
 				//send mails
-				$oMail = new Mail($oObject->databaselink);
+				$oMail = new Mail($oData->databaselink);
 				if (!$oMail->check_if_mail_send()){
-					$oObject->mail_stats = $oMail->send_todays_mails();
+					$oData->mail_stats = $oMail->send_todays_mails();
 					$oMail->set_mails_send();
-					$oObject->output .= $oObject->get_view("views/mail_stats.php");
+					$oData->output .= $oData->get_view("views/mail_stats.php");
 				}
 
 			}
-			$oObject->output .=  $oObject->get_view("views/start.php");
+			$oData->output .=  $oData->get_view("views/start.php");
 		} else{
-			$oObject->error .= $oObject->oLang->texts['WRONG_PASSWORD'];
+			$oData->error .= $oData->oLang->texts['WRONG_PASSWORD'];
 		}
 		break;
 	case 'logi':
-		$oObject->output .=  $oObject->get_view('views/login_form.php');
+		$oData->output .=  $oData->get_view('views/login_form.php');
 		break;
 	case 'logout':
-		$oObject->logout();
-		$oObject->output .=  $oObject->get_view('views/login_form.php');
+		$oData->logout();
+		$oData->output .=  $oData->get_view('views/login_form.php');
 		break;
 	case 'language_change':
 		$oLang = new Lang;
-		$oLang->change_language($oObject->r_language);
-		$oObject->output .= $oObject->get_view('views/changed_language.php');
+		$oLang->change_language($oData->r_language);
+		$oData->output .= $oData->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
 		if ($_SESSION['admin']==1){
-		$oObject->aOpen = $oObject->get_open();
-		$oObject->output .= $oObject->get_view("views/open_form.php");
+		$oData->aOpen = $oData->get_open();
+		$oData->output .= $oData->get_view("views/open_form.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'open_save':
 		if ($_SESSION['admin']==1){
-		$oObject->save_open();
-		$oObject->aOpen = $oObject->get_open();
-		$oObject->output .= $oObject->get_view("views/display_open.php");
+		$oData->save_open();
+		$oData->aOpen = $oData->get_open();
+		$oData->output .= $oData->get_view("views/display_open.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'open_show':
-		$oObject->aOpen = $oObject->get_open();
-		$oObject->output .= $oObject->get_view("views/display_open.php");
+		$oData->aOpen = $oData->get_open();
+		$oData->output .= $oData->get_view("views/display_open.php");
 		break;
 	case 'open_show_plain':
-		$oObject->aOpen = $oObject->get_open();
-		$oObject->output .= $oObject->get_view("views/display_open.php");
+		$oData->aOpen = $oData->get_open();
+		$oData->output .= $oData->get_view("views/display_open.php");
 		break;
 	case 'open_show_small':
-		$oObject->aOpen = $oObject->get_open();
-		$oObject->output .= $oObject->get_view("views/display_open_small.php");
+		$oData->aOpen = $oData->get_open();
+		$oData->output .= $oData->get_view("views/display_open_small.php");
 		break;
 		case 'open_show_small_plain':
-		$oObject->aOpen = $oObject->get_open();
-		$oObject->output .= $oObject->get_view("views/display_open_small.php");
+		$oData->aOpen = $oData->get_open();
+		$oData->output .= $oData->get_view("views/display_open_small.php");
 		break;
 	case 'book_new':
 		if ($_SESSION['admin']==1){
-		$oObject->output .= $oObject->get_view('views/book_form.php');
+		$oData->output .= $oData->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
 	case 'book_change':
 		if ($_SESSION['admin']==1){
-		$oObject->aRow_all = $oObject->get_book_itemized();
-		$oObject->aRow = $oObject->aRow_all[$oObject->r_book_ID];
-		$oObject->output = $oObject->get_view('views/book_form.php');
+		$oBook = new Book($oData);
+		$oData->aRow_all = $oBook->get_book_itemized();
+		$oData->aRow = $oData->aRow_all[$oData->r_book_ID];
+		$oData->output = $oData->get_view('views/book_form.php');
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'book_save':
 		if ($_SESSION['admin']==1){
-		$oObject->save_book();
-		$oObject->r_book_ID = NULL;
-		$oObject->aBook = $oObject->get_book_itemized();
-		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
+		$oBook = new Book($oData);
+		$oBook->save_book();
+		$oData->aBook = $oBook->get_book_itemized();
+		$oData->output .= $oData->get_view("views/all_books_itemized.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'book_show':
-		$oObject->aBook = $oObject->get_book();
-		$oObject->output .= $oObject->get_view("views/all_books.php");
+		$oBook = new Book($oData);
+		$oData->aBook = $oBook->get_book();
+		$oData->output .= $oData->get_view("views/all_books.php");
 		break;
 	case 'book_show_plain':
-		$oObject->aBook = $oObject->get_book();
-		$oObject->output .= $oObject->get_view("views/all_books.php");
+		$oData->aBook = $oBook->get_book();
+		$oData->output .= $oData->get_view("views/all_books.php");
 
 		break;
 	case 'book_show_itemized':
-		$oObject->aBook = $oObject->get_book_itemized();
-		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
+		$oData->aBook = $oBook->get_book_itemized();
+		$oData->output .= $oData->get_view("views/all_books_itemized.php");
 		break;
 	case 'book_delete':
 		if ($_SESSION['admin']==1){
-		$oObject->delete_book();
-		$oObject->r_book_ID = NULL;
-		$oObject->aBook = $oObject->get_book_itemized();
-		$oObject->output .= $oObject->get_view("views/all_books_itemized.php");
+		$oBook->delete_book();
+		$oData->aBook = $oBook->get_book_itemized();
+		$oData->output .= $oData->get_view("views/all_books_itemized.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
 	case 'material_new':
 		if ($_SESSION['admin']==1){
-		$oObject->output .= $oObject->get_view('views/material_form.php');
+		$oData->output .= $oData->get_view('views/material_form.php');
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
 	case 'material_change':
 		if ($_SESSION['admin']==1){
-			$oObject->aRow_all = $oObject->get_material_itemized();
-			$oObject->aRow = $oObject->aRow_all[$oObject->r_material_ID];
-			$oObject->output .= $oObject->get_view('views/material_form.php');
+			$oMaterial = new Material($oData);
+			$oData->aRow_all = $oMaterial->get_material_itemized();
+			$oData->aRow = $oData->aRow_all[$oData->r_material_ID];
+			$oData->output .= $oData->get_view('views/material_form.php');
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'material_save':
 		if ($_SESSION['admin']==1){
-		$oObject->save_material();
-		$oObject->r_material_ID = NULL;
-		$oObject->aMaterial = $oObject->get_material_itemized();
-		$oObject->output .= $oObject->get_view("views/all_material_itemized.php");
+			$oMaterial = new Material($oData);
+			$oMaterial->save_material();
+			$oData->aMaterial = $oMaterial->get_material_itemized();
+			$oData->output .= $oData->get_view("views/all_material_itemized.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'material_show':
-		$oObject->aMaterial = $oObject->get_material();
-		$oObject->output .= $oObject->get_view("views/all_material.php");
+		$oMaterial = new Material($oData);
+		$oData->aMaterial = $oMaterial->get_material();
+		$oData->output .= $oData->get_view("views/all_material.php");
 		break;
 	case 'material_show_plain':
-		$oObject->aMaterial = $oObject->get_material();
-		$oObject->output .= $oObject->get_view("views/all_material.php");
+		$oMaterial = new Material($oData);
+		$oData->aMaterial = $oMaterial->get_material();
+		$oData->output .= $oData->get_view("views/all_material.php");
 
 		break;
 	case 'material_show_itemized':
-		$oObject->aMaterial = $oObject->get_material_itemized();
-		$oObject->output .= $oObject->get_view("views/all_material_itemized.php");
+		$oMaterial = new Material($oData);
+		$oData->aMaterial = $oMaterial->get_material_itemized();
+		$oData->output .= $oData->get_view("views/all_material_itemized.php");
 		break;
 	case 'material_delete':
 		if ($_SESSION['admin']==1){
-		$oObject->delete_material();
-		$oObject->r_material_ID = NULL;
-		$oObject->aMaterial = $oObject->get_material_itemized();
-		$oObject->output .= $oObject->get_view("views/all_material_itemized.php");
+			$oMaterial = new Material($oData);
+			$oMaterial->delete_material();
+			$oData->aMaterial = $oMaterial->get_material_itemized();
+			$oData->output .= $oData->get_view("views/all_material_itemized.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_new':
 		if ($_SESSION['admin']==1){
-		$oObject->output .= $oObject->get_view("views/user_form.php");
+		$oData->output .= $oData->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'settings_change':
 		if ($_SESSION['admin']==1){
 			$settings = new Setting;
-			$oObject->output .= $oObject->get_view("views/settings.php");
+			$oData->output .= $oData->get_view("views/settings.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'settings_save':
 		if ($_SESSION['admin']==1){
 			//Saving routine here
 			$settings = new Setting;
-			$settings_to_change = $settings->request_to_array($oObject);
-			$oObject->settings = $settings->set(MODULE_PATH."config/settings.json", $settings_to_change,False);
-			$oObject->output .= $oObject->get_view("views/settings.php");
+			$settings_to_change = $settings->request_to_array($oData);
+			$oData->settings = $settings->set(MODULE_PATH."config/settings.json", $settings_to_change,False);
+			$oData->output .= $oData->get_view("views/settings.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_save':
-		$oObject->error = "";
+		$oData->error = "";
 		if ($_SESSION['admin']==1){
-			if(isset($oObject->r_user_ID)){
-				$oObject->r_user_ID = (int)$oObject->r_user_ID;
-				$er = $oObject->check_user_ID($oObject->r_user_ID);
+			if(isset($oData->r_user_ID)){
+				$oData->r_user_ID = (int)$oData->r_user_ID;
+				$er = $oData->check_user_ID($oData->r_user_ID);
 			}
 			if ($er != ""){
-				$oObject->error .= $er;
+				$oData->error .= $er;
 			}
 			else{
-				$aUser = $oObject->create_user_array();
-				$oObject->save_user($aUser);
-				$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
-				$oObject->output .= $oObject->get_view("views/all_user.php");
+				$aUser = $oData->create_user_array();
+				$oData->save_user($aUser);
+				$oData->aUser = $oData->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
+				$oData->output .= $oData->get_view("views/all_user.php");
 			}
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_delete':
 		if ($_SESSION['admin']==1){
-			$oObject->delete_user();
-			$oObject->aUser = $oObject->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
-			$oObject->output .= $oObject->get_view("views/all_user.php");
+			$oData->delete_user();
+			$oData->aUser = $oData->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
+			$oData->output .= $oData->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_self':
-		$oObject->aUser = $oObject->get_user($_SESSION['user_ID'], NULL, NULL, NULL, NULL, NULL);
-		$oObject->output .= $oObject->get_view("views/all_user.php");
+		$oData->aUser = $oData->get_user($_SESSION['user_ID'], NULL, NULL, NULL, NULL, NULL);
+		$oData->output .= $oData->get_view("views/all_user.php");
 		break;
 	case 'user_show':
 		if ($_SESSION['admin']==1){
-			$oObject->aUser = $oObject->get_user($oObject->r_user_ID, $oObject->r_forename, $oObject->r_surname, $oObject->r_email, $oObject->r_UID, $oObject->r_language);
-			$oObject->output .= $oObject->get_view("views/all_user.php");
+			$oData->aUser = $oData->get_user($oData->r_user_ID, $oData->r_forename, $oData->r_surname, $oData->r_email, $oData->r_UID, $oData->r_language);
+			$oData->output .= $oData->get_view("views/all_user.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_search':
 		if ($_SESSION['admin']==1){
-			$oObject->output .= $oObject->get_view("views/user_form.php");
+			$oData->output .= $oData->get_view("views/user_form.php");
 		}
 		else {
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_change':
 		if ($_SESSION['admin']==1){
-		$oObject->aRow_all = $oObject->get_user($oObject->r_user_ID, NULL, NULL, NULL, NULL, NULL);
-		$oObject->aRow = $oObject->aRow_all[$oObject->r_user_ID];
-		$oObject->output .= $oObject->get_view("views/user_form.php");
+		$oData->aRow_all = $oData->get_user($oData->r_user_ID, NULL, NULL, NULL, NULL, NULL);
+		$oData->aRow = $oData->aRow_all[$oData->r_user_ID];
+		$oData->output .= $oData->get_view("views/user_form.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_new':
 		if($_SESSION['admin']==1){
-		$oObject->output .= $oObject->get_view("views/loan_form.php");
+		$oData->output .= $oData->get_view("views/loan_form.php");
 		}
 		else{
-			$oObject->error.= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_save':
 		if ($_SESSION['admin']==1){
-			//$error_message .= $oObject->check_ID_loan($oObject->r_ID);
-			//$error_message .= $oObject->check_input();
-			$error_message .= $oObject->check_type();
-			$error_message .= $oObject->check_ID_exists($oObject->r_ID);
-			$error_message .= $oObject->check_user_exists($oObject->r_user_ID);
+			//$error_message .= $oData->check_ID_loan($oData->r_ID);
+			//$error_message .= $oData->check_input();
+			$error_message .= $oData->check_type();
+			$error_message .= $oData->check_ID_exists($oData->r_ID);
+			$error_message .= $oData->check_user_exists($oData->r_user_ID);
 			if($error_message !=""){
-				$oObject->error .= $error_message;
+				$oData->error .= $error_message;
 			}
 			else{
-				$oObject->save_loan();
-				$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
-				$oObject->output .= $oObject->get_view("views/all_loans.php");
+				$oData->save_loan();
+				$oData->aLoan = $oData->get_loan(NULL, NULL, NULL);
+				$oData->output .= $oData->get_view("views/all_loans.php");
 			}
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_return':
 		if ($_SESSION['admin']==1){
-		$oObject->return_loan();
-		$oObject->aLoan = $oObject->get_loan(NULL, NULL, NULL);
-		$oObject->output .= $oObject->get_view("views/all_loans.php");
+		$oData->return_loan();
+		$oData->aLoan = $oData->get_loan(NULL, NULL, NULL);
+		$oData->output .= $oData->get_view("views/all_loans.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_show':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oObject->r_user_ID)){
-			$oObject->aLoan = $oObject->get_loan(NULL, $oObject->r_user_ID, NULL);
-			$oObject->output .= $oObject->get_view("views/all_loans.php");
+		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oData->r_user_ID)){
+			$oData->aLoan = $oData->get_loan(NULL, $oData->r_user_ID, NULL);
+			$oData->output .= $oData->get_view("views/all_loans.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_self':
-		$oObject->r_user_ID = $_SESSION['user_ID'];
-		$oObject->aLoan = $oObject->get_loan(NULL, $_SESSION['user_ID'], NULL);
-		$oObject->output .= $oObject->get_view("views/all_loans.php");
+		$oData->r_user_ID = $_SESSION['user_ID'];
+		$oData->aLoan = $oData->get_loan(NULL, $_SESSION['user_ID'], NULL);
+		$oData->output .= $oData->get_view("views/all_loans.php");
 		break;
 	case 'loan_change':
 		if ($_SESSION['admin']==1){
-			$oObject->aLoan = $oObject->get_loan($oObject->r_loan_ID, NULL, NULL)[$oObject->r_loan_ID];
-			$oObject->output .= $oObject->get_view("views/loan_form.php");
+			$oData->aLoan = $oData->get_loan($oData->r_loan_ID, NULL, NULL)[$oData->r_loan_ID];
+			$oData->output .= $oData->get_view("views/loan_form.php");
 		}
 		else{
-			$oObject->error .= $oObject->oLang->texts['NO_PERMISSION'];
+			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
 	default:
 		if ($_SESSION['role'] > 0) {
-			$oObject->output .= $oObject->get_view("views/start.php");
+			$oData->output .= $oData->get_view("views/start.php");
 		} else {
-			$oObject->output .= $oObject->get_view("views/login_form.php");
+			$oData->output .= $oData->get_view("views/login_form.php");
 		}
 		break;
 
 
 }
 
-function output($oObject, $action){
+function output($oData, $action){
 	if (substr($action, -3) != "bot"){
-		echo $oObject->get_view("views/head.php");
-		echo $oObject->get_view("views/body.php");
+		echo $oData->get_view("views/head.php");
+		echo $oData->get_view("views/body.php");
 		if (substr($action, -5) != "plain"){
-			echo $oObject->get_view("views/footer.php");
+			echo $oData->get_view("views/footer.php");
 		}
 	}
 }
-output($oObject, $action);
+output($oData, $action);
 ?>
