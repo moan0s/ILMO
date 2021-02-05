@@ -67,22 +67,16 @@ switch ($action){
 		$oData->output .= $oData->get_view('views/changed_language.php');
 		break;
 	case 'open_change':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oData->aOpen = $oData->get_open();
 		$oData->output .= $oData->get_view("views/open_form.php");
 		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'open_save':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oData->save_open();
 		$oData->aOpen = $oData->get_open();
 		$oData->output .= $oData->get_view("views/display_open.php");
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'open_show':
@@ -102,34 +96,25 @@ switch ($action){
 		$oData->output .= $oData->get_view("views/display_open_small.php");
 		break;
 	case 'book_new':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oData->output .= $oData->get_view('views/book_form.php');
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
 	case 'book_change':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oBook = new Book($oData);
 		$oData->aRow_all = $oBook->get_book_itemized();
 		$oData->aRow = $oData->aRow_all[$oData->r_book_ID];
 		$oData->output = $oData->get_view('views/book_form.php');
 		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'book_save':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oBook = new Book($oData);
 		$oBook->save_book();
 		$oData->aBook = $oBook->get_book_itemized();
 		$oData->output .= $oData->get_view("views/all_books_itemized.php");
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'book_show':
@@ -147,13 +132,10 @@ switch ($action){
 		$oData->output .= $oData->get_view("views/all_books_itemized.php");
 		break;
 	case 'book_delete':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission("SAVE_BOOK", $_SESSION['role'])){
 		$oBook->delete_book();
 		$oData->aBook = $oBook->get_book_itemized();
 		$oData->output .= $oData->get_view("views/all_books_itemized.php");
-		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
@@ -244,18 +226,12 @@ switch ($action){
 				$oData->output .= $oData->get_view("views/all_user.php");
 			}
 		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'user_delete':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			$oData->delete_user();
 			$oData->aUser = $oData->get_user(NULL, NULL, NULL, NULL, NULL, NULL);
 			$oData->output .= $oData->get_view("views/all_user.php");
-		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_self':
@@ -263,42 +239,30 @@ switch ($action){
 		$oData->output .= $oData->get_view("views/all_user.php");
 		break;
 	case 'user_show':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			$oData->aUser = $oData->get_user($oData->r_user_ID, $oData->r_forename, $oData->r_surname, $oData->r_email, $oData->r_UID, $oData->r_language);
 			$oData->output .= $oData->get_view("views/all_user.php");
 		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'user_search':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			$oData->output .= $oData->get_view("views/user_form.php");
-		}
-		else {
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'user_change':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oData->aRow_all = $oData->get_user($oData->r_user_ID, NULL, NULL, NULL, NULL, NULL);
 		$oData->aRow = $oData->aRow_all[$oData->r_user_ID];
 		$oData->output .= $oData->get_view("views/user_form.php");
 		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'loan_new':
-		if($_SESSION['admin']==1){
+		if($oData->check_permission($action, $_SESSION['role'])){
 		$oData->output .= $oData->get_view("views/loan_form.php");
-		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_save':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			//$error_message .= $oData->check_ID_loan($oData->r_ID);
 			//$error_message .= $oData->check_input();
 			$error_message .= $oData->check_type();
@@ -313,27 +277,18 @@ switch ($action){
 				$oData->output .= $oData->get_view("views/all_loans.php");
 			}
 		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'loan_return':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 		$oData->return_loan();
 		$oData->aLoan = $oData->get_loan(NULL, NULL, NULL);
 		$oData->output .= $oData->get_view("views/all_loans.php");
 		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'loan_show':
-		if (($_SESSION['admin']==1) or ($_SESSION['user_ID'] == $oData->r_user_ID)){
+		if (($oData->check_permission($action, $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->r_user_ID)){
 			$oData->aLoan = $oData->get_loan(NULL, $oData->r_user_ID, NULL);
 			$oData->output .= $oData->get_view("views/all_loans.php");
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'loan_self':
@@ -342,12 +297,9 @@ switch ($action){
 		$oData->output .= $oData->get_view("views/all_loans.php");
 		break;
 	case 'loan_change':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			$oData->aLoan = $oData->get_loan($oData->r_loan_ID, NULL, NULL)[$oData->r_loan_ID];
 			$oData->output .= $oData->get_view("views/loan_form.php");
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
