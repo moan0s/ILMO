@@ -35,22 +35,39 @@ class Material {
 	return $aMaterial;
 	}
 
-	function save_material(){
+	function save_material($material_ID=NULL, $name=NULL, $number=NULL, $location=NULL, $lent=NULL){
+	/*
+	Params:
+		$material_ID = NULL
+			ID of the material. If number > 1 this will be extended with a number
+		$name = NULL
+			Name of the material
+		$number = NULL
+			Number of materials (only relevant when adding)
+		$location = NULL
+			Location of the material
+		$lent = NULL
+			Lent status of the material
+
+	Returns:
+		True if succensful, else False
+	*/
 		$aFields = array(
-			'name' => $this->r_name,
-			'location' => $this->r_location,
+			'name' => $name,
+			'location' => $location,
 			'lent' => null
 		);
-		if ((isset($this->r_number)) and ($this->r_number>1)){
+		if ((isset($number)) and ($number>1)){
 			for ($i=1; $i<=$this->r_number; $i++){
-				$aFields['material_ID'] = $this->r_material_ID." ".$i;
-				$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, FALSE, FALSE);
+				$aFields['material_ID'] = $material_ID." ".$i;
+				$this->ID=$this->oData->store_data(TABLE_MATERIAL, $aFields, FALSE, FALSE);
 			}
 		}
 		else{
-			$aFields['material_ID'] = $this->r_material_ID;
-			$this->ID=$this->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$this->r_material_ID);
+			$aFields['material_ID'] = $material_ID;
+			$this->ID=$this->oData->store_data(TABLE_MATERIAL, $aFields, 'material_ID',$material_ID);
 		}
+	return True;
 	}
 
 	function delete_material(){

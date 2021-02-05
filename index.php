@@ -158,34 +158,29 @@ switch ($action){
 		break;
 
 	case 'material_new':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission("SAVE_MATERIAL", $_SESSION['role'])){
 		$oData->output .= $oData->get_view('views/material_form.php');
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 
 	case 'material_change':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission("SAVE_MATERIAL", $_SESSION['role'])){
 			$oMaterial = new Material($oData);
 			$oData->aRow_all = $oMaterial->get_material_itemized();
 			$oData->aRow = $oData->aRow_all[$oData->r_material_ID];
 			$oData->output .= $oData->get_view('views/material_form.php');
 		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'material_save':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission("SAVE_MATERIAL", $_SESSION['role'])){
 			$oMaterial = new Material($oData);
-			$oMaterial->save_material();
+			$oMaterial->save_material($oData->payload['material_ID'],
+						  $oData->payload['name'],
+						  $oData->payload['location'],
+						  $oData->payload['number']
+						 );
 			$oData->aMaterial = $oMaterial->get_material_itemized();
 			$oData->output .= $oData->get_view("views/all_material_itemized.php");
-		}
-		else{
-			$oData->error .= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'material_show':
@@ -205,48 +200,36 @@ switch ($action){
 		$oData->output .= $oData->get_view("views/all_material_itemized.php");
 		break;
 	case 'material_delete':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission("SAVE_MATERIAL", $_SESSION['role'])){
 			$oMaterial = new Material($oData);
 			$oMaterial->delete_material();
 			$oData->aMaterial = $oMaterial->get_material_itemized();
 			$oData->output .= $oData->get_view("views/all_material_itemized.php");
 		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'user_new':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission(", $_SESSION['role'])){
 		$oData->output .= $oData->get_view("views/user_form.php");
-		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
 		}
 		break;
 	case 'settings_change':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			$settings = new Setting;
 			$oData->output .= $oData->get_view("views/settings.php");
 		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'settings_save':
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			//Saving routine here
 			$settings = new Setting;
 			$settings_to_change = $settings->request_to_array($oData);
 			$oData->settings = $settings->set(MODULE_PATH."config/settings.json", $settings_to_change,False);
 			$oData->output .= $oData->get_view("views/settings.php");
 		}
-		else{
-			$oData->error.= $oData->oLang->texts['NO_PERMISSION'];
-		}
 		break;
 	case 'user_save':
 		$oData->error = "";
-		if ($_SESSION['admin']==1){
+		if ($oData->check_permission($action, $_SESSION['role'])){
 			if(isset($oData->r_user_ID)){
 				$oData->r_user_ID = (int)$oData->r_user_ID;
 				$er = $oData->check_user_ID($oData->r_user_ID);

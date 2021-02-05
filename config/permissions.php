@@ -18,13 +18,13 @@ $roles = array(
 $permissions = array(
     'REGISTER' => array(0),
     'LOGIN' => array(0),
-    'ADD_USER' => array(2),
-    'CHANGE_USER' => array(2),
+    'SAVE_USER' => array(2),
     'SHOW_USER' => array(2),
-    'DELETE_USER' => array(2),
     'DELETE_SELF' => array(1, 2),
     'PROMOTE_ADMIN' => array(2),
-    'SHOW_SELF' => array(1, 2)
+    'SHOW_SELF' => array(1, 2),
+    'SAVE_BOOK' => array(2),
+    'SAVE_MATERIAL' => array(2)
 );
 ?>
 
