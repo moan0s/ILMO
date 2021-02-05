@@ -5,7 +5,7 @@ $navigation ='
 	<li><a href="index.php?ac=book_show">'.$this->oLang->texts['ALL_BOOKS'].'</a></li>
 	<li><a href="index.php?ac=material_show">'.$this->oLang->texts['ALL_MATERIAL'].'</a></li>
  	<li><a href="index.php?ac=open_show">'.$this->oLang->texts['OPENING_HOURS'].'</a></li>';
-if ($_SESSION['admin'] ==1){
+if ($_SESSION['role'] ==2){
 $navigation .= '
 	<li><a href="index.php?ac=user_show">'.$this->oLang->texts['ALL_USER'].'</a></li>
 	<li><a href="index.php?ac=user_search">'.$this->oLang->texts['SEARCH_USER'].'</a></li>
