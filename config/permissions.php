@@ -20,12 +20,13 @@ $permissions = array(
     'LOGIN' => array(0),
     'SAVE_USER' => array(2),
     'SHOW_USER' => array(2),
-    'SHOW_LOANS' => array(2),
+    'SHOW_LOAN' => array(2),
     'DELETE_SELF' => array(1, 2),
     'PROMOTE_ADMIN' => array(2),
     'SHOW_SELF' => array(1, 2),
     'SAVE_BOOK' => array(2),
-    'SAVE_MATERIAL' => array(2)
+    'SAVE_MATERIAL' => array(2),
+    'SAVE_LOAN' => array(2)
 );
 ?>
 

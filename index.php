@@ -273,46 +273,51 @@ switch ($action) {
         }
         break;
     case 'loan_new':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
             $oData->output .= $oData->get_view("views/loan_form.php");
         }
         break;
     case 'loan_save':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
+            $oLoan = new Loan($oData);
             //$error_message .= $oData->check_ID_loan($oData->r_ID);
             //$error_message .= $oData->check_input();
             $error_message .= $oData->check_type();
-            $error_message .= $oData->check_ID_exists($oData->r_ID);
-            $error_message .= $oData->check_user_exists($oData->r_user_ID);
+            $error_message .= $oData->check_ID_exists($oData->payload['ID']);
+            $error_message .= $oData->check_user_exists($oData->payload['user_ID']);
             if ($error_message !="") {
                 $oData->error .= $error_message;
             } else {
-                $oData->save_loan();
-                $oData->aLoan = $oData->get_loan(null, null, null);
+                $oLoan->save_loan();
+                $oData->aLoan = $oLoan->get_loan(null, null, null);
                 $oData->output .= $oData->get_view("views/all_loans.php");
             }
         }
         break;
     case 'loan_return':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
+            $oLoan = new Loan($oData);
             $oData->return_loan();
             $oData->aLoan = $oData->get_loan(null, null, null);
             $oData->output .= $oData->get_view("views/all_loans.php");
         }
         break;
     case 'loan_show':
-        if (($oData->check_permission($action, $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->r_user_ID)) {
-            $oData->aLoan = $oData->get_loan(null, $oData->r_user_ID, null);
+        if (($oData->check_permission("SHOW_LOAN", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->r_user_ID)) {
+            $oLoan = new Loan($oData);
+            $oData->aLoan = $oLoan->get_loan(null, $oData->payload['user_ID'], null);
             $oData->output .= $oData->get_view("views/all_loans.php");
         }
         break;
     case 'loan_self':
+    $oLoan = new Loan($oData);
         $oData->r_user_ID = $_SESSION['user_ID'];
         $oData->aLoan = $oData->get_loan(null, $_SESSION['user_ID'], null);
         $oData->output .= $oData->get_view("views/all_loans.php");
         break;
     case 'loan_change':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
+            $oLoan = new Loan($oData);
             $oData->aLoan = $oData->get_loan($oData->r_loan_ID, null, null)[$oData->r_loan_ID];
             $oData->output .= $oData->get_view("views/loan_form.php");
         }

@@ -485,7 +485,7 @@ class Data
 
     public function check_ID_exists($ID)
     {
-        if (($this->select_row(TABLE_EVENTS, array('event_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array('material_ID' => $ID)) == -1)) {
+        if (($this->select_row(TABLE_BOOKS, array('book_ID' => $ID)) == -1) and ($this->select_row(TABLE_MATERIAL, array('material_ID' => $ID)) == -1)) {
             return $this->oLang->texts['ID_DOES_NOT_EXIST'];
         }
     }
