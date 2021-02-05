@@ -97,7 +97,7 @@ $lang = array_merge($lang, array(
 	'BOOK_ID' => 'Book-ID',
 	'UID' => 'UID',
 	'NUMBER' =>'Number',
-	'MATERIAL_ID' , 'Material-ID',
+	'MATERIAL_ID' => 'Material-ID',
 	'TITLE' => 'Titel',
 	'AUTHOR' => 'Author',
 	'TITLE_MATERIAL' => 'Title/Material',

@@ -80,7 +80,7 @@ $lang = array_merge($lang, array(
 	'FRIDAY' => 'Freitag',
 	'SATURDAY' => 'Samstag',
 	'SUNDAY' => 'Sonntag',
-	
+
 	'MONDAY_SHORT' => 'Mo',
 	'TUESDAY_SHORT' => 'Di',
 	'WEDNESDAY_SHORT' => 'Mi',
@@ -94,7 +94,7 @@ $lang = array_merge($lang, array(
 	'BOOK_ID' => 'Buch-ID',
 	'UID' => 'UID',
 	'NUMBER' =>'Anzahl',
-	'MATERIAL_ID' , 'Material-ID',
+	'MATERIAL_ID' => 'Material-ID',
 	'TITLE' => 'Titel',
 	'AUTHOR' => 'Autor',
 	'TITLE_MATERIAL' => 'Buchtitel/Gegenstand',
