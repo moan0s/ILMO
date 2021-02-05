@@ -4,8 +4,6 @@ class User
     public function __construct($oData)
     {
         $this->data = $oData;
-        include(MODULE_PATH."user/actions.php");
-        $this->actions = $user_actions;
     }
 
     public function hash_password($password)
