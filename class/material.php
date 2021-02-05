@@ -66,7 +66,7 @@ class Material
             'lent' => null
         );
         if ((isset($number)) and ($number>1)) {
-            for ($i=1; $i<=$this->r_number; $i++) {
+            for ($i=1; $i<=$number; $i++) {
                 $aFields['material_ID'] = $material_ID." ".$i;
                 $this->ID=$this->oData->store_data(TABLE_MATERIAL, $aFields, false, false);
             }
@@ -77,12 +77,12 @@ class Material
         return true;
     }
 
-    public function delete_material()
+    public function delete_material($material_ID)
     {
         $aFields = array(
-            'material_ID' => $this->r_material_ID
+            'material_ID' => $material_ID
         );
-        $this->removed=$this->delete_rows(TABLE_MATERIAL, $aFields);
+        $this->removed=$this->oData->delete_rows(TABLE_MATERIAL, $aFields);
     }
     public function return_material($material_ID)
     {
@@ -90,7 +90,7 @@ class Material
             'loan' => 0
         );
 
-        $this->id = $this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $material_ID);
+        $this->id = $this->oData->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $material_ID);
         return $ID;
     }
 }

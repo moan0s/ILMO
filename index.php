@@ -127,6 +127,7 @@ switch ($action) {
 
         break;
     case 'book_show_itemized':
+        $oBook = new Book($oData);
         $oData->aBook = $oBook->get_book_itemized();
         $oData->output .= $oData->get_view("views/all_books_itemized.php");
         break;
@@ -158,8 +159,8 @@ switch ($action) {
             $oMaterial->save_material(
                 $oData->payload['material_ID'],
                 $oData->payload['name'],
-                $oData->payload['location'],
-                $oData->payload['number']
+                $oData->payload['number'],
+                $oData->payload['location']
             );
             $oData->aMaterial = $oMaterial->get_material_itemized();
             $oData->output .= $oData->get_view("views/all_material_itemized.php");
@@ -184,7 +185,7 @@ switch ($action) {
     case 'material_delete':
         if ($oData->check_permission("SAVE_MATERIAL", $_SESSION['role'])) {
             $oMaterial = new Material($oData);
-            $oMaterial->delete_material();
+            $oMaterial->delete_material($oData->payload['material_ID']);
             $oData->aMaterial = $oMaterial->get_material_itemized();
             $oData->output .= $oData->get_view("views/all_material_itemized.php");
         }
