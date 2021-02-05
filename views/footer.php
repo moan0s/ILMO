@@ -18,5 +18,3 @@ $footer ='
 </div>
 </div>';
 echo $footer;
-
-?>

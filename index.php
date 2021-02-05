@@ -236,8 +236,9 @@ switch ($action) {
         break;
     case 'user_delete':
         if ($oData->check_permission($action, $_SESSION['role'])) {
-            $oData->delete_user();
-            $oData->aUser = $oData->get_user(null, null, null, null, null, null);
+            $oUser = new User($oData);
+            $oUser->delete_user();
+            $oData->aUser = $oUser->get_user(null, null, null, null, null, null);
             $oData->output .= $oData->get_view("views/all_user.php");
         }
         break;
@@ -246,8 +247,16 @@ switch ($action) {
         $oData->output .= $oData->get_view("views/all_user.php");
         break;
     case 'user_show':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
-            $oData->aUser = $oData->get_user($oData->r_user_ID, $oData->r_forename, $oData->r_surname, $oData->r_email, $oData->r_UID, $oData->r_language);
+        if ($oData->check_permission("SHOW_USER", $_SESSION['role'])) {
+            $oUser = new User($oData);
+            $oData->aUser = $oUser->get_user(
+                $oData->payload['user_ID'],
+                $oData->payload['forename'],
+                $oData->payload['surname'],
+                $oData->payload['email'],
+                $oData->payload['UID'],
+                $oData->payload['language']
+            );
             $oData->output .= $oData->get_view("views/all_user.php");
         }
         break;
