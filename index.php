@@ -95,23 +95,29 @@ switch ($action) {
         $oData->output .= $oData->get_view("views/display_open_small.php");
         break;
     case 'book_new':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_BOOK", $_SESSION['role'])) {
             $oData->output .= $oData->get_view('views/book_form.php');
         }
         break;
 
     case 'book_change':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_BOOK", $_SESSION['role'])) {
             $oBook = new Book($oData);
             $oData->aRow_all = $oBook->get_book_itemized();
-            $oData->aRow = $oData->aRow_all[$oData->r_book_ID];
+            $oData->aRow = $oData->aRow_all[$oData->payload['book_ID']];
             $oData->output = $oData->get_view('views/book_form.php');
         }
         break;
     case 'book_save':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_BOOK", $_SESSION['role'])) {
             $oBook = new Book($oData);
-            $oBook->save_book();
+            $oBook->save_book(
+                $oData->payload['book_ID'],
+                $oData->payload['title'],
+                $oData->payload['author'],
+                $oData->payload['number'],
+                $oData->payload['location']
+            );
             $oData->aBook = $oBook->get_book_itemized();
             $oData->output .= $oData->get_view("views/all_books_itemized.php");
         }
@@ -133,7 +139,8 @@ switch ($action) {
         break;
     case 'book_delete':
         if ($oData->check_permission("SAVE_BOOK", $_SESSION['role'])) {
-            $oBook->delete_book();
+            $oBook = new Book($oData);
+            $oBook->delete_book($oData->payload['book_ID']);
             $oData->aBook = $oBook->get_book_itemized();
             $oData->output .= $oData->get_view("views/all_books_itemized.php");
         }
