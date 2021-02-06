@@ -67,31 +67,37 @@ switch ($action) {
         break;
     case 'open_change':
         if ($oData->check_permission($action, $_SESSION['role'])) {
+            $oOpen = new Open($oData);
             $oData->aOpen = $oData->get_open();
             $oData->output .= $oData->get_view("views/open_form.php");
         }
         break;
     case 'open_save':
         if ($oData->check_permission($action, $_SESSION['role'])) {
-            $oData->save_open();
-            $oData->aOpen = $oData->get_open();
+            $oOpen = new Open($oData);
+            $oOpen->save_open();
+            $oData->aOpen = $oOpen->get_open();
             $oData->output .= $oData->get_view("views/display_open.php");
         }
         break;
     case 'open_show':
-        $oData->aOpen = $oData->get_open();
+        $oOpen = new Open($oData);
+        $oData->aOpen = $oOpen->get_open();
         $oData->output .= $oData->get_view("views/display_open.php");
         break;
     case 'open_show_plain':
-        $oData->aOpen = $oData->get_open();
+        $oOpen = new Open($oData);
+        $oData->aOpen = $oOpen->get_open();
         $oData->output .= $oData->get_view("views/display_open.php");
         break;
     case 'open_show_small':
-        $oData->aOpen = $oData->get_open();
+        $oOpen = new Open($oData);
+        $oData->aOpen = $oOpen->get_open();
         $oData->output .= $oData->get_view("views/display_open_small.php");
         break;
-        case 'open_show_small_plain':
-        $oData->aOpen = $oData->get_open();
+    case 'open_show_small_plain':
+        $oOpen = new Open($oData);
+        $oData->aOpen = $oOpen->get_open();
         $oData->output .= $oData->get_view("views/display_open_small.php");
         break;
     case 'book_new':
