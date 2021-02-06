@@ -26,7 +26,8 @@ $permissions = array(
     'SHOW_SELF' => array(1, 2),
     'SAVE_BOOK' => array(2),
     'SAVE_MATERIAL' => array(2),
-    'SAVE_LOAN' => array(2)
+    'SAVE_LOAN' => array(2),
+    'SAVE_SETTINGS' => array(2)
 );
 ?>
 

@@ -203,13 +203,13 @@ switch ($action) {
         }
         break;
     case 'settings_change':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_SETTINGS", $_SESSION['role'])) {
             $settings = new Setting;
             $oData->output .= $oData->get_view("views/settings.php");
         }
         break;
     case 'settings_save':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_SETTINGS", $_SESSION['role'])) {
             //Saving routine here
             $settings = new Setting;
             $settings_to_change = $settings->request_to_array($oData);
