@@ -66,14 +66,14 @@ switch ($action) {
         $oData->output .= $oData->get_view('views/changed_language.php');
         break;
     case 'open_change':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_OPEN", $_SESSION['role'])) {
             $oOpen = new Open($oData);
-            $oData->aOpen = $oData->get_open();
+            $oData->aOpen = $oOpen->get_open();
             $oData->output .= $oData->get_view("views/open_form.php");
         }
         break;
     case 'open_save':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_OPEN", $_SESSION['role'])) {
             $oOpen = new Open($oData);
             $oOpen->save_open();
             $oData->aOpen = $oOpen->get_open();
@@ -249,7 +249,8 @@ switch ($action) {
         }
         break;
     case 'user_self':
-        $oData->aUser = $oData->get_user($_SESSION['user_ID'], null, null, null, null, null);
+        $oUser = new User($oData);
+        $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null);
         $oData->output .= $oData->get_view("views/all_user.php");
         break;
     case 'user_show':
@@ -267,7 +268,7 @@ switch ($action) {
         }
         break;
     case 'user_search':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("SHOW_USER", $_SESSION['role'])) {
             $oData->output .= $oData->get_view("views/user_form.php");
         }
         break;

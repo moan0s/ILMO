@@ -46,7 +46,7 @@ $table .= '</tr>';
             $table .=
                 '<td> <a href="index.php?ac=user_change&user_ID='.$aResult['user_ID'].'" >'.$this->oLang->texts['BUTTON_CHANGE'].' </<> </td>
 				<td> <a href="index.php?ac=user_delete&user_ID='.$aResult['user_ID'].'" >'.$this->oLang->texts['BUTTON_DELETE'].' </<> </td>';
-            if (($this->check_permission("SHOW_LOANS", $_SESSION['role']))) {
+            if (($this->check_permission("SHOW_LOAN", $_SESSION['role']))) {
                 $table .='
 						<td> <a href="index.php?ac=loan_show&user_ID='.$aResult['user_ID'].'" > '.$this->oLang->texts['BUTTON_SHOW_LOANS'].' </<> </td>';
             }

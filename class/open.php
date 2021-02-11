@@ -21,15 +21,15 @@ class Open
 
     public function save_open()
     {
-        foreach ($this->settings['opening_days'] as $day) {
-            $fieldS="r_".$day."_s";
-            $fieldE="r_".$day."_e";
-            $fieldN="r_".$day."_n";
+        foreach ($this->oData->settings['opening_days'] as $day) {
+            $fieldS=$this->oData->payload[$day."_s"];
+            $fieldE=$this->oData->payload[$day."_e"];
+            $fieldN=$this->oData->payload[$day."_n"];
             $aFields = array(
                 'day' => $day,
-                'start' => $this->$fieldS,
-                'end' => $this->$fieldE,
-                'notice' => $this->$fieldN
+                'start' => $fieldS,
+                'end' => $fieldE,
+                'notice' => $fieldN
             );
             $xy = $this->oData->store_data(TABLE_OPEN, $aFields, "day", $day);
             unset($aFields);
