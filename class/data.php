@@ -46,12 +46,12 @@ class Data
         //reads all GET and POST variables into the object, addslashing both
         if (count($_POST)) {
             foreach ($_POST as $key => $val) {
-                $this->payload[$key] = $val;
+                $this->payload[$key] = mysqli_real_escape_string($this->databaselink, $val);
             }
         }
         if (count($_GET)) {
             foreach ($_GET as $key => $val) {
-                $this->payload[$key] = $val;
+                $this->payload[$key] = mysqli_real_escape_string($this->databaselink, $val);
             }
         }
     }
