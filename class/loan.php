@@ -123,8 +123,10 @@ class Loan
             $restrictions .= "books.returned=".$book_ID." ";
         }
         if ($restrictions = "") {
-            $query = $query." WHERE ".$restrictions.";";
+            $query = $query." WHERE ".$restrictions;
         }
+        $sort = " ORDER BY loan_ID DESC;";
+        $query = $query.$sort;
         $this->p_result = $this->oData->databaselink->query($query);
         while ($aRow=mysqli_fetch_assoc($this->p_result)) {
             $aLoan[$aRow['loan_ID']] = $aRow;
