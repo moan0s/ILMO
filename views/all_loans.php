@@ -1,60 +1,54 @@
-<?php 
+<?php
 $table = "<table border='1'>";
-		$table .=
-		'<tr>
+        $table .=
+        '<tr>
 		<th>'.$this->oLang->texts['LOAN_ID'].'</th>
 		<th>'.$this->oLang->texts['LENT_ON'].'</th>
 		<th>'.$this->oLang->texts['RETURNED_ON'].'</th>
 		<th>'.$this->oLang->texts['TITLE_MATERIAL'].'</th>
 		<th>'.$this->oLang->texts['ID'].'</th>
-		<th>'.$this->oLang->texts['FORENAME'].'</th>
-		<th>'.$this->oLang->texts['SURNAME'].'</th>
+		<th>'.$this->oLang->texts['USERNAME'].'</th>
 		<th>'.$this->oLang->texts['USER_ID'].'</th>';
-if ($_SESSION['admin']==1){
-	$table .= '
+if ($this->check_permission("SAVE_LOAN", $_SESSION['role'])) {
+    $table .= '
 		<th>'.$this->oLang->texts['BUTTON_CHANGE'].'</th>
 		<th>'.$this->oLang->texts['BUTTON_RETURN'].'</th>';
 }
-		$table .= "</tr>";
-		foreach ($this->aLoan as $loan_ID => $aResult)
-		{
-			$table .=
-			'<tr>
+        $table .= "</tr>";
+        foreach ($this->aLoan as $loan_ID => $aResult) {
+            $table .=
+            '<tr>
 			<td>'.$aResult['loan_ID'].'</td>
 			<td>'.$aResult['pickup_date'].'</td>
 			<td>';
-		if($aResult['return_date'] == 0000-00-00){
-			$table .= $this->oLang->texts['STATUS_LENT'];
-		}
-		else{
-			$table.= $aResult['return_date'];
-		}
-			$table .= '</td>
-			<td>'.$this->all_book[$aResult['ID']]['title'].$this->all_material[$aResult['ID']]['name'].'</td>
+            if ($aResult['return_date'] == 0000-00-00) {
+                $table .= $this->oLang->texts['STATUS_LENT'];
+            } else {
+                $table.= $aResult['return_date'];
+            }
+            $table .= '</td>
+			<td>'.$aResult['material_name'].$aResult['book_name'].'</td>
 			<td>'.$aResult['ID'].'</td>
-			<td>'.$this->all_user[$aResult['user_ID']]['forename'].'</td>
-			<td>'.$this->all_user[$aResult['user_ID']]['surname'].'</td>
+			<td>'.$aResult['user_name'].'</td>
 			<td>'.$aResult['user_ID'].'</td>';
-			if($_SESSION['admin']==1){
-			$table .=
-			'<td> <a href="index.php?ac=loan_change&loan_ID='.$aResult['loan_ID'].'" >'.$this->oLang->texts['BUTTON_CHANGE'].' </<> </td>
+            if ($this->check_permission("SAVE_LOAN", $_SESSION['role'])) {
+                $table .=
+            '<td> <a href="index.php?ac=loan_change&loan_ID='.$aResult['loan_ID'].'" >'.$this->oLang->texts['BUTTON_CHANGE'].' </<> </td>
 ';
 
-			if ($aResult['return_date']==000-00-00){
-				$table .='
+                if ($aResult['return_date']==000-00-00) {
+                    $table .='
 					<td> <a href="index.php?ac=loan_return&loan_ID='.$aResult["loan_ID"].'&ID='.$aResult["ID"].'" >'.$this->oLang->texts['BUTTON_RETURN'].' </<> </td>';
-			}
-
-			else{
-				$table .=' 
+                } else {
+                    $table .=' 
 					<td>'.$this->oLang->texts['ALREADY_RETURNED'].'</td>';
-			}
+                }
 
-			$table .='</tr>';
-			}
-		}	
-		$table = $table."</table>";
-		echo $table;
+                $table .='</tr>';
+            }
+        }
+        $table = $table."</table>";
+        echo $table;
 
 $form ='
 	<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">

@@ -53,14 +53,14 @@ $form .=	$this->oLang->texts['FORENAME'].': <input type="text" name="forename" v
         $form .=$this->oLang->texts['PASSWORD'].': <input type="password" name="password">  <br>';
     }
     if (($_SESSION['role']==2) and ($this->payload['ac'] != 'user_search')) {
-        $form .= $this->oLang->texts['ADMIN'].': <input type="radio" id="yes" name="admin" value="1"';
-        if ($this->aRow['admin']==1) {
+        $form .= $this->oLang->texts['ADMIN'].': <input type="radio" id="yes" name="role" value="2"';
+        if ($this->aRow['admin']==2) {
             $form .= 'checked';
         }
         $form .='>
 		<label for="yes">'.$this->oLang->texts['YES'].'</label>
-		<input type="radio" id="no" name="admin" value="0"';
-        if ($this->aRow['admin']==0) {
+		<input type="radio" id="no" name="role" value="1"';
+        if ($this->aRow['role']==1) {
             $form .= 'checked';
         }
         $form .= '>

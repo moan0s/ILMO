@@ -21,7 +21,6 @@ $table = "<table border='1'>";
 		<th>'.$this->oLang->texts['SURNAME'].'</th>
 		<th>'.$this->oLang->texts['FORENAME'].'</th>
 		<th>'.$this->oLang->texts['EMAIL'].'</th>
-		<th>'.$this->oLang->texts['UID'].'</th>
 		';
 
 
@@ -40,8 +39,7 @@ $table .= '</tr>';
 			<td>'.$aResult['user_ID'].'</td>
 			<td>'.$aResult['forename'].'</td>
 			<td>'.$aResult['surname'].'</td>
-			<td>'.$aResult['email'].'</td>
-			<td>'.$aResult['UID'].'</td>';
+			<td>'.$aResult['email'].'</td>';
         if ($this->check_permission("SAVE_USER", $_SESSION['role'])) {
             $table .=
                 '<td> <a href="index.php?ac=user_change&user_ID='.$aResult['user_ID'].'" >'.$this->oLang->texts['BUTTON_CHANGE'].' </<> </td>

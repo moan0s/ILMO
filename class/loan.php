@@ -30,10 +30,14 @@ class Loan
         $aFields = array(
                 'ID' => $ID,
                 'type' => $type,
-                'user_ID' => $user_ID,
-                'return_date' => null,
-                'returned' => null
+                'user_ID' => $user_ID
         );
+        if (isset($loan_ID)) {
+            $aFields['loan_ID'] = $loan_ID;
+        }
+        if ((isset($return_date)) and (""!= $return_date)) {
+            $aFields['return_date'] = $return_date;
+        }
         if ((isset($pickup_date)) and (""!= $pickup_date)) {
             $aFields['pickup_date'] = $pickup_date;
             $aFields['last_reminder'] = $pickup_date;
@@ -52,44 +56,41 @@ class Loan
             'lent' => 1
         );
         if ($type=="book") {
-            $this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $ID);
+            $this->oData->store_data(TABLE_BOOKS, $aFields, 'book_ID', $ID);
         }
         if ($type=="material") {
-            $this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $ID);
+            $this->oData->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $ID);
         }
     }
 
-    public function return_loan($loan_ID, $ID, $type)
+    public function return_loan($loan_ID)
     {
         /*
         Params:
         $loan_ID = NULL
                 ID of the loan.
-        $ID = NULL
-                ID of the item.
-        $type = NULL
-            Book or material
      */
-        $aLoans= $this->get_loan(null, null, null);
+        $aLoans= $this->get_loan($loan_ID);
         $aLoan = $aLoans[$loan_ID];
         $aFields = array(
             'return_date' => date("Y-m-d H:i:s"),
             'returned' => 1
         );
-        $this->ID=$this->store_data(TABLE_LOAN, $aFields, 'loan_ID', $loan_ID);
+        $this->ID=$this->oData->store_data(TABLE_LOAN, $aFields, 'loan_ID', $loan_ID);
 
         $aFields = array(
         'lent' => 0
     );
+
         if ($aLoan['type']=='book') {
-            $this->store_data(TABLE_BOOKS, $aFields, 'book_ID', $ID);
+            $this->oData->store_data(TABLE_BOOKS, $aFields, 'book_ID', $ID);
         }
         if ($aLoan['type']=='material') {
-            $this->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $ID);
+            $this->oData->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $ID);
         }
     }
 
-    public function get_loan(int $loan_ID = null, int $user_ID = null, int $book_ID = null)
+    public function get_loan(int $loan_ID = null, int $user_ID = null, int $book_ID = null, bool $returned = null)
     {
         /*
         params:
@@ -102,23 +103,29 @@ class Loan
         returns: Associative array with complete loan Information (loan_ID as keys)
         */
         $aFields= array();
-        $oUser = new User($this->oData);
-        $oBook = new Book($this->oData);
-        $oMaterial = new Material($this->oData);
-        $this->all_user = $oUser->get_user();
-        $this->all_book = $oBook->get_book_itemized();
-        $this->all_material = $oMaterial->get_material_itemized();
-        if ((isset($user_ID)) and ($user_ID!= "")) {
-            $aFields["user_ID"] = $this->oData->payload['user_ID'];
+        $query = "
+	SELECT user.user_ID, CONCAT(user.forename,' ',user.surname) AS user_name, loan.loan_ID, loan.ID, loan.type, loan.pickup_date, loan.return_date, books.title AS book_name, material.name AS material_name
+	From loan
+	LEFT JOIN user
+		ON user.user_ID=loan.user_ID
+	LEFT JOIN books
+		ON books.book_ID=loan.ID
+	LEFT JOIN material
+		ON material.material_ID=loan.ID";
+        $restrictions = "";
+        if (isset($loan_ID)) {
+            $restrictions .= "loan.loan_ID=".$loan_ID." ";
         }
-        if ((isset($loan_ID)) and ($loan_ID!= "")) {
-            $aFields["loan_ID"] = $this->oData->payload['loan_ID'];
+        if ((isset($user_ID)) and ($user_ID!= "")) {
+            $restrictions .= "user.user_ID=".$user_ID." ";
         }
         if ((isset($book_ID)) and ($book_ID!= "")) {
-            $aFields["book_ID"] = $this->oData->payload['book_ID'];
+            $restrictions .= "books.returned=".$book_ID." ";
         }
-        $aOrder = array("-user_ID");
-        $this->p_result = $this->oData->select_rows(TABLE_LOAN, $aFields);
+        if ($restrictions = "") {
+            $query = $query." WHERE ".$restrictions.";";
+        }
+        $this->p_result = $this->oData->databaselink->query($query);
         while ($aRow=mysqli_fetch_assoc($this->p_result)) {
             $aLoan[$aRow['loan_ID']] = $aRow;
         }
