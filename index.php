@@ -248,7 +248,7 @@ switch ($action) {
         }
         break;
     case 'user_delete':
-        if ($oData->check_permission($action, $_SESSION['role'])) {
+        if ($oData->check_permission("USER_SAVE", $_SESSION['role'])) {
             $oUser = new User($oData);
             $oUser->delete_user();
             $oData->aUser = $oUser->get_user(null, null, null, null, null, null);
