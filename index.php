@@ -328,7 +328,13 @@ switch ($action) {
     case 'loan_show':
         if (($oData->check_permission("SHOW_LOAN", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->payload['user_ID'])) {
             $oLoan = new Loan($oData);
-            $oData->aLoan = $oLoan->get_loan(null, $user_ID = $oData->payload['user_ID'], null, null);
+            $oData->aLoan = $oLoan->get_loan(
+                $oData->payload['loan_ID'],
+                $user_ID = $oData->payload['user_ID'],
+                $oData->payload['book_ID'],
+                $oData->payload['material_ID'],
+                $oData->payload['returned']
+            );
             var_dump($oData->aLoan);
             $oData->output .= $oData->get_view("views/all_loans.php");
         }
