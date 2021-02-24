@@ -90,7 +90,7 @@ class Loan
         }
     }
 
-    public function get_loan(int $loan_ID = null, int $user_ID = null, int $book_ID = null, bool $returned = null)
+    public function get_loan(int $loan_ID = null, int $user_ID = null, $book_ID = null, $material_ID = null, bool $returned = null)
     {
         /*
         params:
@@ -100,6 +100,8 @@ class Loan
                 Filters loans by ID of user
             int $book_ID:
                 Filters loans by ID of book
+            int $material_ID:
+                Filters loans by ID of a material
         returns: Associative array with complete loan Information (loan_ID as keys)
         */
         $aFields= array();
@@ -112,21 +114,33 @@ class Loan
 		ON books.book_ID=loan.ID
 	LEFT JOIN material
 		ON material.material_ID=loan.ID";
-        $restrictions = "";
+        $restrictions = array();
         if (isset($loan_ID)) {
-            $restrictions .= "loan.loan_ID=".$loan_ID." ";
+            $restrictions["loan.loan_ID"] = $loan_ID;
         }
         if ((isset($user_ID)) and ($user_ID!= "")) {
-            $restrictions .= "user.user_ID=".$user_ID." ";
+            $restrictions["user.user_ID"] = $user_ID;
         }
         if ((isset($book_ID)) and ($book_ID!= "")) {
-            $restrictions .= "books.returned=".$book_ID." ";
+            $restrictions["loan.ID"] = $book_ID;
         }
-        if ($restrictions = "") {
-            $query = $query." WHERE ".$restrictions;
+        if ((isset($material_ID)) and ($material_ID!= "")) {
+            $restrictions["loan.ID"] = $material_ID;
         }
+        $i = 0;
+        $sCondition = "";
+        foreach ($restrictions as $key=>$value) {
+            if ($i >0) {
+                $sCondition .= " AND ";
+            } else {
+                $sCondition .= " WHERE ";
+            }
+            $sCondition .= $key."='".$value."'";
+            $i++;
+        }
+        $query .= $sCondition;
         $sort = " ORDER BY loan_ID DESC;";
-        $query = $query.$sort;
+        $query .= $sort;
         $this->p_result = $this->oData->databaselink->query($query);
         while ($aRow=mysqli_fetch_assoc($this->p_result)) {
             $aLoan[$aRow['loan_ID']] = $aRow;
