@@ -83,10 +83,10 @@ class Loan
     );
 
         if ($aLoan['type']=='book') {
-            $this->oData->store_data(TABLE_BOOKS, $aFields, 'book_ID', $ID);
+            $this->oData->store_data(TABLE_BOOKS, $aFields, 'book_ID', $aLoan['ID']);
         }
         if ($aLoan['type']=='material') {
-            $this->oData->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $ID);
+            $this->oData->store_data(TABLE_MATERIAL, $aFields, 'material_ID', $aLoan['ID']);
         }
     }
 
