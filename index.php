@@ -342,13 +342,13 @@ switch ($action) {
     case 'loan_self':
         $oLoan = new Loan($oData);
         $oData->payload['user_ID'] = $_SESSION['user_ID'];
-        $oData->aLoan = $oData->get_loan(null, $_SESSION['user_ID'], null);
+        $oData->aLoan = $oLoan->get_loan(null, $_SESSION['user_ID'], null);
         $oData->output .= $oData->get_view("views/all_loans.php");
         break;
     case 'loan_change':
         if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
             $oLoan = new Loan($oData);
-            $oData->aLoan = $oData->get_loan($oData->payload['loan_ID'], null, null)[$oData->payload['loan_ID']];
+            $oData->aLoan = $oLoan->get_loan($oData->payload['loan_ID'], null, null)[$oData->payload['loan_ID']];
             $oData->output .= $oData->get_view("views/loan_form.php");
         }
         break;
