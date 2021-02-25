@@ -124,7 +124,7 @@ $lang = array_merge($lang, array(
 
     'TODAYS_MAIL_STATS' => 'Todays mail statistics',
     'TOTAL_MAILS' => 'Total number of mails',
-    'SUCESSFUL_MAILS' => 'Successful mails',
+    'SUCCESSFUL_MAILS' => 'Successful mails',
     'FAILED_MAILS' => 'Failed mails',
 
     'BUTTON_SEND' => 'Send',

@@ -32,7 +32,7 @@ echo("Action ".$action."<br>");
 
 switch ($action) {
     case 'mail_send':
-        $oMail = new Mail($oData->databaselink);
+        $oMail = new Mail($oData);
         $oData->mail_stats = $oMail->send_todays_mails();
         $oData->output .= $oData->get_view("views/mail_stats.php");
         break;
