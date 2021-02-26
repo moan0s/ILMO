@@ -32,16 +32,16 @@ echo("Action ".$action."<br>");
 
 switch ($action) {
     case 'mail_send':
-        $oMail = new Mail($oData->databaselink);
+        $oMail = new Mail($oData);
         $oData->mail_stats = $oMail->send_todays_mails();
         $oData->output .= $oData->get_view("views/mail_stats.php");
         break;
 
     case 'login':
         if ($oData->login($oData->payload['login_user_info'], $oData->payload['login_password'])) {
-            if ($_SESSION['admin'] == 1) {
+            if ($_SESSION['role'] == 2) {
                 //send mails
-                $oMail = new Mail($oData->databaselink);
+                $oMail = new Mail($oData);
                 if (!$oMail->check_if_mail_send()) {
                     $oData->mail_stats = $oMail->send_todays_mails();
                     $oMail->set_mails_send();
