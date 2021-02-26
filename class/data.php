@@ -113,13 +113,20 @@ class Data
     public function login($user_identification, $password)
     {
         $aUser = $this->em_get_user($user_identification, $password);
-        if (isset($aUser)) {
+        if (isset($aUser) and $aUser) {
+            if (DEBUG) {
+                echo "Login successful";
+                var_dump($aUser);
+            }
             $_SESSION['user_ID'] = $aUser['user_ID'];
             $_SESSION['language'] = $aUser['language'];
             $_SESSION['role'] = intval($aUser['role']);
             return true;
         } else {
-            logout();
+            if (DEBUG) {
+                echo "Login failed";
+            }
+            $this->logout();
             return false;
         }
     }
@@ -228,7 +235,7 @@ class Data
             String $sUser:
                 String of userinformation, either ID or E-mail is vaild
             String $sPassword:
-                Plaintext password
+                Plaintext password given by the user
         */
         if (isset($sUser)) {
             if (strpos($sUser, "@")>0) {
@@ -237,15 +244,26 @@ class Data
                 $aFields=array("user_ID"=>$sUser);
             }
             $aResult=$this->select_row(TABLE_USER, $aFields);
+            var_dump($aResult);
 
             if (isset($aResult['password_hash']) and $aResult['password_hash'] != "") {
                 if (password_verify($sPassword, $aResult['password_hash'])) {
                     return $aResult;
-                } else {
-                    if (password_verify_legacy($sPassword, $aResult['password'])) {
-                        //TODO: Rehash and store password, delete all hash
-                        return $aResult;
+                }
+            } else {
+                if (DEBUG) {
+                    echo "Trying legacy password";
+                }
+                if ($this->password_verify_legacy($sPassword, $aResult['password'])) {
+                    if (DEBUG) {
+                        echo "Updating legacy password hash to secure password hash";
                     }
+                    $oUser = new User($this);
+                    $aUser = $aResult;
+                    $aUser['password'] = '';
+                    $aUser['password_hash'] = $oUser->hash_password($sPassword);
+                    $oUser->save_user($aUser);
+                    return $aResult;
                 }
             }
         }

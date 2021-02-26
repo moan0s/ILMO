@@ -39,7 +39,7 @@ switch ($action) {
 
     case 'login':
         if ($oData->login($oData->payload['login_user_info'], $oData->payload['login_password'])) {
-            if ($_SESSION['admin'] == 1) {
+            if ($_SESSION['role'] == 2) {
                 //send mails
                 $oMail = new Mail($oData->databaselink);
                 if (!$oMail->check_if_mail_send()) {
