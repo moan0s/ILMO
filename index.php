@@ -62,7 +62,7 @@ switch ($action) {
         break;
     case 'language_change':
         $oLang = new Lang;
-        $oLang->change_language($oData->r_language);
+    $oLang->change_language($oData->payload['language']);
         $oData->output .= $oData->get_view('views/changed_language.php');
         break;
     case 'open_change':
@@ -162,7 +162,7 @@ switch ($action) {
         if ($oData->check_permission("SAVE_MATERIAL", $_SESSION['role'])) {
             $oMaterial = new Material($oData);
             $oData->aRow_all = $oMaterial->get_material_itemized();
-            $oData->aRow = $oData->aRow_all[$oData->r_material_ID];
+            $oData->aRow = $oData->aRow_all[$oData->payload['material_ID']];
             $oData->output .= $oData->get_view('views/material_form.php');
         }
         break;
