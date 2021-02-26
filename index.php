@@ -63,6 +63,7 @@ switch ($action) {
     case 'language_change':
         $oLang = new Lang;
     $oLang->change_language($oData->payload['language']);
+    $oData->oLang = $oLang;
         $oData->output .= $oData->get_view('views/changed_language.php');
         break;
     case 'open_change':
