@@ -489,7 +489,7 @@ class Data
 
     public function check_password($password)
     {
-        if (strlen($password)<4) {
+        if (strlen($password)<$this->settings['mimimum_pw_length']) {
             return $this->oLang->texts['PASSWORD_TO_SHORT'];
         }
     }
