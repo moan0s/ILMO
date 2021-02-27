@@ -26,7 +26,6 @@ if (isset($oData->payload['ac'])) {
 }
 
 $oData->output = "";
-$oData->navigation = $oData->get_view("views/navigation.php");
 //methods
 echo("Action ".$action."<br>");
 
@@ -258,8 +257,12 @@ switch ($action) {
         break;
     case 'user_self':
         $oUser = new User($oData);
-        $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null);
-        $oData->output .= $oData->get_view("views/all_user.php");
+        if ($oData->check_permission("SHOW_SELF", $_SESSION['role'])) {
+            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null);
+            $oData->output .= $oData->get_view("views/all_user.php");
+        } else {
+            $oData->error .= $oData->oLang->texts['NO_PERMISSION'];
+        }
         break;
     case 'user_show':
         if ($oData->check_permission("SHOW_USER", $_SESSION['role'])) {
@@ -365,6 +368,7 @@ switch ($action) {
 
 }
 
+$oData->navigation = $oData->get_view("views/navigation.php");
 function output($oData, $action)
 {
     if (substr($action, -3) != "bot") {
