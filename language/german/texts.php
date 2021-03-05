@@ -66,6 +66,7 @@ $lang = array_merge($lang, array(
     'ENTER_PASSWORD' => 'Bitte gib ein Passwort ein.',
     'WRONG_LOGIN' => 'Die eingegebene Benutzer-ID/E-Mail oder das Passwort ist falsch.',
     'PLEASE_GIVE_TYPE' => 'Bitte gib einen Typ an',
+    'PASSWORDS_DO_NOT_MATCH' => 'Passwörter stimmen nicht überein.',
 
     'W_DAY' => 'Tag',
     'W_START' => 'Start',
@@ -107,6 +108,9 @@ $lang = array_merge($lang, array(
     'USERNAME' => 'Name',
     'EMAIL' => 'E-Mail',
     'PASSWORD' => 'Paswort',
+    'OLD_PASSWORD' => 'Altes Paswort',
+    'NEW_PASSWORD' => 'Neues Paswort',
+    'CONFIRM_PASSWORD' => 'Paswort bestätigen',
     'STATUS_AVAILABLE' => 'Verfügbar',
     'STATUS_LENT' => 'Verliehen',
     'AVAILABILITY' => 'Verfügbarkeit',
@@ -117,7 +121,8 @@ $lang = array_merge($lang, array(
 
     'BOOK' => 'Buch',
     'MATERIAL' => 'Material',
-    'ADMIN' => 'Administrator',
+    'ADMIN' => 'Admin',
+    'USER' => 'Nutzer*in',
 
     'TODAYS_MAIL_STATS' => 'Heutige Mailstatistik',
     'TOTAL_MAILS' => 'Gesamtzahl der Mails',
@@ -132,6 +137,8 @@ $lang = array_merge($lang, array(
     'BUTTON_SHOW_LOANS' => 'Zeige Ausleihen',
     'BUTTON_ADD_USER' =>'Benutzer*in hinzufügen',
     'BUTTON_SEARCH' => 'Suchen',
+    'BUTTON_SAVE_CHANGES' => 'Änderungen speichern',
+    'BUTTON_CHANGE_PASSWORD' => 'Passwort ändern',
     'YES' => 'Ja',
     'NO' =>'Nein'
 ));

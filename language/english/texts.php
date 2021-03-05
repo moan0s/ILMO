@@ -69,6 +69,7 @@ $lang = array_merge($lang, array(
     'ENTER_PASSWORD' => 'Please enter a password',
     'WRONG_LOGIN' => 'The user-ID/e-mail or your password is wrong.',
     'PLEASE_GIVE_TYPE' => 'Please give a type',
+    'PASSWORDS_DO_NOT_MATCH' => 'The passwords do not match',
 
     'W_DAY' => 'Day',
     'W_START' => 'Start',
@@ -109,6 +110,9 @@ $lang = array_merge($lang, array(
     'USERNAME' => 'Username',
     'EMAIL' => 'E-Mail',
     'PASSWORD' => 'Password',
+    'OLD_PASSWORD' => 'Old password',
+    'NEW_PASSWORD' => 'New password',
+    'CONFIRM_PASSWORD' => 'Confirm password',
     'STATUS_AVAILABLE' => 'Available',
     'STATUS_LENT' => 'Lent',
     'AVAILABILITY' => 'Availability',
@@ -121,6 +125,7 @@ $lang = array_merge($lang, array(
     'BOOK' => 'Book',
     'MATERIAL' => 'Material',
     'ADMIN' => 'Administrator',
+    'USER' => 'User',
 
     'TODAYS_MAIL_STATS' => 'Todays mail statistics',
     'TOTAL_MAILS' => 'Total number of mails',
@@ -135,6 +140,8 @@ $lang = array_merge($lang, array(
     'BUTTON_SHOW_LOANS' => 'Show loans',
     'BUTTON_ADD_USER' => 'Add user',
     'BUTTON_SEARCH' => 'Search',
+    'BUTTON_SAVE_CHANGES' => 'Save changes',
+    'BUTTON_CHANGE_PASSWORD' => 'Change password',
 
     'YES' => 'Yes',
     'NO' => 'No'

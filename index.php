@@ -61,8 +61,8 @@ switch ($action) {
         break;
     case 'language_change':
         $oLang = new Lang;
-    $oLang->change_language($oData->payload['language']);
-    $oData->oLang = $oLang;
+        $oLang->change_language($oData->payload['session_language']);
+        $oData->oLang = $oLang;
         $oData->output .= $oData->get_view('views/changed_language.php');
         break;
     case 'open_change':
@@ -210,7 +210,6 @@ switch ($action) {
         break;
     case 'settings_change':
         if ($oData->check_permission("SAVE_SETTINGS", $_SESSION['role'])) {
-            $settings = new Setting;
             $oData->output .= $oData->get_view("views/settings.php");
         }
         break;
@@ -247,10 +246,35 @@ switch ($action) {
             }
         }
         break;
+    case 'self_pw_change':
+        $oData->output .= $oData->get_view("views/password_change.php");
+    break;
+    case 'self_pw_save':
+        if ($oData->check_permission("CHANGE_PASSWORD_SELF", $_SESSION['role'])) {
+
+            //Check if user has given the correct password
+            if ($oData->em_get_user($_SESSION['user_ID'], $oData->payload['old_password'])) {
+                if ($oData->payload["new_password"] == $oData->payload["confirm_password"]) {
+                    $oUser = new User($oData);
+                    $aUser['user_ID'] = $_SESSION['user_ID'];
+                    $aUser['password'] = $oData->payload['new_password'];
+                    $oUser->save_user($aUser);
+                    $oData->show_this();
+                    $oData->output .= "User saved.";
+                } else {
+                    $oData->error .= $oData->oLang->texts['PASSWORDS_DO_NOT_MATCH'];
+                }
+            } else {
+                $oData->error .= $oData->oLang->texts['WRONG_PASSWORD'];
+            }
+        } else {
+            $oData->output .= "NO_PERMISSION";
+        }
+        break;
     case 'user_delete':
-        if ($oData->check_permission("USER_SAVE", $_SESSION['role'])) {
+        if ($oData->check_permission("SAVE_USER", $_SESSION['role'])) {
             $oUser = new User($oData);
-            $oUser->delete_user();
+            $oUser->delete_user($oData->payload['user_ID']);
             $oData->aUser = $oUser->get_user(null, null, null, null, null, null);
             $oData->output .= $oData->get_view("views/all_user.php");
         }
@@ -259,7 +283,7 @@ switch ($action) {
         $oUser = new User($oData);
         if ($oData->check_permission("SHOW_SELF", $_SESSION['role'])) {
             $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null);
-            $oData->output .= $oData->get_view("views/all_user.php");
+            $oData->output .= $oData->get_view("views/show_self.php");
         } else {
             $oData->error .= $oData->oLang->texts['NO_PERMISSION'];
         }

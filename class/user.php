@@ -79,19 +79,22 @@ class User
         Function will save user Information given in $aUser. If user exists it will
         overwrite existing data but not delete not-specified data
         */
-        $aFields = $aUser;
+        if (isset($aUser['password'])) {
+            $aUser['password_hash'] = $this->hash_password($aUser['password']);
+            unset($aUser['password']);
+        }
         $user_ID = $aUser['user_ID'];
         if (DEBUG) {
             echo "User that will be saved<br>";
-            var_dump($aFields);
+            var_dump($aUser);
         }
         if ((isset($user_ID) and ($user_ID != ""))) {
-            if (isset($aFields['password_hash'])) {
-                $this->data->databaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aFields['user_ID'].";");
+            if (isset($aUser['password_hash'])) {
+                $this->data->databaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aUser['user_ID'].";");
             }
-            return $this->data->store_data(TABLE_USER, $aFields, 'user_ID', $user_ID);
+            return $this->data->store_data(TABLE_USER, $aUser, 'user_ID', $user_ID);
         } else {
-            return $this->ID=$this->data->store_data(TABLE_USER, $aFields, null, null);
+            return $this->ID=$this->data->store_data(TABLE_USER, $aUser, null, null);
         }
     }
 

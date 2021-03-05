@@ -54,5 +54,6 @@ $table .= '</tr>';
     }
 $table = $table."</table>";
 echo $table;
+
 ?>
 
