@@ -86,6 +86,9 @@ class User
             var_dump($aFields);
         }
         if ((isset($user_ID) and ($user_ID != ""))) {
+            if (isset($aFields['password_hash'])) {
+                $this->data->databaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aFields['user_ID'].";");
+            }
             return $this->data->store_data(TABLE_USER, $aFields, 'user_ID', $user_ID);
         } else {
             return $this->ID=$this->data->store_data(TABLE_USER, $aFields, null, null);

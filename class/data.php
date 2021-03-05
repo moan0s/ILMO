@@ -244,7 +244,6 @@ class Data
                 $aFields=array("user_ID"=>$sUser);
             }
             $aResult=$this->select_row(TABLE_USER, $aFields);
-            var_dump($aResult);
 
             if (isset($aResult['password_hash']) and $aResult['password_hash'] != "") {
                 if (password_verify($sPassword, $aResult['password_hash'])) {
