@@ -8,20 +8,24 @@ class Mail
     }
 
     // enriches mail template with info
-    public function compose_mail($template, $aInfo)
+    public function compose_mail($message_template, $subject_template, $aInfo)
     {
-        /* Args:
-         * Array $aInfo:
+        /* Uses a template to formulate message and subject with correct info
+         *
+         * @param message_template String Template for the message
+         * @param subject_template String Template for the subject
+         * @param Array $aInfo:
          *    Contains the info that will enrich the mail template
          *
-         * Returns:
-         *  String $text
-         *     Message body of the e-mail
+     	 * @return  array [message => x, subject => x]
+         *     Message body and subject of the e-mail
          */
+        $indicator = "&";
         foreach ($aInfo as $key => $value) {
-            $template= str_replace("&".$key, $value, $template);
+            $message_template = str_replace($indicator.$key, $value, $message_template);
+            $subject_template = str_replace($indicator.$key, $value, $subject_template);
         }
-        return $template;
+        return ['message' => $message_template, 'subject' => $subject_template];
     }
 
     //used for debugging, alternative for mail

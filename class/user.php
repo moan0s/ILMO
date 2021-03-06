@@ -121,30 +121,11 @@ class User
             $aFields["language"] = $language;
         }
         $aOrder = array("-user_ID");
-        $this->p_result = $this->data->select_rows(TABLE_USER, $aFields, $aOrder);
+        $this->p_result = $this->oData->select_rows(TABLE_USER, $aFields, $aOrder);
         while ($aRow=mysqli_fetch_assoc($this->p_result)) {
             $aUser[$aRow['user_ID']] = $aRow;
         }
         return $aUser;
-    }
-
-    public function generate_token($length = null)
-    {
-        /* Generates a secure random token via a CSPRNG
-         *
-         * @return string The unencrypted token
-         */
-
-        $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        if (!(isset($length))) {
-            $length = $this->oData->settings['minimum_pw_length'];
-        }
-        $token = '';
-        $max = strlen($keyspace);
-        for ($i = 0; $i < $length; ++$i) {
-            $token .= $keyspace[random_int(0, $max)];
-        }
-        return $token;
     }
 }
 
