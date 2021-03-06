@@ -260,7 +260,7 @@ $aData[TABLE_TOKEN] = array(
          ),
         'creation_date' => array(
             'type' => 'DATE',
-            'standard' => 'NOT NULL'
+            'standard' => 'NOT NULL'),
         'used' => array(
             'type' => 'TINYINT',
             'size' => 1,
