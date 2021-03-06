@@ -250,24 +250,47 @@ switch ($action) {
     break;
     case 'self_pw_save':
         if ($oData->check_permission("CHANGE_PASSWORD_SELF", $_SESSION['role'])) {
+            $user_ID = $_SESSION['user_ID'];
+            $permission = true;
+        }
+    // Test if the user tries to change the password
+    // with a token
+    elseif (isset($oData->payload['token'])) {
+        $token = $oData->payload['token'];
+        $user_ID= $oData->payload['user_ID'];
+        $oToken = new Token;
+        $token_ID = $oToken->check_token($user_ID, $token);
+        if ($token_ID > 0) {
+            $token_use = true;
+            $permission = true;
+        } else {
+            $oData->error[] = $oData->oLang->texts['TOKEN_INVALID'];
+            break;
+        }
+    }
+    if ($permission) {
+        //Check if user has given the correct password
+        if ($oData->em_get_user($user_ID, $oData->payload['old_password']) or $token_use) {
+            if ($oData->payload["new_password"] == $oData->payload["confirm_password"]) {
+                $oUser = new User($oData);
+                $aUser['user_ID'] = $user_ID;
+                $aUser['password'] = $oData->payload['new_password'];
+                $oUser->save_user($aUser);
 
-            //Check if user has given the correct password
-            if ($oData->em_get_user($_SESSION['user_ID'], $oData->payload['old_password'])) {
-                if ($oData->payload["new_password"] == $oData->payload["confirm_password"]) {
-                    $oUser = new User($oData);
-                    $aUser['user_ID'] = $_SESSION['user_ID'];
-                    $aUser['password'] = $oData->payload['new_password'];
-                    $oUser->save_user($aUser);
-                    $oData->output .= "User saved.";
-                } else {
-                    $oData->error[] = $oData->oLang->texts['PASSWORDS_DO_NOT_MATCH'];
+                // If a token is used to change the password we mark the token as used
+                if ($token_use) {
+                    $oToken->mark_token_used($token_ID);
                 }
+                $oData->output .= "User saved.";
             } else {
-                $oData->error[] = $oData->oLang->texts['WRONG_PASSWORD'];
+                $oData->error[] = $oData->oLang->texts['PASSWORDS_DO_NOT_MATCH'];
             }
         } else {
-            $oData->output .= "NO_PERMISSION";
+            $oData->error[] = $oData->oLang->texts['WRONG_PASSWORD'];
         }
+    } else {
+        $oData->output .= "NO_PERMISSION";
+    }
         break;
     case 'user_delete':
         if ($oData->check_permission("SAVE_USER", $_SESSION['role'])) {
