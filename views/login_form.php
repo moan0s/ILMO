@@ -12,7 +12,8 @@ $login = '
 			<input type="submit" value="'.$this->oLang->texts['BUTTON_SEND'].'">
 			<input type="reset" value="'.$this->oLang->texts['BUTTON_RESET'].'">
 </form>';
+
 echo $login;
 
-
-
+$forgot_password = "<a href='".$_SERVER["PHP_SELF"]."?ac=forgot_password'>".$this->oLang->texts['FORGOT_PASSWORD']."</a>";
+echo $forgot_password;

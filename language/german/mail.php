@@ -25,9 +25,10 @@ Diese E-Mail wurde automatisiert erstellt und versendet. Sie wird alle &MAIL_REM
 
 $lang = array_merge($lang, array(
     'password_reset_token_message' => "Hallo &FORENAME &SURNAME,\r\n
-jemand hat ein Zurücksetzen deines Passworts angefragt. Hier ist der Token den du dafür brauchst:\r\n
-   Token: &Token
-Du kannst das Passwort hier ändern: &LIBRARY_URL/password_reset/\r\n
+jemand hat ein Zurücksetzen deines Passworts angefragt. Hier ist der Token den du dafür brauchst:\
+Token: &TOKEN
+
+Du kannst das Passwort hier ändern: &LIBRARY_URLpassword_reset/
 
 Wenn du dein Passwort für &LIBRARY_NAME nicht zurücksetzen wolltest, ignoriere diese E-Mail einfach.
 
@@ -35,4 +36,5 @@ Liebe Grüße\r\n
 &ADMIN_TEAM
 \r\r
 Diese E-Mail wurde automatisiert erstellt und versendet. Solltest du diese E-Mails abbestellen wollen antworte einfach auf diese Mail.",
-"password_reset_subject" => "Zurücksetzen des Passworts für &LIBRARY_NAME"));
+"password_reset_subject" => "[&LIBRARY_NAME] Passwort reset"));
+// ATTENTION, use only ASCII as postifx is stupid (SMTPUTF8 is required, but was not offered by host)

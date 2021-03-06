@@ -28,13 +28,34 @@ class Mail
         return ['message' => $message_template, 'subject' => $subject_template];
     }
 
-    //used for debugging, alternative for mail
-    public function print_mail($to, $subject, $message, $header)
+    private function compose_header($aUser)
     {
-        echo "Header: ".$header."<br>";
-        echo "To: ".$to."<br>";
+        $header['MIME-Version'] = '1.0';
+        $header['Content-type'] = 'text/plain; charset=utf-8';
+        $header['X-Mailer'] = 'PHP/'.phpversion();
+        $header['To'] = $aUser['forename'].' '.$aUser['surname'].'<'.$aUser['email'].'>';
+        $header['From'] = $this->oData->oLang->library_info['ADMIN_NAME'].' <'.$this->oData->oLang->library_info['ADMIN_MAIL'].'>';
+        $header['Reply-To'] = $this->oData->oLang->library_info['ADMIN_NAME'].' <'.$this->oData->oLang->library_info['ADMIN_MAIL'].'>';
+        return $header;
+    }
+
+
+    //used for debugging, alternative for mail
+    public function print_mail($aUser, $subject, $message)
+    {
+        $header = $this->compose_header($aUser);
+        $output = "";
+        if (is_array($header)) {
+            $output.= "Header:<br>";
+            foreach ($header as $key=>$value) {
+                $output .= htmlentities($key.": ".$value)."<br>";
+            }
+        } else {
+            echo "Header: ".str_replace("\n", "<br>", htmlentities($header))."<br>";
+        }
+        echo "To: ".htmlentities($aUser['email'])."<br>";
         echo "Subject: ".$subject."<br><br>";
-        echo "Message: ".str_replace("\r\n", "<br>", $message)."<br>";
+        echo "Message: ".str_replace("\n", "<br>", htmlentities($message))."<br>";
         return false;
     }
 
@@ -45,15 +66,10 @@ class Mail
          *	  $subject: Subject of the message
          *	  $message: Message to send
          */
+        $header = $this->compose_header($aUser);
         $to = $aUser['email'];
-        $header[] = 'MIME-Version: 1.0';
-        $header[] = 'Content-type: text/plain; charset=utf-8';
-        $header[] = 'X-Mailer: PHP/'.phpversion();
-
-        $header[] = 'To: '.$aUser['forename'].' '.$aUser['surname'].'<'.$aUser['email'].'>';
-        $header[] = 'From: '.$this->oData->oLang->library_info['ADMIN_NAME'].' <'.$this->oData->oLang->library_info['ADMIN_MAIL'].'>';
         $message = wordwrap($message, 70, "\r\n");
-        $success =  mail($to, $subject, $message, implode("\r\n", $header));
+        $success =  mail($to, $subject, $message, $header);
         if ($success) {
             $this->log_mail($to, $aUser['user_ID'], $subject);
         }

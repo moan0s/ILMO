@@ -85,7 +85,7 @@ class User
         }
         if ((isset($user_ID) and ($user_ID != ""))) {
             if (isset($aUser['password_hash'])) {
-                $this->oData->oDatabaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aUser['user_ID'].";");
+                $this->oData->databaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aUser['user_ID'].";");
             }
             return $this->oData->store_data(TABLE_USER, $aUser, 'user_ID', $user_ID);
         } else {

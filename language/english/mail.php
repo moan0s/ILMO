@@ -22,9 +22,10 @@ This E-Mail was automatically generated. This email will be sent to you every &M
 
 $lang = array_merge($lang, array(
     'password_reset_token_message' => "Hello &FORENAME &SURNAME,\r\n
-   you requested a password reset. Please use the following token, when asked:\r\n
-   Token_ &Token
-Change the password with the following link &LIBRARY_URL/password_reset/
+you requested a password reset. Please use the following token, when asked:
+Token: &TOKEN
+
+Change the password with the following link &LIBRARY_URLpassword_reset/
 
 If you did not try to reset your password at &LIBRARY_NAME please ignore this e-mail.
 
@@ -32,4 +33,4 @@ Yours\r
 &ADMIN_TEAM
 \r\r
 This E-Mail was automatically generated. Feel free to contact us -just reply to this e-mail. If you don't want this service anymore answer this E-Mail and tell us",
-"password_reset_subject" => "Password Reset token for &LIBRARY_NAME"));
+"password_reset_subject" => "[&LIBRARY_NAME] Password Reset token "));

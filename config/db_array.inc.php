@@ -251,6 +251,7 @@ $aData[TABLE_TOKEN] = array(
         'user_ID' => array(
             'type' => 'INT',
             'size' => 11,
+            'unique' => 'TRUE',
             'standard' => 'NOT NULL'
         ),
         'token_hash' => array(
@@ -259,12 +260,11 @@ $aData[TABLE_TOKEN] = array(
             'standard' => 'NOT NULL'
          ),
         'creation_date' => array(
-            'type' => 'DATE',
+            'type' => 'DATETIME',
             'standard' => 'NOT NULL'),
         'used' => array(
             'type' => 'TINYINT',
             'size' => 1,
-            'standard' => 'NOT_NULL',
             'extra' => 'DEFAULT 0'
         )
     );

@@ -13,3 +13,4 @@ include(MODULE_PATH."class/loan.php");
 include(MODULE_PATH."class/open.php");
 
 include(MODULE_PATH."class/mail.php");
+include(MODULE_PATH."class/token.php");

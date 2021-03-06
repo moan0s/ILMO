@@ -247,7 +247,27 @@ switch ($action) {
         break;
     case 'self_pw_change':
         $oData->output .= $oData->get_view("views/password_change.php");
-    break;
+        break;
+    case 'forgot_password':
+        $oData->output .= $oData->get_view("views/password_forgot.php");
+        break;
+    case 'request_token':
+        $oUser = new User($oData);
+        $aUsers = $oUser->get_user(null, null, null, $oData->payload['email'], null);
+        if (count($aUsers) != 1) {
+            //E-Mail does not exist
+            $oData-> output .= "E-Mail does not exist";
+            break;
+        } else {
+            $aUser = array_values($aUsers)[0];
+        }
+        $oToken = new Token($oData);
+        if ($oToken->send_store_token($aUser)) {
+            $oData->output .= "Success";
+        } else {
+            $oData->output .= $oData->get_view("views/password_forgot.php");
+        }
+        break;
     case 'self_pw_save':
         if ($oData->check_permission("CHANGE_PASSWORD_SELF", $_SESSION['role'])) {
             $user_ID = $_SESSION['user_ID'];
