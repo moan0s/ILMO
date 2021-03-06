@@ -3,7 +3,7 @@ $form = '<div class="container">';
 $form .= '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
 $form .='
 <input type = hidden name="ac" value = "self_pw_save">';
-if (isset($this->payload['user_ID'])) {
+if (isset($_SESSION['user_ID'])) {
     $form .= '<input type = hidden name="user_ID" value = "';
     $form .= $this->payload['user_ID'];
     $form .= '">';

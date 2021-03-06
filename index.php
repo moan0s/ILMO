@@ -327,8 +327,8 @@ switch ($action) {
     case 'user_self':
         $oUser = new User($oData);
         if ($oData->check_permission("SHOW_SELF", $_SESSION['role'])) {
-            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null);
-            $oData->output .= $oData->get_view("views/show_self.php");
+            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null)[$_SESSION['user_ID']];
+            $oData->output .= $oData->get_view("views/user_form.php");
         } else {
             $oData->error[] = $oData->oLang->texts['NO_PERMISSION'];
         }
@@ -341,22 +341,22 @@ switch ($action) {
                 $oData->payload['forename'],
                 $oData->payload['surname'],
                 $oData->payload['email'],
-                $oData->payload['UID'],
-                $oData->payload['language']
+                $oData->payload['language'],
+                $oData->payload['role']
             );
             $oData->output .= $oData->get_view("views/all_user.php");
         }
         break;
     case 'user_search':
         if ($oData->check_permission("SHOW_USER", $_SESSION['role'])) {
-            $oData->output .= $oData->get_view("views/user_form.php");
+            $oData->output .= $oData->get_view("views/user_search.php");
         }
         break;
     case 'user_change':
         if ($oData->check_permission("SAVE_USER", $_SESSION['role'])) {
             $oUser = new User($oData);
             $oData->aRow_all = $oUser->get_user($oData->payload['user_ID']);
-            $oData->aRow = $oData->aRow_all[$oData->payload['user_ID']];
+            $oData->aUser= $oData->aRow_all[$oData->payload['user_ID']];
             $oData->output .= $oData->get_view("views/user_form.php");
         }
         break;

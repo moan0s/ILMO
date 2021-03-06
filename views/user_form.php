@@ -1,73 +1,62 @@
 <?php
-$form = '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
-if ($this->payload['ac'] == 'user_search') {
-    $form .='
-	<input type = hidden name="ac" value = "user_show">';
-} else {
-    $form .='
-	<input type = hidden name="ac" value = "user_save">
-	<input type = hidden name="user_ID" value = "';
-    if (isset($this->payload['user_ID'])) {
-        $form .= $this->payload['user_ID'];
-    }
-    $form .= '">';
-}
-$form .=	$this->oLang->texts['FORENAME'].': <input type="text" name="forename" value="';
-    if (isset($this->aRow['forename'])) {
-        $form .= $this->aRow['forename'];
-    }
-    $form .='"><br>'.
-        $this->oLang->texts['SURNAME'].': <input type="text" name="surname" value="';
-    if (isset($this->aRow['surname'])) {
-        $form .= $this->aRow['surname'];
-    }
-    $form .= '"> <br>'.
-        $this->oLang->texts['EMAIL'].': <input type="text" name="email" value="';
-    if (isset($this->aRow['email'])) {
-        $form .= $this->aRow['email'];
-    }
-    $form .= '"> <br>'.
-        $this->oLang->texts['UID'].': <input type="text" name="UID" value="';
-    if (isset($this->aRow['UID'])) {
-        $form .= $this->aRow['UID'];
-    }
-    $form .= '"> <br>'.
-        $this->oLang->texts['LANGUAGE'].': <input type="radio" id="english" name="language" value="english"';
 
-    if (!isset($this->aRow['language'])) {
-        $this->aRow['language'] = $this->settings['default_language'];
+/*
+ * This should cover two cases:
+ * 1. User show (and change)
+ * 2. Self show
+ */
+
+$action = $this->payload['ac'];
+
+$aUser = $this->aUser;
+$text_fields_to_show = array("forename", "surname", "email");
+$checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
+                "1" => "USER"],
+            "language" => ["english" => "ENGLISH",
+                    "german" => "GERMAN"]
+                ];
+    $output = "";
+    $output.='<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
+    $output .= '
+    <input type = hidden name="ac" value = "user_save">
+    <input type = hidden name="user_ID" value = "'.$aUser['user_ID'].'"';
+
+/* The user has certain properties that shoud be displayed
+* These properties are listed in text_field_to_show and checkbox_fields_to_show
+*/
+foreach ($aUser as $key=>$val) {
+    if (in_array($key, $text_fields_to_show)) {
+        // Show a text field with th values filled in
+        $label = "<label for='$key'>".$this->oLang->texts[strtoupper($key)]."</label>";
+        $input_box = "<input type='text' name=$key id=$key value=$val>";
+        $output .= $label.$input_box;
     }
-    if (($this->aRow['language']== "english") and ($this->payload['ac'] != 'user_search')) {
-        $form .= 'checked';
-    }
-    $form .= '>
-			<label for="english">'.$this->oLang->texts['ENGLISH'].'</label>
-			<input type="radio" id="german" name="language" value="german" ';
-    if (($this->aRow['language']=="german") and ($this->payload['ac'] != 'user_search')) {
-        $form .= 'checked';
-    }
-    $form .= '>
-		<label for="german">'.$this->oLang->texts['GERMAN'].'</label>
-		<br>';
-    if ($this->payload['ac'] != 'user_search') {
-        $form .=$this->oLang->texts['PASSWORD'].': <input type="password" name="password">  <br>';
-    }
-    if (($_SESSION['role']==2) and ($this->payload['ac'] != 'user_search')) {
-        $form .= $this->oLang->texts['ADMIN'].': <input type="radio" id="yes" name="role" value="2"';
-        if ($this->aRow['admin']==2) {
-            $form .= 'checked';
+    if (in_array($key, array_keys($checkbox_fields_to_show))) {
+        // Show checkboxes for all options
+        $div = "<div class=radio_container>";
+        foreach ($checkbox_fields_to_show[$key] as $option => $label) {
+            $box = "<label for='$option'>".$this->oLang->texts[$label];
+            $box  .= "<input type='radio' name='$key' id='$option' value='$option'";
+            if ($val == $option) {
+                $box .= " checked";
+            }
+            $box .= "><span class=checkmark></span></label>";
+            $div .= $box;
         }
-        $form .='>
-		<label for="yes">'.$this->oLang->texts['YES'].'</label>
-		<input type="radio" id="no" name="role" value="1"';
-        if ($this->aRow['role']==1) {
-            $form .= 'checked';
-        }
-        $form .= '>
-		<label for id ="no"> '.$this->oLang->texts['NO'].'</label><br>';
+        $div .= "</div>";
+        $output .= $div;
     }
-    $form .= '
-	<input type="submit" value="'.$this->oLang->texts['BUTTON_SEND'].'">
-	<input type="reset" value="'.$this->oLang->texts['BUTTON_RESET'].'";
-	</form>';
-echo $form;
+}
+    $output .= '<input type="submit" value="'.$this->oLang->texts['BUTTON_SAVE_CHANGES'].'"></form>';
+echo $output;
+if (($aUser['user_ID'] == $_SESSION['user_ID']) and $this->check_permission("CHANGE_PASSWORD_SELF", $_SESSION['role'])) {
+    $form ='
+		<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+		<input type = hidden name="ac" value = "self_pw_change">
+		<input type="submit" value="'.$this->oLang->texts['BUTTON_CHANGE_PASSWORD'].'">
+		</form>';
+    echo $form;
+}
+
+?>
+
