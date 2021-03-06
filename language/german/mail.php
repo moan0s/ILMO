@@ -25,10 +25,10 @@ Diese E-Mail wurde automatisiert erstellt und versendet. Sie wird alle &MAIL_REM
 
 $lang = array_merge($lang, array(
     'password_reset_token_message' => "Hallo &FORENAME &SURNAME,\r\n
-jemand hat ein Zurücksetzen deines Passworts angefragt. Hier ist der Token den du dafür brauchst:\
+jemand hat ein Zurücksetzen deines Passworts angefragt. Hier ist der Token den du dafür brauchst:
 Token: &TOKEN
 
-Du kannst das Passwort hier ändern: &LIBRARY_URLpassword_reset/
+Du kannst das Passwort hier ändern: &LIBRARY_URL?ac=self_pw_change
 
 Wenn du dein Passwort für &LIBRARY_NAME nicht zurücksetzen wolltest, ignoriere diese E-Mail einfach.
 

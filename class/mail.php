@@ -33,7 +33,7 @@ class Mail
         $header['MIME-Version'] = '1.0';
         $header['Content-type'] = 'text/plain; charset=utf-8';
         $header['X-Mailer'] = 'PHP/'.phpversion();
-        $header['To'] = $aUser['forename'].' '.$aUser['surname'].'<'.$aUser['email'].'>';
+        #$header['To'] = $aUser['forename'].' '.$aUser['surname'].'<'.$aUser['email'].'>';
         $header['From'] = $this->oData->oLang->library_info['ADMIN_NAME'].' <'.$this->oData->oLang->library_info['ADMIN_MAIL'].'>';
         $header['Reply-To'] = $this->oData->oLang->library_info['ADMIN_NAME'].' <'.$this->oData->oLang->library_info['ADMIN_MAIL'].'>';
         return $header;

@@ -25,7 +25,7 @@ $lang = array_merge($lang, array(
 you requested a password reset. Please use the following token, when asked:
 Token: &TOKEN
 
-Change the password with the following link &LIBRARY_URLpassword_reset/
+Change the password with the following link &LIBRARY_URL?ac=self_pw_save
 
 If you did not try to reset your password at &LIBRARY_NAME please ignore this e-mail.
 

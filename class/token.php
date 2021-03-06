@@ -141,6 +141,7 @@ class Token
         $aNewToken['token_hash'] = $this->oData->hash_password($token);
         $aNewToken['user_ID'] = $aUser['user_ID'];
         $aNewToken['creation_date'] = $now->format("Y-m-d H:i:s");
+        $aNewToken['used'] = false;
 
         if (DEBUG) {
             echo "<br>Storing the token:<br>";
