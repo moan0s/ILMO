@@ -111,6 +111,7 @@ $lang = array_merge($lang, array(
     'OLD_PASSWORD' => 'Altes Paswort',
     'NEW_PASSWORD' => 'Neues Paswort',
     'CONFIRM_PASSWORD' => 'Paswort bestätigen',
+    'TOKEN' => 'Token',
     'STATUS_AVAILABLE' => 'Verfügbar',
     'STATUS_LENT' => 'Verliehen',
     'AVAILABILITY' => 'Verfügbarkeit',

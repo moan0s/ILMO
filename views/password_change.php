@@ -2,13 +2,23 @@
 $form = '<div class="container">';
 $form .= '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
 $form .='
-<input type = hidden name="ac" value = "self_pw_save">
-<input type = hidden name="user_ID" value = "';
+<input type = hidden name="ac" value = "self_pw_save">';
 if (isset($this->payload['user_ID'])) {
+    $form .= '<input type = hidden name="user_ID" value = "';
     $form .= $this->payload['user_ID'];
+    $form .= '">';
+} else {
+    $form .= "<div class=input_label_container><label class=text_label for='user_ID'>".$this->oLang->texts['USER_ID']."</label>";
+    $form .= "<input type=text id='user_ID' name='user_ID'></div>";
 }
-$form .= '">';
 
+//If a user is not logged in and requests this action
+// we display the possibility to enter a passwort reset
+// token
+if ($_SESSION['role'] == 0) {
+    $form .= "<div class=input_label_container><label class=text_label for='token'>".$this->oLang->texts['TOKEN']."</label>";
+    $form .= "<input type=text id='token' name='token'></div>";
+}
 //Old password
 $form .= '<div class=input_label_container><label class=text_label for="old_password">'.$this->oLang->texts['OLD_PASSWORD'].'</label>';
 $form .='<input type="password" name="old_password" id="old_password"></div>';
