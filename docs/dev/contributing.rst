@@ -35,5 +35,5 @@ Get in touch!
 ^^^^^^^^^^^^^
 
 If you have questions, want to contribute or want to message me regarding something else
-you can find contact information at https://hyteck.de/about/ or directly write 
+you can find contact information at https://hyteck.de/about/ or directly write
 an `E-Mail <mailto:ilmo@hyteck.de>`_
