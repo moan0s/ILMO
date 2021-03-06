@@ -101,7 +101,7 @@ class User
         $this->removed=$this->oData->delete_rows(TABLE_USER, $aFields);
     }
 
-    public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null)
+    public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null, $role = null)
     {
         $aUser= array();
         $aFields= array();
@@ -117,8 +117,11 @@ class User
         if ((isset($email)) and ($email!= "")) {
             $aFields["email"] = $email;
         }
-        if ((isset($this->oLang->language)) and ($language!= "")) {
+        if ((isset($language)) and ($language!= "")) {
             $aFields["language"] = $language;
+        }
+        if ((isset($role)) and ($role!= "")) {
+            $aFields["role"] = $role;
         }
         $aOrder = array("-user_ID");
         $this->p_result = $this->oData->select_rows(TABLE_USER, $aFields, $aOrder);
