@@ -132,6 +132,25 @@ class User
         }
         return $aUser;
     }
+
+    public function generate_token($length = null)
+    {
+        /* Generates a secure random token via a CSPRNG
+         *
+         * @return string The unencrypted token
+         */
+
+        $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (!(isset($length))) {
+            $length = $this->oData->settings['minimum_pw_length'];
+        }
+        $token = '';
+        $max = strlen($keyspace);
+        for ($i = 0; $i < $length; ++$i) {
+            $token .= $keyspace[random_int(0, $max)];
+        }
+        return $token;
+    }
 }
 
 ?>
