@@ -3,12 +3,7 @@ class User
 {
     public function __construct($oData)
     {
-        $this->data = $oData;
-    }
-
-    public function hash_password($password)
-    {
-        return password_hash($password, PASSWORD_DEFAULT);
+        $this->oData = $oData;
     }
 
     public function create_user_array($allowed_keys)
@@ -16,12 +11,12 @@ class User
         $aUser = array();
         foreach ($allowed_keys as $key) {
             if ($key === "password") {
-                if (isset($this->data->payload[$key])) {
-                    $aUser['password_hash'] = $this->hash_password($this->payload[$key]);
+                if (isset($this->oData->payload[$key])) {
+                    $aUser['password_hash'] = $this->oData->hash_password($this->payload[$key]);
                 }
             } else {
-                if (isset($this->data->payload[$key])) {
-                    $aUser[$key] = $this->data->payload[$key];
+                if (isset($this->oData->payload[$key])) {
+                    $aUser[$key] = $this->oData->payload[$key];
                 }
             }
         }
@@ -37,20 +32,20 @@ class User
     {
         //returns user_ID or -1 on failure
         $aUser = array();
-        if (isset($this->data->payload['forename'])) {
-            $aUser['forename'] = $this->data->payload['forename'];
+        if (isset($this->oData->payload['forename'])) {
+            $aUser['forename'] = $this->oData->payload['forename'];
         }
-        if (isset($this->data->payload['surname'])) {
-            $aUser['surname'] = $this->data->payload['surname'];
+        if (isset($this->oData->payload['surname'])) {
+            $aUser['surname'] = $this->oData->payload['surname'];
         }
-        if (isset($this->data->payload['email'])) {
-            $aUser['email'] = $this->data->payload['email'];
+        if (isset($this->oData->payload['email'])) {
+            $aUser['email'] = $this->oData->payload['email'];
         }
-        if (isset($this->data->payload['language'])) {
-            $aUser['language'] = $this->data->payload['language'];
+        if (isset($this->oData->payload['language'])) {
+            $aUser['language'] = $this->oData->payload['language'];
         }
-        if (isset($this->data->payload['password'])) {
-            $aUser['password_hash'] = $this->hash_password($this->data->payload['password']);
+        if (isset($this->oData->payload['password'])) {
+            $aUser['password_hash'] = $this->oData->hash_password($this->oData->payload['password']);
         }
         $aUser['role'] = 1;
         if (DEBUG) {
@@ -80,7 +75,7 @@ class User
         overwrite existing data but not delete not-specified data
         */
         if (isset($aUser['password'])) {
-            $aUser['password_hash'] = $this->hash_password($aUser['password']);
+            $aUser['password_hash'] = $this->oData->hash_password($aUser['password']);
             unset($aUser['password']);
         }
         $user_ID = $aUser['user_ID'];
@@ -90,11 +85,11 @@ class User
         }
         if ((isset($user_ID) and ($user_ID != ""))) {
             if (isset($aUser['password_hash'])) {
-                $this->data->databaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aUser['user_ID'].";");
+                $this->oData->oDatabaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aUser['user_ID'].";");
             }
-            return $this->data->store_data(TABLE_USER, $aUser, 'user_ID', $user_ID);
+            return $this->oData->store_data(TABLE_USER, $aUser, 'user_ID', $user_ID);
         } else {
-            return $this->ID=$this->data->store_data(TABLE_USER, $aUser, null, null);
+            return $this->ID=$this->oData->store_data(TABLE_USER, $aUser, null, null);
         }
     }
 
@@ -103,7 +98,7 @@ class User
         $aFields = array(
             'user_ID' => $user_ID
         );
-        $this->removed=$this->data->delete_rows(TABLE_USER, $aFields);
+        $this->removed=$this->oData->delete_rows(TABLE_USER, $aFields);
     }
 
     public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null)

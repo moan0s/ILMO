@@ -110,6 +110,11 @@ class Data
         return;
     }
 
+    public function hash_password($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
     public function login($user_identification, $password)
     {
         $aUser = $this->em_get_user($user_identification, $password);
