@@ -147,4 +147,125 @@ class Loan
         }
         return $aLoan;
     }
+
+    //void-> array(ID=loan_ID) of array(all loan  information)
+    //gets all loans from the database that are not returned
+    public function get_unreturned_loans()
+    {
+        $aFields = array('returned' => '0');
+        $this->p_result = $this->oData->select_rows(TABLE_LOAN, $aFields);
+
+        while ($aRow=mysqli_fetch_assoc($this->p_result)) {
+            $aLoan[$aRow['loan_ID']] = $aRow;
+        }
+        return $aLoan;
+    }
+
+    //void->bool
+    //returns bool that indicates if the mails for this day were send
+    public function check_if_mail_send()
+    {
+        $aFields = array('issue' => 'mail');
+        $aMail_log = $this->oData->select_row(TABLE_LOG, $aFields);
+        $date_last_mails_send = $aMail_log['date'];
+        return ($date_last_mails_send == date("Y-m-d"));
+    }
+
+    //logs that the mails for one day were send
+    public function set_loan_mails_send()
+    {
+        $aFields = array(
+                'date' => date("Y-m-d")
+            );
+        $this->oData->store_data(TABLE_LOG, $aFields, 'issue', 'mail');
+    }
+    //int $loan_ID + date $date -> void
+    //sets 'last' remminder in TABLE_LOAN to the given date
+    public function set_last_reminder($loan_ID, $date)
+    {
+        $aFields = array(
+                'last_reminder' => $date
+            );
+        $this->oData->store_data(TABLE_LOAN, $aFields, 'loan_ID', $loan_ID);
+    }
+
+    //string in format date(YYYY-mm-dd) -> bool
+    //returns true if a reminder is neccessary
+    public function reminder_necessary($pickup_date, $last_reminder, $reminder_interval)
+    {
+        if ($last_reminder=='0000-00-00') {
+            $last_reminder = $pickup_date;
+        }
+        $today = new DateTime("today");
+        $interval = $today->diff(new DateTime($last_reminder));
+        return ($interval->days > $reminder_interval);
+    }
+
+    // Send all mails of today and returns stats
+    // If the mail reminder setting is 0 no mails are sent
+    public function send_todays_mails()
+    {
+        $stats = array(
+            'successful' => 0,
+            'failed' => 0,
+            'total' => 0);
+        $m_interval = $this->oData->settings['mail_reminder_interval'];
+        if ($m_interval==0) {
+            return stats;
+        }
+
+        $aUnreturnedLoans = $this->get_unreturned_loans();
+        foreach ($aUnreturnedLoans as $loan_ID => $aRow) {
+            if ($this->reminder_necessary($aRow['pickup_date'], $aRow['last_reminder'], $m_interval)) {
+                $stats['total']++;
+                if ($this->send_reminder($aRow)) {
+                    $this->set_last_reminder($aRow['loan_ID'], date("Y-m-d"));
+                    $stats['successful']++;
+                } else {
+                    $stats['failed']++;
+                }
+            }
+        }
+        $this->set_loan_mails_send();
+        return $stats;
+    }
+
+    public function send_reminder($aLoan)
+    {
+        $oUser = new User($this->oData);
+        $aUser = $oUser->get_user($aLoan['user_ID'])[$aLoan['user_ID']];
+        $to = $aUser['email'];
+        $this->oData->oLang->set_language($aUser['language']);
+        if ($aLoan['type'] == 'book') {
+            $oBook = new Book($this->oData);
+            $oBook->book_ID = $aLoan['ID'];
+            $aBook = $oBook->get_book_itemized($aLoan['ID'])[$aLoan['ID']];
+            $label = $aBook['title'];
+        }
+        if ($aLoan['type'] == 'material') {
+            $oMaterial = new Material($this->oData);
+            $aMaterial = $oMaterial->get_material_itemized($aLoan['ID'])[$aLoan['ID']];
+            $label = $aMaterial['name'];
+        }
+        // construct aInfo array
+        $aInfo = array();
+        $aInfo['FORENAME'] = $aUser['forename'];
+        $aInfo['SURNAME'] = $aUser['surname'];
+        $aInfo['LABEL'] = $label;
+        $aInfo['ID'] = $aLoan['ID'];
+        $aInfo['PICKUP_DATE'] = $aLoan['pickup_date'];
+        $aInfo['LIBRARY_URL'] = $this->oData->oLang->library_info['URL'];
+        $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
+        $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
+        $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
+        $template = $this->oData->oLang->texts['loan_reminder_message'];
+        $oMail = new Mail($this->oData);
+        $message = $oMail->compose_mail($template, $aInfo);
+
+        $subject = $this->oData->oLang->texts['loan_reminder_subject'];
+        $subject = str_replace("&LABEL", $aInfo['LABEL'], $subject);
+
+        $issue = "Reminder on loan ".$aLoan['loan_ID'];
+        return $oMail->send_mail($aUser, $subject, $message);
+    }
 }

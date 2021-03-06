@@ -17,8 +17,5 @@ Review your loans at &LIBRARY_URL.\r\r
 Yours\r
 &ADMIN_TEAM
 \r\r
-This E-Mail was automatically generated.
-This email will be sent to you every &MAIL_REMINDER_INTERVAL days.
-Feel free to contact us -just reply to this e-mail.
-If you don't want this service anymore answer this E-Mail",
+This E-Mail was automatically generated. This email will be sent to you every &MAIL_REMINDER_INTERVAL days. Feel free to contact us -just reply to this e-mail. If you don't want this service anymore answer this E-Mail and tell us",
 "loan_reminder_subject" => "Reminder: Your loan &LABEL"));
