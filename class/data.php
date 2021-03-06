@@ -18,7 +18,7 @@ class Data
         }
         date_default_timezone_set($this->settings['timezone']);
         $this->set_session();
-        $this->error = "";
+        $this->error = array();
         $this->output = "";
     }
 
@@ -90,7 +90,7 @@ class Data
             $allowed_roles = $this->permissions[$action];
             return in_array($user_role, $allowed_roles);
         } else {
-            $this->error .= "<h1>".$action."</h1><br>Action is not in permission list, therfore not allowed.";
+            $this->error['ACTION_NOT_IN_PERMISSION_LIST'] .= "<h1>".$action."</h1><br>Action is not in permission list, therfore not allowed.";
             return false;
         }
     }

@@ -49,7 +49,7 @@ switch ($action) {
             }
             $oData->output .=  $oData->get_view("views/start.php");
         } else {
-            $oData->error .= $oData->oLang->texts['WRONG_PASSWORD'];
+            $oData->error[] = $oData->oLang->texts['WRONG_PASSWORD'];
         }
         break;
     case 'logi':
@@ -223,7 +223,6 @@ switch ($action) {
         }
         break;
     case 'user_save':
-        $oData->error = "";
         if ($oData->check_permission("SAVE_USER", $_SESSION['role'])) {
             $oUser = new User($oData);
             $user_ID = $oData->payload['user_ID'];
@@ -231,7 +230,7 @@ switch ($action) {
                 $er = $oData->check_user_ID($user_ID);
             }
             if ($er != "") {
-                $oData->error .= $er;
+                $oData->error[] = $er;
             } else {
                 $allowed_keys = array("user_ID",
                     "forename",
@@ -259,13 +258,12 @@ switch ($action) {
                     $aUser['user_ID'] = $_SESSION['user_ID'];
                     $aUser['password'] = $oData->payload['new_password'];
                     $oUser->save_user($aUser);
-                    $oData->show_this();
                     $oData->output .= "User saved.";
                 } else {
-                    $oData->error .= $oData->oLang->texts['PASSWORDS_DO_NOT_MATCH'];
+                    $oData->error[] = $oData->oLang->texts['PASSWORDS_DO_NOT_MATCH'];
                 }
             } else {
-                $oData->error .= $oData->oLang->texts['WRONG_PASSWORD'];
+                $oData->error[] = $oData->oLang->texts['WRONG_PASSWORD'];
             }
         } else {
             $oData->output .= "NO_PERMISSION";
@@ -285,7 +283,7 @@ switch ($action) {
             $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null);
             $oData->output .= $oData->get_view("views/show_self.php");
         } else {
-            $oData->error .= $oData->oLang->texts['NO_PERMISSION'];
+            $oData->error[] = $oData->oLang->texts['NO_PERMISSION'];
         }
         break;
     case 'user_show':
@@ -329,7 +327,7 @@ switch ($action) {
             $error_message .= $oData->check_ID_exists($oData->payload['ID']);
             $error_message .= $oData->check_user_exists($oData->payload['user_ID']);
             if ($error_message !="") {
-                $oData->error .= $error_message;
+                $oData->error[] = $error_message;
             } else {
                 $oLoan->save_loan(
                     $loan_ID = $oData->payload['loan_ID'],
