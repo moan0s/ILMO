@@ -16,10 +16,14 @@ class Token
          * @return int $token_ID: Returns token_ID or -1 if not found
          */
         $aFields['user_ID'] = $user_ID;
-        $tokens = $this->oData->select_rows(TABLE_TOKEN, $aFields);
-        foreach ($tokens as $token_ID=>$token) {
-            if (($token['used'] == false) and password_verify($token, $token['token_hash'])) {
-                return $token['token_ID'];
+        $valid_tokens = $this->oData->select_rows(TABLE_TOKEN, $aFields);
+        foreach ($valid_tokens as $token_ID=>$valid_token) {
+            if (DEBUG) {
+                echo "Token:<br>";
+                var_dump($valid_token);
+            }
+            if (($valid_token['used'] == false) and password_verify($token, $valid_token['token_hash'])) {
+                return $valid_token['token_ID'];
             }
         }
         return -1;
@@ -76,7 +80,7 @@ class Token
         $aInfo['SURNAME'] = $aUser['surname'];
         $aInfo['TOKEN'] = $token;
         $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
-        $aInfo['LIBRARY_URL'] = $this->oData->oLang->library_info['URL'];
+        $aInfo['LIBRARY_URL'] = BASE_URL;
         $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
         $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
 

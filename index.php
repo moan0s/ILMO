@@ -269,28 +269,36 @@ switch ($action) {
         }
         break;
     case 'self_pw_save':
+    //Check if user tries to change own password with old password
         if ($oData->check_permission("CHANGE_PASSWORD_SELF", $_SESSION['role'])) {
             $user_ID = $_SESSION['user_ID'];
-            $permission = true;
+            //Check if old password matches
+            if ($oData->em_get_user($user_ID, $oData->payload['old_password'])) {
+                $permission = true;
+            } else {
+                $oData->error[] = $oData->oLang->texts['WRONG_PASSWORD'];
+            }
         }
-    // Test if the user tries to change the password
-    // with a token
-    elseif (isset($oData->payload['token'])) {
-        $token = $oData->payload['token'];
-        $user_ID= $oData->payload['user_ID'];
-        $oToken = new Token;
-        $token_ID = $oToken->check_token($user_ID, $token);
-        if ($token_ID > 0) {
-            $token_use = true;
-            $permission = true;
+        // Test if the user tries to change the password
+        // with a token
+        elseif (isset($oData->payload['token'])) {
+            $token = $oData->payload['token'];
+            $user_ID= $oData->payload['user_ID'];
+            $oToken = new Token($oData);
+            //Check if token is valid
+            $token_ID = $oToken->check_token($user_ID, $token);
+            if ($token_ID > 0) {
+                $token_use = true;
+                $permission = true;
+            } else {
+                $oData->error[] = $oData->oLang->texts['TOKEN_INVALID'];
+                break;
+            }
         } else {
-            $oData->error[] = $oData->oLang->texts['TOKEN_INVALID'];
-            break;
+            $oData->output .= "NO_PERMISSION";
         }
-    }
-    if ($permission) {
-        //Check if user has given the correct password
-        if ($oData->em_get_user($user_ID, $oData->payload['old_password']) or $token_use) {
+        if ($permission) {
+            //Check if user has given the correct password
             if ($oData->payload["new_password"] == $oData->payload["confirm_password"]) {
                 $oUser = new User($oData);
                 $aUser['user_ID'] = $user_ID;
@@ -305,12 +313,7 @@ switch ($action) {
             } else {
                 $oData->error[] = $oData->oLang->texts['PASSWORDS_DO_NOT_MATCH'];
             }
-        } else {
-            $oData->error[] = $oData->oLang->texts['WRONG_PASSWORD'];
         }
-    } else {
-        $oData->output .= "NO_PERMISSION";
-    }
         break;
     case 'user_delete':
         if ($oData->check_permission("SAVE_USER", $_SESSION['role'])) {

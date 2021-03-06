@@ -18,10 +18,11 @@ if (isset($this->payload['user_ID'])) {
 if ($_SESSION['role'] == 0) {
     $form .= "<div class=input_label_container><label class=text_label for='token'>".$this->oLang->texts['TOKEN']."</label>";
     $form .= "<input type=text id='token' name='token'></div>";
+} else {
+    //Old password
+    $form .= '<div class=input_label_container><label class=text_label for="old_password">'.$this->oLang->texts['OLD_PASSWORD'].'</label>';
+    $form .='<input type="password" name="old_password" id="old_password"></div>';
 }
-//Old password
-$form .= '<div class=input_label_container><label class=text_label for="old_password">'.$this->oLang->texts['OLD_PASSWORD'].'</label>';
-$form .='<input type="password" name="old_password" id="old_password"></div>';
 
 //New password
 $form .= '<div class=new_password_container><div class=input_label_container><label class=text_label for="new_password">'.$this->oLang->texts['NEW_PASSWORD'].'</label>';
