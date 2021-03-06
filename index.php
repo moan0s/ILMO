@@ -205,7 +205,7 @@ switch ($action) {
         break;
     case 'user_new':
         if ($oData->check_permission("SAVE_USER", $_SESSION['role'])) {
-            $oData->output .= $oData->get_view("views/user_form.php");
+            $oData->output .= $oData->get_view("views/user_add.php");
         }
         break;
     case 'settings_change':
