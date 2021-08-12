@@ -258,9 +258,10 @@ class Loan
         $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
         $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
         $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
-        $template = $this->oData->oLang->texts['loan_reminder_message'];
-        $oMail = new Mail($this->oData);
-        $message = $oMail->compose_mail($template, $aInfo);
+	$template_message = $this->oData->oLang->texts['loan_reminder_message'];
+	$subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
+	$oMail = new Mail($this->oData);
+	$message = $oMail->compose_mail($message_template, $subject_template, $aInfo);
 
         $subject = $this->oData->oLang->texts['loan_reminder_subject'];
         $subject = str_replace("&LABEL", $aInfo['LABEL'], $subject);
