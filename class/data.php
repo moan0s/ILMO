@@ -265,7 +265,7 @@ class Data
                     $oUser = new User($this);
                     $aUser = $aResult;
                     $aUser['password'] = '';
-                    $aUser['password_hash'] = $oUser->hash_password($sPassword);
+                    $aUser['password_hash'] = $this->hash_password($sPassword);
                     $oUser->save_user($aUser);
                     return $aResult;
                 }
