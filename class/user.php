@@ -74,19 +74,12 @@ class User
         Function will save user Information given in $aUser. If user exists it will
         overwrite existing data but not delete not-specified data
         */
-        if (isset($aUser['password'])) {
-            $aUser['password_hash'] = $this->oData->hash_password($aUser['password']);
-            unset($aUser['password']);
-        }
         $user_ID = $aUser['user_ID'];
         if (DEBUG) {
             echo "User that will be saved<br>";
             var_dump($aUser);
         }
         if ((isset($user_ID) and ($user_ID != ""))) {
-            if (isset($aUser['password_hash'])) {
-                $this->oData->databaselink->query("DELETE password FROM ".TABLE_USER."WHERE user_ID=".$aUser['user_ID'].";");
-            }
             return $this->oData->store_data(TABLE_USER, $aUser, 'user_ID', $user_ID);
         } else {
             return $this->ID=$this->oData->store_data(TABLE_USER, $aUser, null, null);
