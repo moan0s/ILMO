@@ -303,9 +303,8 @@ switch ($action) {
             if ($oData->payload["new_password"] == $oData->payload["confirm_password"]) {
                 $oUser = new User($oData);
                 $aUser['user_ID'] = $user_ID;
-		        $aUser['password'] = "";
-		        $oData = new Data($oLang);
-		        $aUser['password_hash'] = $oData->hash_password($sPassword);
+		$aUser['password'] = "";
+		$aUser['password_hash'] = $oData->hash_password($oData->payload['new_password']);
                 $oUser->save_user($aUser);
 
                 // If a token is used to change the password we mark the token as used
