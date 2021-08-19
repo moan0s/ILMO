@@ -24,6 +24,7 @@ $lang = array_merge($lang, array(
     'password_reset_token_message' => "Hello &FORENAME &SURNAME,\r\n
 you requested a password reset. Please use the following token, when asked:
 Token: &TOKEN
+Your user-id is &USER_ID
 
 Change the password with the following link &LIBRARY_URL?ac=self_pw_save
 
