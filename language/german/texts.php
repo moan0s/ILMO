@@ -144,4 +144,8 @@ $lang = array_merge($lang, array(
     'BUTTON_CHANGE_PASSWORD' => 'Passwort ändern',
     'YES' => 'Ja',
     'NO' =>'Nein'
+	
+	'FABLAB' => 'Fablab',
+	'NO_ACESS' => 'Kein Zutritt',
+	'TIMESTAMP' => 'Zeitstempel'
 ));
