@@ -238,11 +238,6 @@ $aData[TABLE_USER] = array(
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
         )
-		'acess' => array(
-            'type' => 'INT',
-            'standard' => 'NOT NULL',
-            'extra' => 'DEFAULT 0'
-        )
     );
 
 $aData[TABLE_TOKEN] = array(
@@ -268,32 +263,6 @@ $aData[TABLE_TOKEN] = array(
             'type' => 'DATETIME',
             'standard' => 'NOT NULL'),
         'used' => array(
-            'type' => 'TINYINT',
-            'size' => 1,
-            'extra' => 'DEFAULT 0'
-        )
-    );
-	
-$aData[TABLE_ACESS] = array(
-        'acess_ID' => array(
-            'type' => 'INT',
-            'size' => 11,
-            'unique' => 'TRUE',
-            'standard' => 'NOT NULL',
-            'extra' => 'AUTO_INCREMENT PRIMARY KEY'
-        ),
-        'user_ID' => array(
-            'type' => 'INT',
-            'size' => 11,
-            'unique' => 'TRUE',
-            'standard' => 'NOT NULL'
-        ),
-        'timestamp' => array(
-            'type' => 'TIMESTAMP',
-            'standard' => 'NOT NULL',
-            'extra' => 'DEFAULT current_timestamp()'
-        ),
-        'key_available' => array(
             'type' => 'TINYINT',
             'size' => 1,
             'extra' => 'DEFAULT 0'
