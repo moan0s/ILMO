@@ -107,7 +107,7 @@ $lang = array_merge($lang, array(
     'FORENAME' => 'Vorname',
     'USERNAME' => 'Name',
     'EMAIL' => 'E-Mail',
-    'PASSWORD' => 'Paswort',
+    'PASSWORD' => 'Passwort',
     'OLD_PASSWORD' => 'Altes Paswort',
     'NEW_PASSWORD' => 'Neues Paswort',
     'CONFIRM_PASSWORD' => 'Paswort bestätigen',
@@ -143,5 +143,11 @@ $lang = array_merge($lang, array(
     'BUTTON_SAVE_CHANGES' => 'Änderungen speichern',
     'BUTTON_CHANGE_PASSWORD' => 'Passwort ändern',
     'YES' => 'Ja',
-    'NO' =>'Nein'
+    'NO' =>'Nein',
+	
+	'FABLAB' => 'Fablab',
+	'NO_ACESS' => 'Kein Zutritt',
+	'TIMESTAMP' => 'Zeitstempel',
+	'SHOW_ALL_ACESS' => 'Zeige alle Zutrittsversuche',
+	'SHOW_MY_ACESS' => 'Zeige meine Zutrittsversuche'
 ));
