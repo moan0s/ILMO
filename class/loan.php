@@ -142,7 +142,6 @@ class Loan
         $sort = " ORDER BY loan_ID DESC;";
         $query .= $sort;
         $this->p_result = $this->oData->databaselink->query($query);
-		#var_dump();
 		if (! $this->p_result){
 			return NULL;
 		}

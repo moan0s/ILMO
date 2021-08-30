@@ -13,12 +13,11 @@ $table = "<table border='1'>";
             '<tr>
 			<td>'.$aResult['ACESS_ID'].'</td>
 			<td>'.$aResult['UID'].'</td>
-			<td>'.$aResult['TIMESTAMP']'</td>
+			<td>'.$aResult['TIMESTAMP'].'</td>
 			<td>'.$aResult['USERNAME'].'</td>
-			<td>'.$aResult['USER_ID'].'</td>'
+			<td>'.$aResult['USER_ID'].'</td>';
             $table .='</tr>';
             }
-        }
         $table = $table."</table>";
         echo $table;
 ?>

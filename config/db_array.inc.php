@@ -282,9 +282,9 @@ $aData[TABLE_ACESS] = array(
             'standard' => 'NOT NULL',
             'extra' => 'AUTO_INCREMENT PRIMARY KEY'
         ),
-        'user_ID' => array(
-            'type' => 'INT',
-            'size' => 11,
+        'UID' => array(
+            'type' => 'VARCHAR',
+            'size' => 255,
             'unique' => 'TRUE',
             'standard' => 'NOT NULL'
         ),

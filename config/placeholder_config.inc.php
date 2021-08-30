@@ -22,6 +22,8 @@ define ("TABLE_ACESS", "%table_prefix%acess");
 
 define("MODULE_PATH", $_SERVER['DOCUMENT_ROOT']."%module_path%/");
 
+define("ACESS_KEY", "12345678");
+
 function url(){
     if(isset($_SERVER['HTTPS'])){
         $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";

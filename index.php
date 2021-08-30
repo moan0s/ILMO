@@ -409,7 +409,6 @@ switch ($action) {
                 $oData->payload['material_ID'],
                 $oData->payload['returned']
             );
-            var_dump($oData->aLoan);
             $oData->output .= $oData->get_view("views/all_loans.php");
         }
         break;
@@ -426,6 +425,57 @@ switch ($action) {
             $oData->output .= $oData->get_view("views/loan_form.php");
         }
         break;
+	case 'loan_self':
+        $oLoan = new Loan($oData);
+        $oData->payload['user_ID'] = $_SESSION['user_ID'];
+        $oData->aLoan = $oLoan->get_loan(null, $_SESSION['user_ID'], null);
+        $oData->output .= $oData->get_view("views/all_loans.php");
+        break;
+    case 'loan_change':
+        if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
+            $oLoan = new Loan($oData);
+            $oData->aLoan = $oLoan->get_loan($oData->payload['loan_ID'], null, null)[$oData->payload['loan_ID']];
+            $oData->output .= $oData->get_view("views/loan_form.php");
+        }
+        break;
+		
+	case 'acess_show':
+        if (($oData->check_permission("SHOW_ACESS", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->payload['user_ID'])) {
+            $oAcess = new acess($oData);
+            $oData->aAcess = $oAcess->get_acess(
+                $oData->payload['ACESS_ID'],
+                $user_ID = $oData->payload['user_ID']
+            );
+            $oData->output .= $oData->get_view("views/all_acess.php");
+        }
+		break;
+	case 'acess_self':
+        $oAcess = new Acess($oData);
+        $oData->payload['user_ID'] = $_SESSION['user_ID'];
+        $oData->aAcess = $oAcess->get_acess(null, $_SESSION['user_ID']);
+        $oData->output .= $oData->get_view("views/all_acess.php");
+        break;
+		
+	case 'check_acess':
+		$oAcess = new Acess($oData);
+		$UID = $oData->payload['UID'];
+		$acess_key = $oData->payload['acess_key'];
+		if(isset ($oData->payload['key_available'])){
+			$key_available = $oData->payload['key_available'];
+		}
+		else {
+			$key_available = NULL;
+		}
+		if($oData->aAcess = $oAcess->check_acess($UID, $acess_key)){
+			#Acess is correct
+			http_response_code(400);
+		}
+		else{
+			#No acess
+			http_response_code(401);
+		}
+		break;
+
 
     default:
         if ($_SESSION['role'] > 0) {
