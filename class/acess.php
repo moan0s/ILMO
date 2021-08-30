@@ -65,12 +65,25 @@ class Acess
 	public function check_acess($UID = null, $acess_key = null, $key_available = false){
 		if($acess_key == ACESS_KEY){
 			#Store query
-			$aFields = array(
-                'UID' => $UID,
-                'key_available' => $key_available
-			);
-			$this->oData->store_data(TABLE_ACESS, $aFields, false, NULL); 
-			return true;
+			
+			$aFields= array();
+			$aFields['UID'] = $UID;
+			$row = $this->oData->select_row(TABLE_USER, $aFields);
+			var_dump($row);
+			if($row == -1 or $row['acess'] == 0){
+				#UID not known or no acess permission for this UID
+				return false;
+			}
+			else
+			{
+				$oFields = array(
+					'UID' => $UID,
+					'key_available' => $key_available
+				);
+				$this->oData->store_data(TABLE_ACESS, $oFields, false, NULL);
+				print("Acess");
+				return true;
+			}
 		}
 		else{
 			return false;
