@@ -238,7 +238,9 @@ switch ($action) {
                     "email",
                     "password",
                     "language",
-                    "role");
+                    "role",
+					"UID",
+					"acess");
                 $aUser = $oUser->create_user_array($allowed_keys);
                 $oUser->save_user($aUser);
                 $oData->aUser = $oUser->get_user();

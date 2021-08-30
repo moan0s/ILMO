@@ -314,7 +314,6 @@ class Data
             }
             $sQuery.=$sKeys.") values (".$sValues.")";
         }
-		var_dump($sQuery);
         $this->last_query[]=$sQuery;
         if ($pResult = $this->databaselink->query($sQuery)) {
             if (($returnID>0) or ($returnID!="")) {

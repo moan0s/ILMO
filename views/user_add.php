@@ -7,7 +7,7 @@
 $action = $this->payload['ac'];
 
 # For case 2 and 3
-$text_fields_to_show = array("forename", "surname", "email");
+$text_fields_to_show = array("forename", "surname", "email", "UID");
 $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
                              "1" => "USER"],
                        "language" => ["english" => "ENGLISH",

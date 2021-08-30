@@ -41,6 +41,12 @@ class User
         if (isset($this->oData->payload['email'])) {
             $aUser['email'] = $this->oData->payload['email'];
         }
+		if (isset($this->oData->payload['UID'])) {
+            $aUser['UID'] = $this->oData->payload['UID'];
+        }
+		if (isset($this->oData->payload['acess'])) {
+            $aUser['acess'] = $this->oData->payload['acess'];
+        }
         if (isset($this->oData->payload['language'])) {
             $aUser['language'] = $this->oData->payload['language'];
         }
@@ -64,6 +70,7 @@ class User
                         'forename' => String $forname,
                         'surname' => String $surname,
                         'email' => String $email,
+						'UID' => String $UID,
                         'language' => String $language,
                         'role' => Int $role, as decribed in config/permissions.php
                         'password_hash' => password_hash(String $password, PASSWORD_DEFAULT)
@@ -94,7 +101,7 @@ class User
         $this->removed=$this->oData->delete_rows(TABLE_USER, $aFields);
     }
 
-    public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null, $role = null)
+    public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null, $role = null, $UID = null, $acess = null)
     {
         $aUser= array();
         $aFields= array();
@@ -115,6 +122,12 @@ class User
         }
         if ((isset($role)) and ($role!= "")) {
             $aFields["role"] = $role;
+        }
+		if ((isset($UID)) and ($UID!= "")) {
+            $aFields["UID"] = $UID;
+        }
+		if ((isset($acess)) and ($acess!= "")) {
+            $aFields["acess"] = $acess;
         }
         $aOrder = array("-user_ID");
         $this->p_result = $this->oData->select_rows(TABLE_USER, $aFields, $aOrder);

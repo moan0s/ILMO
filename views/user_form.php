@@ -9,11 +9,13 @@
 $action = $this->payload['ac'];
 
 $aUser = $this->aUser;
-$text_fields_to_show = array("forename", "surname", "email");
+$text_fields_to_show = array("forename", "surname", "email", "UID");
 $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
                 "1" => "USER"],
             "language" => ["english" => "ENGLISH",
-                    "german" => "GERMAN"]
+                    "german" => "GERMAN"],
+			"acess" => ["2" => "FABLAB",
+                              "1" => "NO_ACESS"]
                 ];
     $output = "";
     $output.='<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
@@ -24,6 +26,7 @@ $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
 /* The user has certain properties that shoud be displayed
 * These properties are listed in text_field_to_show and checkbox_fields_to_show
 */
+var_dump($aUser);
 foreach ($aUser as $key=>$val) {
     if (in_array($key, $text_fields_to_show)) {
         // Show a text field with th values filled in
