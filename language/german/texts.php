@@ -143,5 +143,11 @@ $lang = array_merge($lang, array(
     'BUTTON_SAVE_CHANGES' => 'Änderungen speichern',
     'BUTTON_CHANGE_PASSWORD' => 'Passwort ändern',
     'YES' => 'Ja',
-    'NO' =>'Nein'
+    'NO' =>'Nein',
+	
+	'FABLAB' => 'Fablab',
+	'NO_ACESS' => 'Kein Zutritt',
+	'TIMESTAMP' => 'Zeitstempel',
+	'SHOW_ALL_ACESS' => 'Zeige alle Zutrittsversuche',
+	'SHOW_MY_ACESS' => 'Zeige meine Zutrittsversuche'
 ));

@@ -32,7 +32,9 @@ $permissions = array(
     'SAVE_MATERIAL' => array(2),
     'SAVE_LOAN' => array(2),
     'SAVE_OPEN' => array(2),
-    'SAVE_SETTINGS' => array(2)
+    'SAVE_SETTINGS' => array(2),
+	'SHOW_ALL_ACESS' => array(2),
+	'SHOW_MY_ACESS' => array(1,2)
 );
 ?>
 

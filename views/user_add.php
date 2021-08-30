@@ -11,7 +11,9 @@ $text_fields_to_show = array("forename", "surname", "email");
 $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
                              "1" => "USER"],
                        "language" => ["english" => "ENGLISH",
-                              "german" => "GERMAN"]
+                              "german" => "GERMAN"],
+						"acess" => ["2" => "FABLAB",
+                              "1" => "NO_ACESS"]
     ];
 $output = "";
 $output.='<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
