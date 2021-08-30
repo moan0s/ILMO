@@ -20,7 +20,6 @@ define ("TABLE_PRESENCE", "%table_prefix%presence");
 define ("TABLE_TOKEN", "%table_prefix%token");
 define ("TABLE_ACESS", "%table_prefix%acess");
 
-
 define("MODULE_PATH", $_SERVER['DOCUMENT_ROOT']."%module_path%/");
 
 function url(){
