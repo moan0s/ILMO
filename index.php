@@ -310,7 +310,7 @@ switch ($action) {
                 $oUser->save_user($aUser);
 
                 // If a token is used to change the password we mark the token as used
-                if ($token_use) {
+                if (isset($token_use) and $token_use) {
                     $oToken->mark_token_used($token_ID);
                 }
                 $oData->output .= "User saved.";
@@ -330,9 +330,10 @@ switch ($action) {
     case 'user_self':
         $oUser = new User($oData);
         if ($oData->check_permission("SHOW_SELF", $_SESSION['role'])) {
-            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null)[$_SESSION['user_ID']];
+            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null, null, null)[$_SESSION['user_ID']];
             $oData->output .= $oData->get_view("views/user_form.php");
-        } else {
+        } 
+		else {
             $oData->error[] = $oData->oLang->texts['NO_PERMISSION'];
         }
         break;
