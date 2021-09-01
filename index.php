@@ -462,16 +462,22 @@ switch ($action) {
 	case 'check_acess':
 		$oAcess = new Acess($oData);
 		$UID = $oData->payload['UID'];
-		$acess_key = $oData->payload['acess_key'];
-		if(isset ($oData->payload['key_available'])){
-			$key_available = $oData->payload['key_available'];
-		}
-		else {
-			$key_available = NULL;
-		}
-		if($oData->aAcess = $oAcess->check_acess($UID, $acess_key)){
-			#Acess is correct
-			http_response_code(400);
+		if(isset($oData->payload['acess_key']) and $oData->payload['acess_key'] != null){
+			$acess_key = $oData->payload['acess_key'];
+			if(isset ($oData->payload['key_available'])){
+				$key_available = $oData->payload['key_available'];
+			}
+			else {
+				$key_available = NULL;
+			}
+			if($oData->aAcess = $oAcess->check_acess($UID, $acess_key)){
+				#Acess is correct
+				http_response_code(400);
+			}
+			else{
+				#No acess
+				http_response_code(401);
+			}
 		}
 		else{
 			#No acess
