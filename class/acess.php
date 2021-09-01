@@ -8,7 +8,7 @@ class Acess
         return;
     }
 	
-	public function get_acess(int $acess_id = null, int $user_ID = null)
+	public function get_acess(int $acess_id = null, int $user_ID = null, int $UID = null)
     {
         /*
 		To-Do:
@@ -18,14 +18,16 @@ class Acess
                 Filters loans by ID of loan (unique therfor will return only one)
             int $user_ID:
                 Filters loans by ID of user
+			int $UID:
+                Filters loans by UID of user
         returns: Associative array with complete acess Information (acess_ID as keys)
         */
         $aFields= array();
         $query = "
-	SELECT user.user_ID, CONCAT(user.forename,' ',user.surname) AS user_name, user.UID, acess.UID, acess.timestamp, acess.key_available, acess.acess_ID
-	FROM ".TABLE_USER." user, ".TABLE_ACESS." acess
-	LEFT JOIN user
-		ON user.user_ID=acess.user_ID";
+			SELECT user.user_ID, CONCAT(user.forename,' ',user.surname) AS user_name, user.UID, acess.UID, acess.timestamp as TIMESTAMP, acess.key_available, acess.acess_ID
+			FROM ".TABLE_ACESS." acess
+			LEFT JOIN ".TABLE_USER." AS user
+				ON user.UID=acess.UID";
         $restrictions = array();
         if (isset($loan_ID)) {
             $restrictions["acess.acess_ID"] = $acess_ID;
@@ -48,7 +50,6 @@ class Acess
         $query .= $sCondition;
         $sort = " ORDER BY acess_ID DESC;";
         $query .= $sort;
-		var_dump($query);
         $this->p_result = $this->oData->databaselink->query($query);
 		if (! $this->p_result){
 			return NULL;
@@ -58,7 +59,7 @@ class Acess
 			while ($aRow=mysqli_fetch_assoc($this->p_result)) {
 				$aAcess[$aRow['acess_ID']] = $aRow;
 			}				
-			return aAcess;
+			return $aAcess;
 		}
     }
 	
