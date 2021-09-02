@@ -264,16 +264,17 @@ class Loan
         $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
         $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
         $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
-		$template_message = $this->oData->oLang->texts['loan_reminder_message'];
+		$message_template = $this->oData->oLang->texts['loan_reminder_message'];
+		$subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
 		
 		$oMail = new Mail($this->oData);
-		$message = $oMail->compose_mail($message_template, $aInfo);
-
-		$subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
-        $subject = $this->oData->oLang->texts['loan_reminder_subject'];
-        $subject = str_replace("&LABEL", $aInfo['LABEL'], $subject);
-
-        $issue = "Reminder on loan ".$aLoan['loan_ID'];
+        $arr = $oMail->compose_mail($message_template, $subject_template, $aInfo);
+        $subject = $arr["subject"];
+        $message = $arr["message"];
+		#$subject = str_replace("&LABEL", $aInfo['LABEL'], $subject);
+		var_dump($subject);
+		var_dump($message);
         return $oMail->send_mail($aUser, $subject, $message);
+		
     }
 }
