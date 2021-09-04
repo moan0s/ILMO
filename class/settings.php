@@ -24,10 +24,14 @@ class Setting
         return $settings;
     }
 
-    public function request_to_array($oObject)
+    public function request_to_array($oData)
     {
-        $arr['lang']['german']['OPENING_TIMES_INFO'] = $oObject->r_german_OPENING_TIMES_INFO;
-        $arr['lang']['english']['OPENING_TIMES_INFO'] = $oObject->r_english_OPENING_TIMES_INFO;
+        $simple_keys = ['default_language', 'log_mail', 'max_loan_time', 'minimum_pw_length','minimum_token_hours', 'path_mail_log','timezone'];
+        foreach ($simple_keys as $key) {
+            $arr[$key] = $oData->payload[$key];
+        }
+        $arr['lang']['german']['OPENING_TIMES_INFO'] = $oData->payload['german_OPENING_TIMES_INFO'];
+        $arr['lang']['english']['OPENING_TIMES_INFO'] = $oData->payload['english_OPENING_TIMES_INFO'];
         return $arr;
     }
 
