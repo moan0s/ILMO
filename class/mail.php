@@ -68,7 +68,6 @@ class Mail
          */
         $header = $this->compose_header($aUser);
         $to = $aUser['email'];
-		var_dump($message);
         $message = wordwrap($message, 70, "\r\n");
         $success =  mail($to, $subject, $message, $header);
         if ($success) {
