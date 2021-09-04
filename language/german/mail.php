@@ -27,6 +27,7 @@ $lang = array_merge($lang, array(
     'password_reset_token_message' => "Hallo &FORENAME &SURNAME,\r\n
 jemand hat ein Zurücksetzen deines Passworts angefragt. Hier ist der Token den du dafür brauchst:
 Token: &TOKEN
+Deine Benutzer-ID lautet &USER_ID
 
 Du kannst das Passwort hier ändern: &LIBRARY_URL?ac=self_pw_change
 

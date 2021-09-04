@@ -21,7 +21,8 @@ class Lang
 
     public function set_language($language = null)
     {
-        if (isset($language)) {
+		
+        if (isset($language) and $language != null) {
             $lang_to_use = $language;
         } else {
             $lang_to_use = $this->settings['default_language'];

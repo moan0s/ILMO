@@ -78,6 +78,7 @@ class Token
         $aInfo = array();
         $aInfo['FORENAME'] = $aUser['forename'];
         $aInfo['SURNAME'] = $aUser['surname'];
+        $aInfo['USER_ID'] = $aUser['user_ID'];
         $aInfo['TOKEN'] = $token;
         $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
         $aInfo['LIBRARY_URL'] = BASE_URL;

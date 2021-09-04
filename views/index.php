@@ -13,6 +13,7 @@ include("config/config.inc.php");
 ini_set('display_errors', DEBUG);
 ini_set('display_startup_errors', DEBUG);
 error_reporting(E_ALL);
+var_dump($_SESSION);
 include("class/class.php");
 
 $oLang = new Lang;
@@ -26,9 +27,7 @@ if (isset($oData->payload['ac'])) {
 
 $oData->output = "";
 //methods
-if (DEBUG) {
-    echo("Action ".$action."<br>");
-}
+echo("Action ".$action."<br>");
 
 switch ($action) {
     case 'mail_send':
@@ -239,13 +238,10 @@ switch ($action) {
                     "email",
                     "password",
                     "language",
-                    "role");
+                    "role",
+					"acess");
                 $aUser = $oUser->create_user_array($allowed_keys);
                 $oUser->save_user($aUser);
-                //Change language according to change in user
-                if ($user_ID === $_SESSION['user_ID'] and isset($aUser['language'])) {
-                    $oLang->change_language($aUser['language']);
-                }
                 $oData->aUser = $oUser->get_user();
                 $oData->output .= $oData->get_view("views/all_user.php");
             }
@@ -432,6 +428,26 @@ switch ($action) {
         }
         break;
 
+    case 'acess_show':	#Placeholder
+        if (($oData->check_permission("SHOW_LOAN", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->payload['user_ID'])) {
+            $oLoan = new Loan($oData);
+            $oData->aLoan = $oLoan->get_loan(
+                $oData->payload['loan_ID'],
+                $user_ID = $oData->payload['user_ID'],
+                $oData->payload['book_ID'],
+                $oData->payload['material_ID'],
+                $oData->payload['returned']
+            );
+            var_dump($oData->aLoan);
+            $oData->output .= $oData->get_view("views/all_loans.php");
+        }
+        break;
+    case 'acess_self':	#Placeholder
+        $oLoan = new Loan($oData);
+        $oData->payload['user_ID'] = $_SESSION['user_ID'];
+        $oData->aLoan = $oLoan->get_loan(null, $_SESSION['user_ID'], null);
+        $oData->output .= $oData->get_view("views/all_loans.php");
+        break;
     default:
         if ($_SESSION['role'] > 0) {
             $oData->output .= $oData->get_view("views/start.php");

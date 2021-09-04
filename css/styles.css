@@ -165,7 +165,7 @@ padding-top: 20px;
 	float: right;
 }
 
-#content input[type=text], #content input[type="submit"], #content input[type="reset"]  {
+#content input {
   width: 100%;
   padding: 15px;
   border: 1px solid #ccc;
