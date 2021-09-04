@@ -242,6 +242,10 @@ switch ($action) {
                     "role");
                 $aUser = $oUser->create_user_array($allowed_keys);
                 $oUser->save_user($aUser);
+                //Change language according to change in user
+                if ($user_ID === $_SESSION['user_ID'] and isset($aUser['language'])) {
+                    $oLang->change_language($aUser['language']);
+                }
                 $oData->aUser = $oUser->get_user();
                 $oData->output .= $oData->get_view("views/all_user.php");
             }
