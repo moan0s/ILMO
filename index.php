@@ -13,7 +13,6 @@ include("config/config.inc.php");
 ini_set('display_errors', DEBUG);
 ini_set('display_startup_errors', DEBUG);
 error_reporting(E_ALL);
-var_dump($_SESSION);
 include("class/class.php");
 
 $oLang = new Lang;
@@ -27,7 +26,9 @@ if (isset($oData->payload['ac'])) {
 
 $oData->output = "";
 //methods
-echo("Action ".$action."<br>");
+if (DEBUG) {
+    echo("Action ".$action."<br>");
+}
 
 switch ($action) {
     case 'mail_send':
@@ -243,6 +244,10 @@ switch ($action) {
 					"acess");
                 $aUser = $oUser->create_user_array($allowed_keys);
                 $oUser->save_user($aUser);
+                //Change language according to change in user
+                if ($user_ID === $_SESSION['user_ID'] and isset($aUser['language'])) {
+                    $oLang->change_language($aUser['language']);
+                }
                 $oData->aUser = $oUser->get_user();
                 $oData->output .= $oData->get_view("views/all_user.php");
             }

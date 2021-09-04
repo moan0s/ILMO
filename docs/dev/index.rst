@@ -8,4 +8,5 @@ Installation, customization and contributing
 
    installation.rst
    customization.rst
+   release.rst
    contributing.rst

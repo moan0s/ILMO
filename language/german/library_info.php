@@ -10,7 +10,7 @@ $library_info = array(
     'CONTACT_LINK' => 'https://www.fs-medtech.de/kontakt/',
     'PRIVACY_LINK' => 'https://www.fs-medtech.de/datenschutz',
 
-    'ADMIN_MAIL' => 'hiwi@fs-medtech.de',
+    'ADMIN_MAIL' => 'ilmo@ilmo.hyteck.de',
     'ADMIN_NAME' => 'Lerninsel Hiwis',
     'URL' => 'https://www.fs-medtech.de/bib/',
 
