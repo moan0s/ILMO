@@ -26,7 +26,6 @@ $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
 /* The user has certain properties that shoud be displayed
 * These properties are listed in text_field_to_show and checkbox_fields_to_show
 */
-var_dump($aUser);
 foreach ($aUser as $key=>$val) {
     if (in_array($key, $text_fields_to_show)) {
         // Show a text field with th values filled in
@@ -38,8 +37,8 @@ foreach ($aUser as $key=>$val) {
         // Show checkboxes for all options
         $div = "<div class=radio_container>";
         foreach ($checkbox_fields_to_show[$key] as $option => $label) {
-            $box = "<label for='$option'>".$this->oLang->texts[$label];
-            $box  .= "<input type='radio' name='$key' id='$option' value='$option'";
+            $box = "<label for='".$key."_".$option."'>".$this->oLang->texts[$label];
+            $box  .= "<input type='radio' name='$key' id='".$key."_".$option."' value='$option'";
             if ($val == $option) {
                 $box .= " checked";
             }
