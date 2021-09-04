@@ -18,11 +18,11 @@ define ("TABLE_MATERIAL", "%table_prefix%material");
 define ("TABLE_LOG", "%table_prefix%log");
 define ("TABLE_PRESENCE", "%table_prefix%presence");
 define ("TABLE_TOKEN", "%table_prefix%token");
-define ("TABLE_ACESS", "%table_prefix%acess");
+define ("TABLE_access", "%table_prefix%access");
 
 define("MODULE_PATH", $_SERVER['DOCUMENT_ROOT']."%module_path%/");
 
-define("ACESS_KEY", "12345678");
+define("access_KEY", "12345678");
 
 function url(){
     if(isset($_SERVER['HTTPS'])){

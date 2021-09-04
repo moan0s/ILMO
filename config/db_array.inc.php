@@ -238,7 +238,7 @@ $aData[TABLE_USER] = array(
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
         ),
-		'acess' => array(
+		'access' => array(
             'type' => 'INT',
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
@@ -274,8 +274,8 @@ $aData[TABLE_TOKEN] = array(
         )
     );
 	
-$aData[TABLE_ACESS] = array(
-        'acess_ID' => array(
+$aData[TABLE_access] = array(
+        'access_ID' => array(
             'type' => 'INT',
             'size' => 11,
             'unique' => 'TRUE',

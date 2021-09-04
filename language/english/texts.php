@@ -150,11 +150,11 @@ $lang = array_merge($lang, array(
     'NO' => 'No',
 	
 	'FABLAB' => 'Fablab',
-	'NO_ACESS' => 'No acess',
+	'NO_access' => 'No access',
 	'TIMESTAMP' => 'Timestamp',
-	'SHOW_ALL_ACESS' => 'Show all acces attemps',
-	'SHOW_MY_ACESS' => 'Show my acces attemps',
-	'ACESS_ID' => 'Acess-ID',
+	'SHOW_ALL_access' => 'Show all acces attemps',
+	'SHOW_MY_access' => 'Show my acces attemps',
+	'access_ID' => 'access-ID',
 	'KEY_AVAILABLE' => 'Key available'
 	
 	

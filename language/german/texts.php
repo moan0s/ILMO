@@ -146,10 +146,10 @@ $lang = array_merge($lang, array(
     'NO' =>'Nein',
 	
 	'FABLAB' => 'Fablab',
-	'NO_ACESS' => 'Kein Zutritt',
+	'NO_access' => 'Kein Zutritt',
 	'TIMESTAMP' => 'Zeitstempel',
-	'SHOW_ALL_ACESS' => 'Zeige alle Zutrittsversuche',
-	'SHOW_MY_ACESS' => 'Zeige meine Zutrittsversuche',
-	'ACESS_ID' => 'Zutritts-ID',
+	'SHOW_ALL_access' => 'Zeige alle Zutrittsversuche',
+	'SHOW_MY_access' => 'Zeige meine Zutrittsversuche',
+	'access_ID' => 'Zutritts-ID',
 	'KEY_AVAILABLE' => 'Schlüssel verfügbar'
 ));
