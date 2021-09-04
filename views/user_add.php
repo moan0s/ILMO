@@ -10,7 +10,7 @@ $action = $this->payload['ac'];
 $text_fields_to_show = array("forename", "surname", "email", "password");
 $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN", "1" => "USER"],
                             "language" => ["english" => "ENGLISH", "german" => "GERMAN"],
-                "acess" => ["1" => "FABLAB", "0" => "NO_ACESS"]
+                "acess" => ["1" => "FABLAB", "0" => "NO_ACCESS"]
     ];
 $output = "";
 $output.='<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';

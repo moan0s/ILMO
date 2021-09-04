@@ -146,7 +146,7 @@ $lang = array_merge($lang, array(
     'NO' =>'Nein',
 	
 	'FABLAB' => 'Fablab',
-	'NO_access' => 'Kein Zutritt',
+	'NO_ACCESS' => 'Kein Zutritt',
 	'TIMESTAMP' => 'Zeitstempel',
 	'SHOW_ALL_access' => 'Zeige alle Zutrittsversuche',
 	'SHOW_MY_access' => 'Zeige meine Zutrittsversuche',
