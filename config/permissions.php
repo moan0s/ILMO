@@ -35,6 +35,8 @@ $permissions = array(
     'SAVE_SETTINGS' => array(2),
 	'SHOW_ALL_ACESS' => array(2),
 	'SHOW_MY_ACESS' => array(1,2)
+    'SAVE_API_TOKEN' => array(2),
+    'SHOW_API_TOKEN' => array(2)
 );
 ?>
 
