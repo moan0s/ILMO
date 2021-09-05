@@ -5,6 +5,19 @@ ILMO - Intelligent Library Management Online
 */
 class Setting
 {
+
+    #parses settings in an array
+    #returns array
+    public static function get_settings()
+    {
+        $path = MODULE_PATH."config/settings.json";
+        $fSettings= fopen($path, "r") or die("Unable to open ".$path."!");
+        $sSettings =  fread($fSettings, filesize($path));
+        fclose($fSettings);
+        $aSettings = json_decode($sSettings, true);
+        return $aSettings;
+    }
+
     public function set($path, $settings_to_change, $dry_run = false)
     {
         /* Replace settings with new setting_array
@@ -77,7 +90,7 @@ class Setting
         } else {
             $fConfig = fopen($path, 'w');
             $settings_text = str_replace("}", "}\r\n", $settings_text);
-            $settings_text = str_replace(",", "}\r\n", $settings_text);
+            $settings_text = str_replace(",", ",\r\n", $settings_text);
             fwrite($fConfig, $settings_text);
             fclose($fConfig);
         }

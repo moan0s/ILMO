@@ -7,7 +7,7 @@ class Data
         $this->oLang = $oLang;
         $this->roles = $roles;
         $this->permissions = $permissions;
-        $this->settings = $this->get_settings();
+        $this->settings = Setting::get_settings();
         $this->link_database();
         $this->em_check_database();
         $this->read_variables();
@@ -20,18 +20,6 @@ class Data
         $this->set_session();
         $this->error = array();
         $this->output = "";
-    }
-
-    #parses settings in an array
-    #returns array
-    public function get_settings()
-    {
-        $path = MODULE_PATH."config/settings.json";
-        $fSettings= fopen($path, "r") or die("Unable to open ".$path."!");
-        $sSettings =  fread($fSettings, filesize($path));
-        fclose($fSettings);
-        $aSettings = json_decode($sSettings, true);
-        return $aSettings;
     }
 
     #parses given data in json and outputs them
