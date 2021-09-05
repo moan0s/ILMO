@@ -25,7 +25,7 @@ class access
         $aFields= array();
         $query = "
 			SELECT user.user_ID, CONCAT(user.forename,' ',user.surname) AS user_name, user.UID, access.UID, access.timestamp as TIMESTAMP, access.key_available, access.access_ID
-			FROM ".TABLE_access." access
+			FROM ".TABLE_ACCESS." access
 			LEFT JOIN ".TABLE_USER." AS user
 				ON user.UID=access.UID";
         $restrictions = array();
@@ -57,9 +57,9 @@ class access
 		else{
 			
 			while ($aRow=mysqli_fetch_assoc($this->p_result)) {
-				$aaccess[$aRow['access_ID']] = $aRow;
+				$aAccess[$aRow['access_ID']] = $aRow;
 			}				
-			return $aaccess;
+			return $aAccess;
 		}
     }
 	
@@ -69,7 +69,7 @@ class access
 					'UID' => $UID,
 					'key_available' => $key_available
 				);
-			$this->oData->store_data(TABLE_access, $oFields, false, NULL);
+			$this->oData->store_data(TABLE_ACCESS, $oFields, false, NULL);
 			$aFields= array();
 			$aFields['UID'] = $UID;
 			$row = $this->oData->select_row(TABLE_USER, $aFields);

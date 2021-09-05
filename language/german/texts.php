@@ -150,6 +150,6 @@ $lang = array_merge($lang, array(
 	'TIMESTAMP' => 'Zeitstempel',
 	'SHOW_ALL_access' => 'Zeige alle Zutrittsversuche',
 	'SHOW_MY_access' => 'Zeige meine Zutrittsversuche',
-	'access_ID' => 'Zutritts-ID',
+	'ACCESS_ID' => 'Zutritts-ID',
 	'KEY_AVAILABLE' => 'Schlüssel verfügbar'
 ));

@@ -33,7 +33,7 @@ if ($this->check_permission("SHOW_MATERIAL", $_SESSION['role'])) {
     $navigation .= '
 	<li><a href="index.php?ac=material_show_itemized">'.$this->oLang->texts['SHOW_MATERIAL_ITEMIZED'].'</a></li>';
 }
-if ($this->check_permission("SHOW_access", $_SESSION['role'])) {
+if ($this->check_permission("SHOW_ACCESS", $_SESSION['role'])) {
     $navigation .= '
 	<li><a href="index.php?ac=access_show">'.$this->oLang->texts['SHOW_ALL_access'].'</a></li>';
 }

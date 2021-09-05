@@ -154,7 +154,7 @@ $lang = array_merge($lang, array(
 	'TIMESTAMP' => 'Timestamp',
 	'SHOW_ALL_access' => 'Show all acces attemps',
 	'SHOW_MY_access' => 'Show my acces attemps',
-	'access_ID' => 'access-ID',
+	'ACCESS_ID' => 'access-ID',
 	'KEY_AVAILABLE' => 'Key available'
 	
 	

@@ -274,8 +274,8 @@ $aData[TABLE_TOKEN] = array(
         )
     );
 	
-$aData[TABLE_ACESS] = array(
-        'access_ID' => array(
+$aData[TABLE_ACCESS] = array(
+        'ACCESS_ID' => array(
             'type' => 'INT',
             'size' => 11,
             'unique' => 'TRUE',

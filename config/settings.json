@@ -9,7 +9,7 @@
         }
     },
     "log_mail": "0",
-    "mail_reminder_interval": "90",
+    "mail_reminder_interval": "0",
     "max_loan_time": "0",
     "minimum_pw_length": "8",
     "minimum_token_hours": "1",

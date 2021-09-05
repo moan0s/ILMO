@@ -14,7 +14,7 @@ $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
                 "1" => "USER"],
             "language" => ["english" => "ENGLISH",
                     "german" => "GERMAN"],
-			"acess" => ["2" => "FABLAB",
+			"access" => ["2" => "FABLAB",
                               "1" => "NO_ACCESS"]
                 ];
     $output = "";

@@ -241,7 +241,7 @@ switch ($action) {
                     "language",
                     "role",
 					"UID",
-					"acess");
+					"access");
                 $aUser = $oUser->create_user_array($allowed_keys);
                 $oUser->save_user($aUser);
                 //Change language according to change in user
@@ -447,45 +447,45 @@ switch ($action) {
         }
         break;
 		
-	case 'acess_show':
-        if (($oData->check_permission("SHOW_ACESS", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->payload['user_ID'])) {
-            $oAcess = new acess($oData);
-            $oData->aAcess = $oAcess->get_acess(
-                $oData->payload['ACESS_ID'],
+	case 'access_show':
+        if (($oData->check_permission("SHOW_ACCESS", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->payload['user_ID'])) {
+            $oAccess = new access($oData);
+            $oData->aAccess = $oAccess->get_access(
+                $oData->payload['access_ID'],
                 $user_ID = $oData->payload['user_ID']
             );
-            $oData->output .= $oData->get_view("views/all_acess.php");
+            $oData->output .= $oData->get_view("views/all_access.php");
         }
 		break;
-	case 'acess_self':
-        $oAcess = new Acess($oData);
+	case 'access_self':
+        $oAccess = new Access($oData);
         $oData->payload['user_ID'] = $_SESSION['user_ID'];
-        $oData->aAcess = $oAcess->get_acess(null, $_SESSION['user_ID']);
-        $oData->output .= $oData->get_view("views/all_acess.php");
+        $oData->aAccess = $oAccess->get_access(null, $_SESSION['user_ID']);
+        $oData->output .= $oData->get_view("views/all_access.php");
         break;
 		
-	case 'check_acess':
-		$oAcess = new Acess($oData);
+	case 'check_access':
+		$oAccess = new Access($oData);
 		$UID = $oData->payload['UID'];
-		if(isset($oData->payload['acess_key']) and $oData->payload['acess_key'] != null){
-			$acess_key = $oData->payload['acess_key'];
+		if(isset($oData->payload['access_key']) and $oData->payload['access_key'] != null){
+			$access_key = $oData->payload['access_key'];
 			if(isset ($oData->payload['key_available'])){
 				$key_available = $oData->payload['key_available'];
 			}
 			else {
 				$key_available = NULL;
 			}
-			if($oData->aAcess = $oAcess->check_acess($UID, $acess_key)){
-				#Acess is correct
+			if($oData->aAccess = $oAccess->check_access($UID, $access_key)){
+				#Access is correct
 				http_response_code(400);
 			}
 			else{
-				#No acess
+				#No access
 				http_response_code(401);
 			}
 		}
 		else{
-			#No acess
+			#No access
 			http_response_code(401);
 		}
 		break;

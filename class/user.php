@@ -44,8 +44,8 @@ class User
 		if (isset($this->oData->payload['UID'])) {
             $aUser['UID'] = $this->oData->payload['UID'];
         }
-		if (isset($this->oData->payload['acess'])) {
-            $aUser['acess'] = $this->oData->payload['acess'];
+		if (isset($this->oData->payload['access'])) {
+            $aUser['access'] = $this->oData->payload['access'];
         }
         if (isset($this->oData->payload['language'])) {
             $aUser['language'] = $this->oData->payload['language'];
@@ -101,7 +101,7 @@ class User
         $this->removed=$this->oData->delete_rows(TABLE_USER, $aFields);
     }
 
-    public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null, $role = null, $UID = null, $acess = null)
+    public function get_user($user_ID = null, $forename = null, $surname = null, $email = null, $language = null, $role = null, $UID = null, $access = null)
     {
         $aUser= array();
         $aFields= array();
@@ -126,8 +126,8 @@ class User
 		if ((isset($UID)) and ($UID!= "")) {
             $aFields["UID"] = $UID;
         }
-		if ((isset($acess)) and ($acess!= "")) {
-            $aFields["acess"] = $acess;
+		if ((isset($access)) and ($access!= "")) {
+            $aFields["access"] = $access;
         }
         $aOrder = array("-user_ID");
         $this->p_result = $this->oData->select_rows(TABLE_USER, $aFields, $aOrder);

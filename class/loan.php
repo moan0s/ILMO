@@ -217,7 +217,7 @@ class Loan
             'total' => 0);
         $m_interval = $this->oData->settings['mail_reminder_interval'];
         if ($m_interval==0) {
-            return stats;
+            return $stats;
         }
 
         $aUnreturnedLoans = $this->get_unreturned_loans();
