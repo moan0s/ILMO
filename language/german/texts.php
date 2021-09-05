@@ -132,6 +132,10 @@ $lang = array_merge($lang, array(
     'SUCCESSFUL_MAILS' => 'Erfolgreich gesendete Mails',
     'FAILED_MAILS' => 'Fehlgeschlagene Sendeversuche',
 
+    'CREATE_API_TOKEN'=>'API-Token generieren',
+    'READ_ACCESS_PRIVILEGES'=>'Leserechte für die Zugangskontrolle',
+    'WRITE_ACCESS'=>'Schreibrechte',
+
     'BUTTON_SEND' => 'Absenden',
     'BUTTON_RESET' => 'Zurücksetzen',
     'BUTTON_CHANGE' => 'Ändern',
