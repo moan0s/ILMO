@@ -6,160 +6,121 @@ class Token
         $this->oData = $oData;
     }
 
-    public function check_token($user_ID, $token)
+    public function create_token_array($allowed_keys)
     {
-        /* Checks if this token exists and is unused for $user_ID
-         *
-         * @param int $user_ID The user for whom the token will be checked
-         * @param String $token The unencrypted token to check
-         *
-         * @return int $token_ID: Returns token_ID or -1 if not found
-         */
-        $aFields['user_ID'] = $user_ID;
-        $valid_tokens = $this->oData->select_rows(TABLE_TOKEN, $aFields);
-        foreach ($valid_tokens as $token_ID=>$valid_token) {
-            if (DEBUG) {
-                echo "Token:<br>";
-                var_dump($valid_token);
-            }
-            if (($valid_token['used'] == false) and password_verify($token, $valid_token['token_hash'])) {
-                return $valid_token['token_ID'];
+        $aToken = array();
+        foreach ($allowed_keys as $key) {
+            if (isset($this->oData->payload[$key])) {
+                $aToken[$key] = $this->oData->payload[$key];
             }
         }
-        return -1;
-    }
-
-    public function mark_token_used($token_ID)
-    {
-        /* Marks a token used
-         *
-         * @param int Token ID
-         *
-         * @return True if succesful, else false
-         */
-        $aFields['used'] = true;
-
-        $this->oData->store_data(TABLE_TOKEN, $aFields, 'token_ID', $token_ID);
-    }
-
-    private function generate_token($length = null)
-    {
-        /* Generates a secure random token via a CSPRNG
-         *
-         * @return string The unencrypted token
-         */
-
-        $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        if (!(isset($length))) {
-            $length = $this->oData->settings['minimum_pw_length'];
+        if (DEBUG) {
+            echo "Created token:<br>";
+            var_dump($aToken);
+            echo "<br>";
         }
-        $token = '';
-        $max = strlen($keyspace);
+        return $aToken;
+    }
+
+    /**
+     * Generate a random string, using a cryptographically secure
+     * pseudorandom number generator (random_int)
+     *
+     * Function by Scott Arciszewski CC BY-SA 3.0
+     * https://stackoverflow.com/a/34149536
+     * @param int $length      How many characters do we want?
+     * @param string $keyspace A string of all possible characters
+     *                         to select from
+     * @return string
+     */
+    public static function random_str(
+        $length,
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    ) {
+        $str = '';
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        if ($max < 1) {
+            throw new Exception('$keyspace must be at least two characters long');
+        }
         for ($i = 0; $i < $length; ++$i) {
-            $token .= $keyspace[random_int(0, $max-1)];
+            $str .= $keyspace[random_int(0, $max)];
         }
-        return $token;
+        return $str;
     }
 
-    private function send_token_to_user($aUser, $token)
+    public function register()
     {
-        /* Sends the token to the user
-         *
-         * @param int $user_ID ID of the user that will recieve the mail
-         * @param string $token Token that the user will recieve
-         *
-         * @return bool True if successful, else false
-         */
-
-        //add all neccessary information for the mail
-        if (DEBUG) {
-            echo "Sendig token to ".$aUser['forename']." ".$aUser['surname']."<br>";
+        //returns token_ID or -1 on failure
+        $aToken = array();
+        $aToken['user_ID'] = $_SESSION['user_ID'];
+        if (isset($this->oData->payload['name'])) {
+            $aToken['name'] = $this->oData->payload['name'];
         }
-        $aInfo = array();
-        $aInfo['FORENAME'] = $aUser['forename'];
-        $aInfo['SURNAME'] = $aUser['surname'];
-        $aInfo['TOKEN'] = $token;
-        $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
-        $aInfo['LIBRARY_URL'] = BASE_URL;
-        $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
-        $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
-
-        $message_template = $this->oData->oLang->texts['password_reset_token_message'];
-        $subject_template = $this->oData->oLang->texts['password_reset_subject'];
-
-        $oMail = new Mail($this->oData);
-        $arr = $oMail->compose_mail($message_template, $subject_template, $aInfo);
-        $subject = $arr["subject"];
-        $message = $arr["message"];
-        //$oMail->print_mail($aUser, $subject, $message);
-        return $oMail->send_mail($aUser, $subject, $message);
-    }
-
-    public function send_store_token($aUser)
-    {
-        // if no token was generated in a certain timeframe
-        // the user will recieve a token which is stored in the database
-        // and can be used to reset the password
-        $now = date_create();
-
-        $aFields = ["user_ID" => $aUser['user_ID']];
-        $aToken = $this->oData->select_row(TABLE_TOKEN, $aFields);
+        $aToken['token'] = Token::random_str(32);
+        $aToken['active'] = 1;
+        $aToken['creation_date'] = date('Y-m-d H:i:s');
         if (DEBUG) {
-            echo "Previous issued token for the user:<br>";
+            echo "Registering Token with:<br>";
             var_dump($aToken);
         }
-        if ($aToken != -1) {
-            $last = date_create($aToken['creation_date']);
-            if (DEBUG) {
-                echo "<br>Now: ".date_format($now, 'Y-m-d H:i:s')." <br>";
-                echo "Last: ".date_format($last, 'Y-m-d H:i:s')." <br>";
-            }
-            $interval = date_diff($now, $last);
-            if (DEBUG) {
-                echo "Interval ".$interval->format('Hours %h:%i<br>')."<br>";
-            }
-            $min_token_interval = new DateInterval("PT".$this->oData->settings['minimum_token_hours']."H");
-            if (DEBUG) {
-                echo "Min interval ".$min_token_interval->format('Hours %h:%i<br>')."<br>";
-            }
-            $next_time = $last->add($min_token_interval);
-            $min = (int) $this->oData->settings['minimum_token_hours'];
-            if (DEBUG) {
-                echo "<br>Hours since last ".$interval->h."token was issued <br>";
-                echo "Minimum interval between two token: $min hours<br>";
-            }
-            if ($interval->h < $min) {
-                $this->oData->error[] = "You have to wait until ".$next_time->format("d-m-Y H:i")." before you can generate a new reset token.";
-                return false;
-            }
-        }
+        return $this->save_token($aToken);
+    }
+    public function save_token($aToken)
+    {
+        /*
+        args:
+            Array $aToken
+                Array of token information which will be saved.
+                e.g.	array(
+                        'forename' => String $forname,
+                        'surname' => String $surname,
+                        'email' => String $email,
+                        'language' => String $language,
+                        'role' => Int $role, as decribed in config/permissions.php
+                        'password_hash' => password_hash(String $password, PASSWORD_DEFAULT)
+                    );
 
-        //generate a random token
-        $token = $this->generate_token();
-
-        // store the token in the database
-        $aNewToken['token_hash'] = $this->oData->hash_password($token);
-        $aNewToken['user_ID'] = $aUser['user_ID'];
-        $aNewToken['creation_date'] = $now->format("Y-m-d H:i:s");
-        $aNewToken['used'] = false;
-
+        returns:
+            None or -1 if saving fails
+        Function will save token Information given in $aToken. If token exists it will
+        overwrite existing data but not delete not-specified data
+        */
         if (DEBUG) {
-            echo "<br>Storing the token:<br>";
-            var_dump($aNewToken);
+            echo "Token that will be saved<br>";
+            var_dump($aToken);
         }
+        if ((isset($aToken['token_ID']) and ($aToken['token_ID'] != ""))) {
+            $this->oData->databaselink->query("DELETE password FROM ".TABLE_API_TOKEN."WHERE token_ID=".$aToken['token_ID'].";");
+            return $this->oData->store_data(TABLE_API_TOKEN, $aToken, 'token_ID', $token_ID);
+        } else {
+            return $this->ID=$this->oData->store_data(TABLE_API_TOKEN, $aToken, null, null);
+        }
+    }
 
-        //There will only ever be one token for each user
-        $id = $this->oData->store_data(TABLE_TOKEN, $aNewToken, 'user_ID', $aNewToken['user_ID']);
-        if ($id == -1) {
-            $this->oData->error[] = "Couldn't store token in database";
-            return false;
-        }
+    public function delete_token($token_ID)
+    {
+        $aFields = array(
+            'token_ID' => $token_ID
+        );
+        $this->removed=$this->oData->delete_rows(TABLE_API_TOKEN, $aFields);
+    }
 
-        // Send token to user
-        if (!$this->send_token_to_user($aUser, $token)) {
-            $this->oData->error[] = "Couldn't send e-mail to user";
+    public function get_token($token_ID = null, $user_ID = null)
+    {
+        $aToken= array();
+        $aFields= array();
+        if ((isset($token_ID)) and ($token_ID!= "")) {
+            $aFields["token_ID"] = $token_ID;
         }
-        return true;
+        if ((isset($user_ID)) and ($user_ID!= "")) {
+            $aFields["user_ID"] = $user_ID;
+        }
+        $aOrder = array("-token_ID");
+        $this->p_result = $this->oData->select_rows(TABLE_API_TOKEN, $aFields, $aOrder);
+        while ($aRow=mysqli_fetch_assoc($this->p_result)) {
+            $aToken[$aRow['token_ID']] = $aRow;
+        }
+        return $aToken;
     }
 }
 

@@ -268,3 +268,35 @@ $aData[TABLE_TOKEN] = array(
             'extra' => 'DEFAULT 0'
         )
     );
+
+$aData[TABLE_API_TOKEN] = array(
+        'token_ID' => array(
+            'type' => 'INT',
+            'unique' => 'TRUE',
+            'standard' => 'NOT NULL',
+            'extra' => 'AUTO_INCREMENT PRIMARY KEY'
+        ),
+        'user_ID' => array(
+            'type' => 'INT',
+            'unique' => 'TRUE',
+            'standard' => 'NOT NULL'
+        ),
+        'name' => array(
+            'type' => 'VARCHAR',
+            'size' => 255,
+            'standard' => 'NOT NULL'
+         ),
+        'token' => array(
+            'type' => 'VARCHAR',
+            'size' => 255,
+            'standard' => 'NOT NULL'
+         ),
+        'creation_date' => array(
+            'type' => 'DATETIME',
+            'standard' => 'NOT NULL'),
+        'active' => array(
+            'type' => 'TINYINT',
+            'size' => 1,
+            'extra' => 'DEFAULT 1'
+        )
+    );
