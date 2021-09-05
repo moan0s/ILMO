@@ -44,11 +44,11 @@ th.display_open_small {
 	min-width: 20px;
 }
 
-tr.lent {
+tr.lent, tr.active {
  background-color: #CE2C2C;
 }
 
-tr.available {
+tr.available, tr.inactive {
  background-color: white;
 }
 
@@ -263,4 +263,9 @@ div.input_label_container {
 
 div.new_password_container {
 	padding-top: 5px;
+}
+
+.label {
+	padding: 3px;
+	font-weight: bold;
 }
