@@ -8,12 +8,11 @@ class Mail
     }
 
     // enriches mail template with info
-    public function compose_mail($message_template, $subject_template, $aInfo)
+    public function compose_mail($message_template, $aInfo)
     {
-        /* Uses a template to formulate message and subject with correct info
+        /* Uses a template to formulate message with correct info
          *
          * @param message_template String Template for the message
-         * @param subject_template String Template for the subject
          * @param Array $aInfo:
          *    Contains the info that will enrich the mail template
          *
@@ -23,9 +22,8 @@ class Mail
         $indicator = "&";
         foreach ($aInfo as $key => $value) {
             $message_template = str_replace($indicator.$key, $value, $message_template);
-            $subject_template = str_replace($indicator.$key, $value, $subject_template);
         }
-        return ['message' => $message_template, 'subject' => $subject_template];
+        return $message_template;
     }
 
     private function compose_header($aUser)
@@ -68,6 +66,7 @@ class Mail
          */
         $header = $this->compose_header($aUser);
         $to = $aUser['email'];
+		var_dump($message);
         $message = wordwrap($message, 70, "\r\n");
         $success =  mail($to, $subject, $message, $header);
         if ($success) {

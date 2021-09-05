@@ -20,22 +20,29 @@ error_reporting(E_ALL);
 
 include (MODULE_PATH."class/class.php");
 
-$oObject = new Data;
+$oLang = new Lang;
+$oData = new Data($oLang);
+
+if (isset($oData->payload['ac'])) {
+    $action = $oData->payload['ac'];
+} else {
+    $action = "";
+}
 
 //view header
-$oObject->output = 'You finished the installation. Please delete the folder "install/" now from your server and then you are good to go!';
-$oObject->navigation = $oObject->get_view(MODULE_PATH."install/views/navigation.php");
+$oData->output = 'You finished the installation. Please delete the folder "install/" now from your server and then you are good to go!';
+$oData->navigation = $oData->get_view(MODULE_PATH."install/views/navigation.php");
 //methods
 
 
-function output($oObject){
-	if (substr($oObject->r_ac, -3) != "bot"){
-		echo $oObject->get_view(MODULE_PATH."views/head.php");
-		echo $oObject->get_view(MODULE_PATH."views/body.php");
-		if (substr($oObject->r_ac, -5) != "plain"){
-			echo $oObject->get_view(MODULE_PATH."views/footer.php");
+function output($oData, $action){
+	if (substr($action, -3) != "bot"){
+		echo $oData->get_view(MODULE_PATH."views/head.php");
+		echo $oData->get_view(MODULE_PATH."views/body.php");
+		if (substr($action, -5) != "plain"){
+			echo $oData->get_view(MODULE_PATH."views/footer.php");
 		}
 	}
 }
-output($oObject);
+output($oData, $action);
 ?>

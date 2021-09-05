@@ -12,6 +12,7 @@
     "mail_reminder_interval": "90",
     "max_loan_time": "0",
     "minimum_pw_length": "8",
+    "minimum_token_hours": "1",
     "opening_days": [
         "monday",
         "tuesday",
