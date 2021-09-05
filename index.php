@@ -215,26 +215,30 @@ switch ($action) {
         }
         break;
     case 'api_token_register':
-        $oToken= new Token($oData);
-    if ($aToken = $oToken->register() === -1) {
-        var_dump($oData->last_query);
-    }
-        $oData->aToken = $oToken->get_token();
-        $oData->output .= $oData->get_view("views/all_token.php");
-        $oData->output .= "Success.";
+        if ($oData->check_permission("SAVE_API_TOKEN", $_SESSION['role'])) {
+            $oToken= new Token($oData);
+            if ($aToken = $oToken->register() === -1) {
+                var_dump($oData->last_query);
+            }
+            $oData->aToken = $oToken->get_token();
+            $oData->output .= $oData->get_view("views/all_api_token.php");
+            $oData->output .= "Success.";
+        }
         break;
 
     case 'api_token_save':
-        $oToken= new Token($oData);
-        $allowed_keys = array(
-                    "user_ID",
-                    "name",
-                    "active");
-        $aToken = $oToken->create_token_array($allowed_keys);
-        $oToken->save_token($aToken);
-        $oData->aToken = $oUser->get_token();
-        $oData->output .= $oData->get_view("views/all_token.php");
-        $oData->output .= "Success.";
+        if ($oData->check_permission("SAVE_API_TOKEN", $_SESSION['role'])) {
+            $oToken= new Token($oData);
+            $allowed_keys = array(
+                "user_ID",
+                "name",
+                "active");
+            $aToken = $oToken->create_token_array($allowed_keys);
+            $oToken->save_token($aToken);
+            $oData->aToken = $oUser->get_token();
+            $oData->output .= $oData->get_view("views/all_api_token.php");
+            $oData->output .= "Success.";
+        }
         break;
     case 'settings_change':
         if ($oData->check_permission("SAVE_SETTINGS", $_SESSION['role'])) {
