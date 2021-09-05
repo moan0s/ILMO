@@ -90,7 +90,7 @@ class Setting
         } else {
             $fConfig = fopen($path, 'w');
             $settings_text = str_replace("}", "}\r\n", $settings_text);
-            $settings_text = str_replace(",", "}\r\n", $settings_text);
+            $settings_text = str_replace(",", ",\r\n", $settings_text);
             fwrite($fConfig, $settings_text);
             fclose($fConfig);
         }
