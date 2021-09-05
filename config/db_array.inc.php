@@ -238,7 +238,7 @@ $aData[TABLE_USER] = array(
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
         ),
-	'acess' => array(
+    'acess' => array(
             'type' => 'INT',
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
@@ -289,7 +289,8 @@ $aData[TABLE_ACESS] = array(
         'key_available' => array(
             'type' => 'TINYINT',
             'size' => 1,
-            'extra' => 'DEFAULT 0'
+        'extra' => 'DEFAULT 0')
+    );
 
 $aData[TABLE_API_TOKEN] = array(
         'token_ID' => array(
