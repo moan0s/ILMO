@@ -4,24 +4,11 @@ class Lang
 {
     public function __construct()
     {
-        $this->settings = $this->get_settings();
+        $this->settings = Setting::get_settings();
     }
-    #parses settings in an array
-    #returns array
-    public function get_settings()
-    {
-        $path = MODULE_PATH."config/settings.json";
-        $fSettings= fopen($path, "r") or die("Unable to open ".$path."!");
-        $sSettings =  fread($fSettings, filesize($path));
-        fclose($fSettings);
-        $aSettings = json_decode($sSettings, true);
-        return $aSettings;
-    }
-
 
     public function set_language($language = null)
     {
-		
         if (isset($language) and $language != null) {
             $lang_to_use = $language;
         } else {
