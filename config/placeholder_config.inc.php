@@ -18,7 +18,8 @@ define ("TABLE_MATERIAL", "%table_prefix%material");
 define ("TABLE_LOG", "%table_prefix%log");
 define ("TABLE_PRESENCE", "%table_prefix%presence");
 define ("TABLE_TOKEN", "%table_prefix%token");
-define ("TABLE_ACESS", "%table_prefix%acess");
+define ("TABLE_ACCESS", "%table_prefix%acess");
+define ("TABLE_API_TOKEN", "%table_prefix%token");
 
 define("MODULE_PATH", $_SERVER['DOCUMENT_ROOT']."%module_path%/");
 
