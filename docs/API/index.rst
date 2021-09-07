@@ -44,3 +44,27 @@ Writing this down is way too easy and you want a live update when they are prese
 that someone is there. ILMO offers the possibility to checkin someone via an API. You therefore
 adapt the provided example script, so the students can use their student ID and a NFC reader that
 is connected to a Raspberry Pi to identify and checkin themselves.
+
+Access Control
+==============
+This part of the API offers the possibility to control the access for an optional key locker via a suitable device.
+This device sends a message to the server and get back whether the person is allowed to lend a key or not. All access tries are logged and can be shown by an administrator. The permission of each user can be set during the user registration and in the user settings. It is also necessary to set the UID of each user as it is necessary to identify the user.
+
+.. hint::
+   This part of the API has to be activated in the settings!
+
+Settings
+----------------
+You can send the UID of the RFID card coded in the URL. For safety reasons it is also necessary to send an access key in the request. The access key can be set in the settings. Optional you can send the status of the key (key available or not). The default value is 0.
+
+Arguments:
+ac=check_access
+UID="Number of the UID"
+access_key="Access key as set in settings
+key_available="0 or 1, if not set 0"
+The URL could be: http://localhost/ilmo/index.php?ac=check_acess&UID=1234&acess_key=1234568&key_available=1
+
+
+
+
+
