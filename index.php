@@ -508,7 +508,7 @@ switch ($action) {
 			}
 			if($oData->aAccess = $oAccess->check_access($UID, $access_key)){
 				#Access is correct
-				http_response_code(400);
+				http_response_code(200);
 			}
 			else{
 				#No access
