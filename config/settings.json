@@ -22,5 +22,6 @@
     ],
     "path_mail_log": "log/mail.log",
     "timezone": "Europe/Berlin",
+	"access_key": "123456",
     "version": "1.3"
 }

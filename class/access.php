@@ -64,7 +64,7 @@ class access
     }
 	
 	public function check_access($UID = null, $access_key = null, $key_available = false){
-		if($access_key == access_KEY){
+		if($access_key == $this->oData->settings['access_key']){
 			$oFields = array(
 					'UID' => $UID,
 					'key_available' => $key_available
