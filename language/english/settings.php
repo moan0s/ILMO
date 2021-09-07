@@ -12,5 +12,8 @@ $lang = array_merge($lang, array(
     "MINIMUM_PW_LENGTH" => "Minimum password length",
     "MINIMUM_TOKEN_HOURS" => "Cooldown for token generation for the password reset (in hours)",
     "PATH_MAIL_LOG" => "Path for the Mail-Log",
-    "TIMEZONE" => "Timezone in the format Europe/Berlin"
+    "TIMEZONE" => "Timezone in the format Europe/Berlin",
+	"ACCESS_KEY" => "Access key for key control",
+	"ACCESS_KEY_FEATURE" => "Activate key controll feature? (0 for No, 1 for Yes)"
+	
 ));

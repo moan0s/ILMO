@@ -33,7 +33,7 @@ if ($this->check_permission("SHOW_MATERIAL", $_SESSION['role'])) {
     $navigation .= '
 	<li><a href="index.php?ac=material_show_itemized">'.$this->oLang->texts['SHOW_MATERIAL_ITEMIZED'].'</a></li>';
 }
-if ($this->check_permission("SHOW_ACCESS", $_SESSION['role'])) {
+if ($this->check_permission("SHOW_ACCESS", $_SESSION['role']) and $this->settings['access_key_feature']) {
     $navigation .= '
 	<li><a href="index.php?ac=access_show">'.$this->oLang->texts['SHOW_ALL_access'].'</a></li>';
 }
@@ -45,8 +45,12 @@ if ($this->check_permission("SAVE_SETTINGS", $_SESSION['role'])) {
 if ($this->check_permission("SHOW_SELF", $_SESSION['role'])) {
     $navigation .=	'
 	<li><a href="index.php?ac=user_self">'.$this->oLang->texts['MY_PROFIL'].'</a></li>
-	<li><a href="index.php?ac=loan_self">'.$this->oLang->texts['MY_LOANS'].'</a></li>
-	<li><a href="index.php?ac=access_self">'.$this->oLang->texts['SHOW_MY_access'].'</a></li>
+	<li><a href="index.php?ac=loan_self">'.$this->oLang->texts['MY_LOANS'].'</a></li>';
+	if($this->settings['access_key_feature']){
+		$navigation .=	'		
+		<li><a href="index.php?ac=access_self">'.$this->oLang->texts['SHOW_MY_access'].'</a></li>';
+	}
+	$navigation .=	'
 	<li><a href="index.php?ac=logout">'.$this->oLang->texts['LOGOUT'].'</a></li>';
 	
 }

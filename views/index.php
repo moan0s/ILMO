@@ -13,6 +13,7 @@ include("config/config.inc.php");
 ini_set('display_errors', DEBUG);
 ini_set('display_startup_errors', DEBUG);
 error_reporting(E_ALL);
+var_dump($_SESSION);
 include("class/class.php");
 
 $oLang = new Lang;
@@ -26,9 +27,7 @@ if (isset($oData->payload['ac'])) {
 
 $oData->output = "";
 //methods
-if (DEBUG) {
-    echo("Action ".$action."<br>");
-}
+echo("Action ".$action."<br>");
 
 switch ($action) {
     case 'mail_send':
@@ -209,37 +208,6 @@ switch ($action) {
             $oData->output .= $oData->get_view("views/user_add.php");
         }
         break;
-    case 'api_token_new':
-        if ($oData->check_permission("SAVE_API_TOKEN", $_SESSION['role'])) {
-            $oData->output .= $oData->get_view("views/api_token_create.php");
-        }
-        break;
-    case 'api_token_register':
-        if ($oData->check_permission("SAVE_API_TOKEN", $_SESSION['role'])) {
-            $oToken= new Token($oData);
-            if ($aToken = $oToken->register() === -1) {
-                var_dump($oData->last_query);
-            }
-            $oData->aToken = $oToken->get_token();
-            $oData->output .= $oData->get_view("views/all_api_token.php");
-            $oData->output .= "Success.";
-        }
-        break;
-
-    case 'api_token_save':
-        if ($oData->check_permission("SAVE_API_TOKEN", $_SESSION['role'])) {
-            $oToken= new Token($oData);
-            $allowed_keys = array(
-                "user_ID",
-                "name",
-                "active");
-            $aToken = $oToken->create_token_array($allowed_keys);
-            $oToken->save_token($aToken);
-            $oData->aToken = $oUser->get_token();
-            $oData->output .= $oData->get_view("views/all_api_token.php");
-            $oData->output .= "Success.";
-        }
-        break;
     case 'settings_change':
         if ($oData->check_permission("SAVE_SETTINGS", $_SESSION['role'])) {
             $oData->output .= $oData->get_view("views/settings.php");
@@ -271,14 +239,9 @@ switch ($action) {
                     "password",
                     "language",
                     "role",
-					"UID",
-					"access");
+					"acess");
                 $aUser = $oUser->create_user_array($allowed_keys);
                 $oUser->save_user($aUser);
-                //Change language according to change in user
-                if ($user_ID === $_SESSION['user_ID'] and isset($aUser['language'])) {
-                    $oLang->change_language($aUser['language']);
-                }
                 $oData->aUser = $oUser->get_user();
                 $oData->output .= $oData->get_view("views/all_user.php");
             }
@@ -346,7 +309,7 @@ switch ($action) {
                 $oUser->save_user($aUser);
 
                 // If a token is used to change the password we mark the token as used
-                if (isset($token_use) and $token_use) {
+                if ($token_use) {
                     $oToken->mark_token_used($token_ID);
                 }
                 $oData->output .= "User saved.";
@@ -366,10 +329,9 @@ switch ($action) {
     case 'user_self':
         $oUser = new User($oData);
         if ($oData->check_permission("SHOW_SELF", $_SESSION['role'])) {
-            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null, null, null)[$_SESSION['user_ID']];
+            $oData->aUser = $oUser->get_user($_SESSION['user_ID'], null, null, null, null, null)[$_SESSION['user_ID']];
             $oData->output .= $oData->get_view("views/user_form.php");
-        } 
-		else {
+        } else {
             $oData->error[] = $oData->oLang->texts['NO_PERMISSION'];
         }
         break;
@@ -448,6 +410,7 @@ switch ($action) {
                 $oData->payload['material_ID'],
                 $oData->payload['returned']
             );
+            var_dump($oData->aLoan);
             $oData->output .= $oData->get_view("views/all_loans.php");
         }
         break;
@@ -464,70 +427,27 @@ switch ($action) {
             $oData->output .= $oData->get_view("views/loan_form.php");
         }
         break;
-	case 'loan_self':
+
+    case 'acess_show':	#Placeholder
+        if (($oData->check_permission("SHOW_LOAN", $_SESSION['role'])) or ($_SESSION['user_ID'] == $oData->payload['user_ID'])) {
+            $oLoan = new Loan($oData);
+            $oData->aLoan = $oLoan->get_loan(
+                $oData->payload['loan_ID'],
+                $user_ID = $oData->payload['user_ID'],
+                $oData->payload['book_ID'],
+                $oData->payload['material_ID'],
+                $oData->payload['returned']
+            );
+            var_dump($oData->aLoan);
+            $oData->output .= $oData->get_view("views/all_loans.php");
+        }
+        break;
+    case 'acess_self':	#Placeholder
         $oLoan = new Loan($oData);
         $oData->payload['user_ID'] = $_SESSION['user_ID'];
         $oData->aLoan = $oLoan->get_loan(null, $_SESSION['user_ID'], null);
         $oData->output .= $oData->get_view("views/all_loans.php");
         break;
-    case 'loan_change':
-        if ($oData->check_permission("SAVE_LOAN", $_SESSION['role'])) {
-            $oLoan = new Loan($oData);
-            $oData->aLoan = $oLoan->get_loan($oData->payload['loan_ID'], null, null)[$oData->payload['loan_ID']];
-            $oData->output .= $oData->get_view("views/loan_form.php");
-        }
-        break;
-		
-	case 'access_show':
-        if (($oData->check_permission("SHOW_ACCESS", $_SESSION['role'])) and  $oData->settings['access_key_feature']){
-            $oAccess = new access($oData);
-            $oData->aAccess = $oAccess->get_access(
-                $oData->payload['access_ID'],
-                $user_ID = $oData->payload['user_ID']
-            );
-            $oData->output .= $oData->get_view("views/all_access.php");
-        }
-		break;
-	case 'access_self':
-        $oAccess = new Access($oData);
-        $oData->payload['user_ID'] = $_SESSION['user_ID'];
-        $oData->aAccess = $oAccess->get_access(null,  $user_ID = $_SESSION['user_ID']);
-        $oData->output .= $oData->get_view("views/all_access.php");
-        break;
-		
-	case 'check_access':
-		if($oData->settings['access_key_feature']){
-			$oAccess = new Access($oData);
-			$UID = $oData->payload['UID'];
-			if(isset($oData->payload['access_key']) and $oData->payload['access_key'] != null){
-				$access_key = $oData->payload['access_key'];
-				if(isset ($oData->payload['key_available'])){
-					$key_available = $oData->payload['key_available'];
-				}
-				else {
-					$key_available = NULL;
-				}
-				if($oData->aAccess = $oAccess->check_access($UID, $access_key)){
-					#Access is correct
-					http_response_code(200);
-				}
-				else{
-					#No access
-					http_response_code(401);
-				}
-			}
-			else{
-				#No access
-				http_response_code(401);
-			}
-		}
-		else{
-				#No access
-				http_response_code(401);
-		}
-		break;
-
-
     default:
         if ($_SESSION['role'] > 0) {
             $oData->output .= $oData->get_view("views/start.php");
