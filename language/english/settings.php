@@ -13,4 +13,6 @@ $lang = array_merge($lang, array(
     "MINIMUM_TOKEN_HOURS" => "Cooldown for token generation for the password reset (in hours)",
     "PATH_MAIL_LOG" => "Path for the Mail-Log",
     "TIMEZONE" => "Timezone in the format Europe/Berlin"
+	"OPENING_DAYS" => "opening days",
+	"VERSION" => "Version",
 ));
