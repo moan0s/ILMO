@@ -142,16 +142,15 @@ class Loan
         $sort = " ORDER BY loan_ID DESC;";
         $query .= $sort;
         $this->p_result = $this->oData->databaselink->query($query);
-		if (! $this->p_result){
-			return NULL;
-		}
-		else{
-			
-			while ($aRow=mysqli_fetch_assoc($this->p_result)) {
-				$aLoan[$aRow['loan_ID']] = $aRow;
-			}				
-			return aLoan;
-		}
+
+        if (! $this->p_result) {
+            return null;
+        } else {
+            while ($aRow=mysqli_fetch_assoc($this->p_result)) {
+                $aLoan[$aRow['loan_ID']] = $aRow;
+            }
+            return $aLoan;
+        }
     }
 
     //void-> array(ID=loan_ID) of array(all loan  information)
@@ -264,16 +263,14 @@ class Loan
         $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
         $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
         $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
-		$message_template = $this->oData->oLang->texts['loan_reminder_message'];
-		$subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
+		    $message_template = $this->oData->oLang->texts['loan_reminder_message'];
+		    $subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
 		
-		$oMail = new Mail($this->oData);
+		    $oMail = new Mail($this->oData);
         $arr = $oMail->compose_mail($message_template, $subject_template, $aInfo);
         $subject = $arr["subject"];
         $message = $arr["message"];
-		#$subject = str_replace("&LABEL", $aInfo['LABEL'], $subject);
-		var_dump($subject);
-		var_dump($message);
+
         return $oMail->send_mail($aUser, $subject, $message);
 		
     }
