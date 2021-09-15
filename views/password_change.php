@@ -5,7 +5,7 @@ $form .='
 <input type = hidden name="ac" value = "self_pw_save">';
 if (isset($_SESSION['user_ID'])) {
     $form .= '<input type = hidden name="user_ID" value = "';
-    $form .= $this->payload['user_ID'];
+    $form .= $_SESSION['user_ID'];
     $form .= '">';
 } else {
     $form .= "<div class=input_label_container><label class=text_label for='user_ID'>".$this->oLang->texts['USER_ID']."</label>";

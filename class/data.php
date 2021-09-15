@@ -275,7 +275,8 @@ class Data
             $aRow=$this->select_row($sTable, $aCheckFields);
             $returnID=$aRow[$sKey_ID];
         }
-        if (($returnID>0) or ($returnID!="")) {
+		var_dump($returnID);
+        if (($returnID>0) and ($returnID!="")) {
             $sQuery="update ".$sTable." set ";
             foreach ($aFields as $key=>$value) {
                 $sQuery.=$key."='".$value."'";

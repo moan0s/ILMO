@@ -33,8 +33,7 @@ $permissions = array(
     'SAVE_LOAN' => array(2),
     'SAVE_OPEN' => array(2),
     'SAVE_SETTINGS' => array(2),
-    'SHOW_ALL_ACESS' => array(2),
-    'SHOW_MY_ACESS' => array(1,2),
+	'SHOW_ACCESS' => array(2),
     'SAVE_API_TOKEN' => array(2),
     'SHOW_API_TOKEN' => array(2)
 );

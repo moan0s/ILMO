@@ -11,7 +11,7 @@ $lang = array_merge($lang, array(
 du hast bei &LIBRARY_NAME noch folgendes ausgeliehen:\r\n
 Name: &LABEL\r\n
 ID: &ID\r\n
-Pickup date: &PICKUP_DATE\r\n
+Ausleihdatum: &PICKUP_DATE\r\n
 \r\n
 Diese E-Mail ist nur eine Erinnerung, dass du noch etwas ausgeliehen hast.
 Du kannst die Ausleihe gerne so lange behalten wie du sie brauchst. Wenn du sie aber nicht mehr brauchst bring sie bitte zeitnah zurück.
@@ -27,7 +27,7 @@ $lang = array_merge($lang, array(
     'password_reset_token_message' => "Hallo &FORENAME &SURNAME,\r\n
 jemand hat ein Zurücksetzen deines Passworts angefragt. Hier ist der Token den du dafür brauchst:
 Token: &TOKEN
-Deine Benutzer-ID lautet &USER_ID
+Deine Benutzer-ID lautet: &USER_ID
 
 Du kannst das Passwort hier ändern: &LIBRARY_URL?ac=self_pw_change
 

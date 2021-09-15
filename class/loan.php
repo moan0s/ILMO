@@ -142,7 +142,7 @@ class Loan
         $sort = " ORDER BY loan_ID DESC;";
         $query .= $sort;
         $this->p_result = $this->oData->databaselink->query($query);
-        #var_dump();
+
         if (! $this->p_result) {
             return null;
         } else {
@@ -216,7 +216,7 @@ class Loan
             'total' => 0);
         $m_interval = $this->oData->settings['mail_reminder_interval'];
         if ($m_interval==0) {
-            return stats;
+            return $stats;
         }
 
         $aUnreturnedLoans = $this->get_unreturned_loans();
@@ -263,16 +263,15 @@ class Loan
         $aInfo['ADMIN_TEAM'] = $this->oData->oLang->library_info['ADMIN_NAME'];
         $aInfo['LIBRARY_NAME'] = $this->oData->oLang->library_info['LIBRARY_NAME'];
         $aInfo['MAIL_REMINDER_INTERVAL'] = $this->oData->settings['mail_reminder_interval'];
-        $template_message = $this->oData->oLang->texts['loan_reminder_message'];
-        
-        $oMail = new Mail($this->oData);
-        $message = $oMail->compose_mail($message_template, $aInfo);
+		    $message_template = $this->oData->oLang->texts['loan_reminder_message'];
+		    $subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
+		
+		    $oMail = new Mail($this->oData);
+        $arr = $oMail->compose_mail($message_template, $subject_template, $aInfo);
+        $subject = $arr["subject"];
+        $message = $arr["message"];
 
-        $subject_template = $this->oData->oLang->texts['loan_reminder_subject'];
-        $subject = $this->oData->oLang->texts['loan_reminder_subject'];
-        $subject = str_replace("&LABEL", $aInfo['LABEL'], $subject);
-
-        $issue = "Reminder on loan ".$aLoan['loan_ID'];
         return $oMail->send_mail($aUser, $subject, $message);
+		
     }
 }
