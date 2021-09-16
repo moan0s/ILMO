@@ -9,7 +9,7 @@
         }
     },
     "log_mail": "0",
-    "mail_reminder_interval": "90",
+    "mail_reminder_interval": "0",
     "max_loan_time": "0",
     "minimum_pw_length": "8",
     "minimum_token_hours": "1",
@@ -22,5 +22,7 @@
     ],
     "path_mail_log": "log/mail.log",
     "timezone": "Europe/Berlin",
+	"access_key": "123456",
+	"access_key_feature": "1",
     "version": "1.3"
 }

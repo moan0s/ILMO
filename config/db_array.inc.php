@@ -238,7 +238,7 @@ $aData[TABLE_USER] = array(
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
         ),
-    'acess' => array(
+		'access' => array(
             'type' => 'INT',
             'standard' => 'NOT NULL',
             'extra' => 'DEFAULT 0'
@@ -273,14 +273,19 @@ $aData[TABLE_TOKEN] = array(
             'extra' => 'DEFAULT 0'
         )
     );
-
+	
 $aData[TABLE_ACCESS] = array(
-        'acess_ID' => array(
+        'ACCESS_ID' => array(
             'type' => 'INT',
-             'size' => 11,
+            'size' => 11,
             'unique' => 'TRUE',
-            'standard' => 'NOT NULL'
+            'standard' => 'NOT NULL',
+            'extra' => 'AUTO_INCREMENT PRIMARY KEY'
         ),
+        'UID' => array(
+            'type' => 'VARCHAR',
+            'size' => 255
+		),
         'timestamp' => array(
             'type' => 'TIMESTAMP',
             'standard' => 'NOT NULL',

@@ -9,11 +9,13 @@
 $action = $this->payload['ac'];
 
 $aUser = $this->aUser;
-$text_fields_to_show = array("forename", "surname", "email");
+$text_fields_to_show = array("forename", "surname", "email", "UID");
 $checkbox_fields_to_show = ["role"=> ["2" => "ADMIN",
                 "1" => "USER"],
             "language" => ["english" => "ENGLISH",
-                    "german" => "GERMAN"]
+                    "german" => "GERMAN"],
+			"access" => ["2" => "FABLAB",
+                              "1" => "NO_ACCESS"]
                 ];
     $output = "";
     $output.='<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">';
@@ -35,8 +37,8 @@ foreach ($aUser as $key=>$val) {
         // Show checkboxes for all options
         $div = "<div class=radio_container>";
         foreach ($checkbox_fields_to_show[$key] as $option => $label) {
-            $box = "<label for='$option'>".$this->oLang->texts[$label];
-            $box  .= "<input type='radio' name='$key' id='$option' value='$option'";
+            $box = "<label for='".$key."_".$option."'>".$this->oLang->texts[$label];
+            $box  .= "<input type='radio' name='$key' id='".$key."_".$option."' value='$option'";
             if ($val == $option) {
                 $box .= " checked";
             }
